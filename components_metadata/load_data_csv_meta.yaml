@@ -1,0 +1,15 @@
+---
+id: loader_csvdataset
+name: CSV Loader (CSVDataset)
+description:  Loads a CSV dataset
+
+parameter_info: "on_bad_lines, supported values {‘error’, ‘warn’, ‘skip’} default 'skip'\n delimiter, default ','.\n Please note that the options should be provided in the following form: {\"on_bad_lines\" : \"skip\", \"delimiter\" : \";\"}"
+parameter_default: {"on_bad_lines" : "skip", "delimiter" : ";"}
+
+# Type of component, LOADER_DATA, LOADER_MODEL, METRIC
+component_type: LOADER_DATA
+
+# Compatibility
+input_types:
+output_types:
+  - CSVDataset

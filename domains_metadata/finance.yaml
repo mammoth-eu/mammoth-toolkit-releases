@@ -1,0 +1,14 @@
+---
+id: finance
+name: Finance
+attributes:
+  - Language
+  - Occupation
+  - Nationality
+  - Marital Status
+  - Gender
+  - Birth Date
+  - Identification Type
+  - Country of Residence
+  - Is Bankrupt
+  - Bankrupt Date

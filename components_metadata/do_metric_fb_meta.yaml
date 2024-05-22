@@ -1,0 +1,16 @@
+---
+id: metric_fairdemo
+name: Fairbench Analysis
+description: Does fairbench analysis on CSVDataset and an ONNX model
+
+parameter_info: No parameters needed.
+parameter_default:
+
+# Type of component, LOADER_DATA, LOADER_MODEL, METRIC
+component_type: METRIC
+
+# Compatibility
+input_types:
+  - CSVDataset
+  - ONNXModel
+output_types:

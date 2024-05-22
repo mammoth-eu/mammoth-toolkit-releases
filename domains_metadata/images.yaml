@@ -1,0 +1,8 @@
+---
+id: images
+name: Face recognition
+attributes:
+  - Face
+  - Glasses
+  - Color
+  - Beard

@@ -1,0 +1,109 @@
+# PIPELINE DEFINITION
+# Name: new-metric
+# Inputs:
+#    dataset: system.Dataset
+#    model: system.Model
+#    parameters: dict [Default: {}]
+#    sensitive: list
+# Outputs:
+#    output: system.Markdown
+components:
+  comp-new-metric:
+    executorLabel: exec-new-metric
+    inputDefinitions:
+      artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+        model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        parameters:
+          defaultValue: {}
+          isOptional: true
+          parameterType: STRUCT
+        sensitive:
+          parameterType: LIST
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Markdown
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-new-metric:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - new_metric
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/new_metric:v007
+pipelineInfo:
+  name: new-metric
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: new-metric
+    tasks:
+      new-metric:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-new-metric
+        inputs:
+          artifacts:
+            dataset:
+              componentInputArtifact: dataset
+            model:
+              componentInputArtifact: model
+          parameters:
+            parameters:
+              componentInputParameter: parameters
+            sensitive:
+              componentInputParameter: sensitive
+        taskInfo:
+          name: new-metric
+  inputDefinitions:
+    artifacts:
+      dataset:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
+      model:
+        artifactType:
+          schemaTitle: system.Model
+          schemaVersion: 0.0.1
+    parameters:
+      parameters:
+        defaultValue: {}
+        isOptional: true
+        parameterType: STRUCT
+      sensitive:
+        parameterType: LIST
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.Markdown
+          schemaVersion: 0.0.1
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.7.0

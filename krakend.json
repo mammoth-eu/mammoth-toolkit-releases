@@ -1,0 +1,322 @@
+{
+  "version": 3,
+  "timeout": "60s",
+  "extra_config": {
+    "router": {
+      "auto_options": true
+    },
+    "security/cors": {
+      "allow_origins": [
+        "http*"
+      ],
+      "allow_methods": [
+        "GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"
+      ],
+      "expose_headers": [
+        "Content-Length",
+        "Content-Type"
+      ],
+      "allow_headers": [
+        "Origin",
+        "Authorization",
+        "Content-Type",
+        "Accept-Language"
+      ],
+      "max_age": "12h",
+      "debug": true
+    }
+  },
+  "endpoints":[
+  {
+    "endpoint": "/keycloak-protected",
+    "method": "GET",
+    "input_headers": [
+      "Authorization",
+      "x-user-id",
+      "x-user-name",
+      "x-user-email"
+    ],
+    "extra_config": {
+        "auth/validator": {
+            "alg": "RS256",
+            "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+            "disable_jwk_security": true,
+            "propagate_claims": [
+              ["sub", "x-user-id"],
+              ["name", "x-user-name"],
+              ["email", "x-user-email"]
+          ],
+			"cache": true
+        }
+    },
+    "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/keycloak-protected"
+        }
+    ]
+  },
+    {
+      "endpoint": "/wizard/store/{uuid}",
+      "method": "POST",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "method": "POST",
+          "url_pattern": "/wizard/store/{uuid}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/databias/model/{uuid}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/model/{uuid}"
+        }
+      ]
+    },
+  {
+    "endpoint": "/wizard/databias/data/{uuid}",
+    "method": "GET",
+    "input_headers": [
+      "Authorization",
+      "x-user-id",
+      "x-user-name",
+      "x-user-email"
+    ],
+    "extra_config": {
+        "auth/validator": {
+            "alg": "RS256",
+            "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+            "disable_jwk_security": true,
+            "propagate_claims": [
+              ["sub", "x-user-id"],
+              ["name", "x-user-name"],
+              ["email", "x-user-email"]
+          ],
+			"cache": true
+        }
+    },
+    "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/data/{uuid}"
+        }
+    ]
+  },
+    {
+      "endpoint": "/wizard/databias/metric/{uuid}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/metric/{uuid}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/databias/attributes/{uuid}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/attributes/{uuid}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/databias/submit/{uuid}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/submit/{uuid}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/databias/results/{uuid}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/results/{uuid}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/databias/runs",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/runs"
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/databias/overview/{uuid}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/overview/{uuid}"
+        }
+      ]
+    }
+  ]
+}

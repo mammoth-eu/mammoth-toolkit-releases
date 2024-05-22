@@ -1,0 +1,116 @@
+---
+
+networks:
+  keycloak: {}
+  krakend: {}
+
+volumes:
+  keycloak-postgres:
+  api-postgres:
+
+services:
+  keycloak-postgres:
+    image: postgres:14.5-bullseye
+    restart: unless-stopped
+    volumes:
+      - keycloak-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "${KEYCLOAK_POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${KEYCLOAK_POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${KEYCLOAK_POSTGRES_DATABASE}"
+    networks:
+      - keycloak
+
+  keycloak:
+    image: mammotheu/mt_keycloak:v0001
+    #build: keycloak
+    restart: unless-stopped
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-postgres/${KEYCLOAK_POSTGRES_DATABASE}
+      KC_DB_USERNAME: ${KEYCLOAK_POSTGRES_USER}
+      KC_DB_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_LOGLEVEL: ${KEYCLOAK_LOGLEVEL}
+      KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED}
+      KC_METRICS_ENABLED: ${KC_METRICS_ENABLED}
+    depends_on:
+      - keycloak-postgres
+    networks:
+      keycloak:
+        aliases:
+          - keycloak.local.exus.ai
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+
+
+  krakend:
+    image: devopsfaith/krakend:watch
+    command: "run -d -c /etc/krakend/krakend.json"
+    volumes:
+      - "./krakend.json:/etc/krakend/krakend.json"
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    networks:
+      keycloak: {}
+      krakend:
+        aliases:
+          - krakend.local.exus.ai
+
+  api:
+    image: mammotheu/mt_api:v0002
+    # build:
+    #   context: ./api
+    #   target: development
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      - api-db
+    networks:
+      krakend: {}
+    volumes:
+      - ./components_metadata:/var/lib/components_metadata
+      - ./domains_metadata:/var/lib/domains_metadata
+      - ./components_yaml:/var/lib/components_yaml
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  api-db:
+    image: postgres:16.1-bookworm
+    restart: unless-stopped
+    ports:
+      - "${API_POSTGRES_PORT}:5432"
+    volumes:
+      - api-postgres:/var/lib/apipostgresql/data
+    environment:
+      POSTGRES_USER: "${API_POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${API_POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${API_POSTGRES_DATABASE}"
+    networks:
+      krakend: {}
+
+  adminer:
+    image: adminer:4.8.1-standalone
+    restart: unless-stopped
+    depends_on:
+      - api-db
+    ports:
+      - 8090:8080
+    networks:
+      krakend: {}
+
+  mammoth-fe:
+    image: mammotheu/mt_ui:v0001
+    # build:
+    #   context: ./
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    networks:
+      krakend: {}

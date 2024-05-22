@@ -1,0 +1,106 @@
+# PIPELINE DEFINITION
+# Name: data-csv
+# Inputs:
+#    parameters: dict [Default: {'on_bad_lines': 'skip', 'categorical': [], 'delimiter': ',', 'numeric': [], 'labels': ''}]
+#    path: str
+# Outputs:
+#    Output: str
+#    output: system.Dataset
+components:
+  comp-data-csv:
+    executorLabel: exec-data-csv
+    inputDefinitions:
+      parameters:
+        parameters:
+          defaultValue:
+            categorical: []
+            delimiter: ','
+            labels: ''
+            numeric: []
+            on_bad_lines: skip
+          isOptional: true
+          parameterType: STRUCT
+        path:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-data-csv:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - data_csv
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/data_csv:v006
+pipelineInfo:
+  name: data-csv
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: data-csv
+      parameters:
+        Output:
+          valueFromParameter:
+            outputParameterKey: Output
+            producerSubtask: data-csv
+    tasks:
+      data-csv:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-data-csv
+        inputs:
+          parameters:
+            parameters:
+              componentInputParameter: parameters
+            path:
+              componentInputParameter: path
+        taskInfo:
+          name: data-csv
+  inputDefinitions:
+    parameters:
+      parameters:
+        defaultValue:
+          categorical: []
+          delimiter: ','
+          labels: ''
+          numeric: []
+          on_bad_lines: skip
+        isOptional: true
+        parameterType: STRUCT
+      path:
+        parameterType: STRING
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
+    parameters:
+      Output:
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.7.0
