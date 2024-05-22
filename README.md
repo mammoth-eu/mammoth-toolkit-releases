@@ -215,6 +215,24 @@ http://localhost:5173
 
 Login with the user and the credentials you created.
 
+
+
+## Status
+
+- Supporting the fairbench components
+- User management through keycloack
+- Secure API with krackend
+- All users use the same KFP instance
+- Toolkit dockerized and KFP in local K3D instance
+- Protected characteristics fixed through the lists
+- Scripts for installation
+- Script for container registry with credentials
+- Toolkit tested under linux (and WSL)
+- Pipeline result may not be available always to toolkit
+- Only model exploration flow is operational with fairbench modules
+- Not all buttons work in the runs screen
+
+
 ## Links
 
 - [Docker Engine](https://docs.docker.com/engine/)
