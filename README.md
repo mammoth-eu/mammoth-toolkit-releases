@@ -149,7 +149,7 @@ This script will install the following:
 
 ## Step: 4 Mammoth toolkit startup
 
-Before proceeding please create a file named .env with the following contents.
+Before proceeding please create a file named .env, if not already exists, with the following contents.
 
 ```env
 COMPOSE_PROJECT_NAME=mammoth_kk
