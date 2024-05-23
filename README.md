@@ -216,6 +216,8 @@ http://localhost:5173
 Login with the user and the credentials you created.
 
 
+Instructions on how to run the pipeline can be found at [FairbenchRun.md](./FairbenchRun.md)
+
 
 ## Status
 
