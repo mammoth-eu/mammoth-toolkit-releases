@@ -6,7 +6,7 @@ To run the pipeline you can use the included csv and onnx model.
 
 ### Loader component
 
-{"on_bad_lines" : "skip", "delimiter" : ";"}
+{"delimiter":";","on_bad_lines":"skip", "numeric":["age", "duration", "campaign", "pdays", "previous"], "categorical":["job", "marital", "education", "default", "housing", "loan", "contact", "poutcome"], "labels":"y"}
 
 ### Sensitive parameters
 
