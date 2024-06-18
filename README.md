@@ -137,7 +137,7 @@ When everything is ready, to access the Kubeflow Pipelines interface availabe at
 localhost:8080 please run
 
 ```bash
-kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
+kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
 ```
 
 ### What will be installed
