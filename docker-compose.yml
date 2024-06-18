@@ -63,7 +63,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0002
+    image: mammotheu/mt_api:v0003
     # build:
     #   context: ./api
     #   target: development
