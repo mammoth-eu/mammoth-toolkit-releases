@@ -17,7 +17,13 @@ For model path please enter
 ```url
 http://host.k3d.internal:5000/model.onnx
 ```
-Select the component from the drop down menu. No extra parameters needed.
+Select the component from the drop down menu. The following extra parameters needed.
+
+As data loader component needs extra parameters, please copy paste the following in the Data Loader Parameters
+
+```json
+{"path": "http://host.k3d.internal:5000/model.onnx"}
+```
 
 Press Next
 
@@ -36,7 +42,7 @@ Select the component from the drop down.
 As data loader component needs extra parameters, please copy paste the following in the Data Loader Parameters
 
 ```json
-{"delimiter":";","on_bad_lines":"skip", "numeric":["age", "duration", "campaign", "pdays", "previous"], "categorical":["job", "marital", "education", "default", "housing", "loan", "contact", "poutcome"], "labels":"y"}
+{"categorical":["job","marital","education","default","housing","loan","contact","poutcome"],"delimiter":";","labels":"y","numeric":["age","duration","campaign","pdays","previous"],"on_bad_lines":"skip","path":"http://host.k3d.internal:5000/bank.csv"}
 ```
 
 Press Next
