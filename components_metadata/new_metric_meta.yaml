@@ -1,16 +1,16 @@
 ---
-id: loader_onnx
-name: ONNX model Loader
-description:  Loads an ONNX model from a file available at a URL
+id: new_metric
+name: Fairbench Analysis
+description: Does fairbench analysis on CSVDataset and an ONNX model
 
 parameter_info: No parameters needed.
 parameter_default:
 
 # Type of component, LOADER_DATA, LOADER_MODEL, METRIC
-component_type: LOADER_MODEL
+component_type: METRIC
 
 # Compatibility
 input_types:
   - CSVDataset
-output_types:
   - ONNXModel
+output_types:

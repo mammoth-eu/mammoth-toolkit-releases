@@ -1,0 +1,16 @@
+---
+id: data_csv
+name: CSV Loader (CSVDataset)
+description:  Loads a CSV dataset
+
+parameter_info: "path which is the url to the dataset csv (mandatory), on_bad_lines, supported values {‘error’, ‘warn’, ‘skip’} default 'skip'\n delimiter, default ','.\n Please note that the options should be provided in the following form like this example: {\"path\":\"http:\/\/host.k3d.internal:5000\/bank.csv\",\"delimiter\":\";\",\"on_bad_lines\":\"skip\", \"numeric\":[\"age\", \"duration\", \"campaign\", \"pdays\", \"previous\"], \"categorical\":[\"job\", \"marital\", \"education\", \"default\", \"housing\", \"loan\", \"contact\", \"poutcome\"], \"labels\":\"y\"}"
+parameter_default: {"path":"http://host.k3d.internal:5000/bank.csv","delimiter":";","on_bad_lines":"skip","numeric":["age","duration","campaign","pdays","previous"],"categorical":["job","marital","education","default","housing","loan","contact","poutcome"],"labels":"y"}
+
+
+# Type of component, LOADER_DATA, LOADER_MODEL, METRIC
+component_type: LOADER_DATA
+
+# Compatibility
+input_types:
+output_types:
+  - CSVDataset

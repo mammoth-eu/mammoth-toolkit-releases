@@ -63,7 +63,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0002
+    image: mammotheu/mt_api:v0004
     # build:
     #   context: ./api
     #   target: development
@@ -78,6 +78,7 @@ services:
       - ./components_metadata:/var/lib/components_metadata
       - ./domains_metadata:/var/lib/domains_metadata
       - ./components_yaml:/var/lib/components_yaml
+      - ./pipelines:/var/lib/pipelines
     extra_hosts:
       - host.docker.internal:host-gateway
 

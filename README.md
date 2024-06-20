@@ -137,7 +137,7 @@ When everything is ready, to access the Kubeflow Pipelines interface availabe at
 localhost:8080 please run
 
 ```bash
-kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
+kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
 ```
 
 ### What will be installed
@@ -233,6 +233,11 @@ Instructions on how to run the pipeline can be found at [FairbenchRun.md](./Fair
 - Pipeline result may not be available always to toolkit
 - Only model exploration flow is operational with fairbench modules
 - Not all buttons work in the runs screen
+
+### Update 2024/06/19
+
+- Updated rules and naming for components metadata files check [Components metadata naming](./component_metadata.md)
+- Integrated improved auto pipelines generation mechanism.
 
 
 ## Links
