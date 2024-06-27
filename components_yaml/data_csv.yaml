@@ -3,8 +3,7 @@
 # Inputs:
 #    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
 # Outputs:
-#    Output: str
-#    output: system.Dataset
+#    loaded_dataset: system.Dataset
 components:
   comp-data-csv:
     executorLabel: exec-data-csv
@@ -22,26 +21,23 @@ components:
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
-        output:
+        loaded_dataset:
           artifactType:
             schemaTitle: system.Dataset
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-data-csv:
       container:
         args:
-        - --executor_input
-        - '{{$}}'
-        - --function_to_execute
-        - data_csv
+          - --executor_input
+          - '{{$}}'
+          - --function_to_execute
+          - data_csv
         command:
-        - sh
-        - -c
-        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          - sh
+          - -c
+          - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
           \ && \"$0\" \"$@\"\n"
@@ -55,15 +51,10 @@ root:
   dag:
     outputs:
       artifacts:
-        output:
+        loaded_dataset:
           artifactSelectors:
-          - outputArtifactKey: output
-            producerSubtask: data-csv
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
-            producerSubtask: data-csv
+            - outputArtifactKey: loaded_dataset
+              producerSubtask: data-csv
     tasks:
       data-csv:
         cachingOptions:
@@ -72,6 +63,8 @@ root:
           name: comp-data-csv
         inputs:
           parameters:
+            data_csv__params:
+              componentInputParameter: data_csv__params
             data_csv__params:
               componentInputParameter: data_csv__params
         taskInfo:
@@ -90,12 +83,9 @@ root:
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
-      output:
+      loaded_dataset:
         artifactType:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.8.0

@@ -3,8 +3,7 @@
 # Inputs:
 #    model_onnx__params: dict [Default: {'path': 'None'}]
 # Outputs:
-#    Output: str
-#    output: system.Model
+#    loaded_model: system.Model
 components:
   comp-model-onnx:
     executorLabel: exec-model-onnx
@@ -17,26 +16,23 @@ components:
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
-        output:
+        loaded_model:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-model-onnx:
       container:
         args:
-        - --executor_input
-        - '{{$}}'
-        - --function_to_execute
-        - model_onnx
+          - --executor_input
+          - '{{$}}'
+          - --function_to_execute
+          - model_onnx
         command:
-        - sh
-        - -c
-        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          - sh
+          - -c
+          - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
           \ && \"$0\" \"$@\"\n"
@@ -50,15 +46,10 @@ root:
   dag:
     outputs:
       artifacts:
-        output:
+        loaded_model:
           artifactSelectors:
-          - outputArtifactKey: output
-            producerSubtask: model-onnx
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
-            producerSubtask: model-onnx
+            - outputArtifactKey: loaded_model
+              producerSubtask: model-onnx
     tasks:
       model-onnx:
         cachingOptions:
@@ -67,6 +58,8 @@ root:
           name: comp-model-onnx
         inputs:
           parameters:
+            model_onnx__params:
+              componentInputParameter: model_onnx__params
             model_onnx__params:
               componentInputParameter: model_onnx__params
         taskInfo:
@@ -80,12 +73,9 @@ root:
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
-      output:
+      loaded_model:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.8.0
