@@ -1,0 +1,10 @@
+id: model_card
+name: model card
+description: Creates a model card using FairBench.
+parameter_info: No parameters needed.
+component_type: METRIC
+input_types:
+- Dataset
+- Model
+parameter_default: {}
+output_types: []

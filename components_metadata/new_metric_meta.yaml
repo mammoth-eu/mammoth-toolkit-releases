@@ -11,6 +11,6 @@ component_type: METRIC
 
 # Compatibility
 input_types:
-  - CSVDataset
-  - ONNXModel
+  - CSV
+  - ONNX
 output_types:

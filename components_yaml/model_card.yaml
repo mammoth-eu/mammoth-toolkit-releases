@@ -1,51 +1,55 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: model-card
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': 'None'}]
+#    model: system.Model
+#    model_card__params: dict [Default: {}]
+#    sensitive: list
 # Outputs:
-#    Output: str
-#    output: system.Model
+#    output: system.Markdown
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-model-card:
+    executorLabel: exec-model-card
     inputDefinitions:
-      parameters:
-        model_onnx__params:
-          defaultValue:
-            path: None
-          isOptional: true
-          parameterType: STRUCT
-    outputDefinitions:
       artifacts:
-        output:
+        model:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        Output:
-          parameterType: STRING
+        model_card__params:
+          defaultValue: {}
+          isOptional: true
+          parameterType: STRUCT
+        sensitive:
+          parameterType: LIST
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Markdown
+            schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-model-card:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - model_card
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'fairbench' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v005
+        image: maniospas/model_card:v005
 pipelineInfo:
-  name: model-onnx
+  name: model-card
 root:
   dag:
     outputs:
@@ -53,39 +57,42 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
-            producerSubtask: model-onnx
+            producerSubtask: model-card
     tasks:
-      model-onnx:
+      model-card:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-model-card
         inputs:
+          artifacts:
+            model:
+              componentInputArtifact: model
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            model_card__params:
+              componentInputParameter: model_card__params
+            sensitive:
+              componentInputParameter: sensitive
         taskInfo:
-          name: model-onnx
+          name: model-card
   inputDefinitions:
-    parameters:
-      model_onnx__params:
-        defaultValue:
-          path: None
-        isOptional: true
-        parameterType: STRUCT
-  outputDefinitions:
     artifacts:
-      output:
+      model:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      Output:
-        parameterType: STRING
+      model_card__params:
+        defaultValue: {}
+        isOptional: true
+        parameterType: STRUCT
+      sensitive:
+        parameterType: LIST
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.Markdown
+          schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.8.0

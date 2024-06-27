@@ -1,16 +1,10 @@
----
 id: model_onnx
-name: ONNX model Loader
-description:  Loads an ONNX model from a file available at a URL
-
-parameter_info: No parameters needed.
-parameter_default:
-
-# Type of component, LOADER_DATA, LOADER_MODEL, METRIC
+name: model onnx
+description: This is an ONNX loader.
+parameter_info: Some parameters are needed.
 component_type: LOADER_MODEL
-
-# Compatibility
-input_types:
-  - CSVDataset
+parameter_default:
+  path: None
+input_types: []
 output_types:
-  - ONNXModel
+- ONNX
