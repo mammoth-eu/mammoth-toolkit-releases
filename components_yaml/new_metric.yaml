@@ -1,35 +1,35 @@
 # PIPELINE DEFINITION
 # Name: new-metric
 # Inputs:
-#    csv_dataset: system.Dataset
-#    new_metric__params: dict [Default: {}]
-#    onnx_model: system.Model
-#    sensitive_attributes: list
+#    dataset: system.Dataset
+#    model: system.Model
+#    parameters: dict [Default: {}]
+#    sensitive: list
 # Outputs:
-#    report: system.Markdown
+#    output: system.Markdown
 components:
   comp-new-metric:
     executorLabel: exec-new-metric
     inputDefinitions:
       artifacts:
-        csv_dataset:
+        dataset:
           artifactType:
             schemaTitle: system.Dataset
             schemaVersion: 0.0.1
-        onnx_model:
+        model:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        new_metric__params:
+        parameters:
           defaultValue: {}
           isOptional: true
           parameterType: STRUCT
-        sensitive_attributes:
+        sensitive:
           parameterType: LIST
     outputDefinitions:
       artifacts:
-        report:
+        output:
           artifactType:
             schemaTitle: system.Markdown
             schemaVersion: 0.0.1
@@ -47,21 +47,21 @@ deploymentSpec:
           - -c
           - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'fairbench' 'onnxruntime'\
-          \ 'numpy' 'pandas' && \"$0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
+          \ && \"$0\" \"$@\"\n"
           - python3
           - -m
           - kfp.dsl.executor_main
-        image: mammotheu/metric_fairdemo:v010
+        image: mammotheu/new_metric:v007
 pipelineInfo:
   name: new-metric
 root:
   dag:
     outputs:
       artifacts:
-        report:
+        output:
           artifactSelectors:
-            - outputArtifactKey: report
+            - outputArtifactKey: output
               producerSubtask: new-metric
     tasks:
       new-metric:
@@ -71,39 +71,39 @@ root:
           name: comp-new-metric
         inputs:
           artifacts:
-            csv_dataset:
-              componentInputArtifact: csv_dataset
-            onnx_model:
-              componentInputArtifact: onnx_model
+            dataset:
+              componentInputArtifact: dataset
+            model:
+              componentInputArtifact: model
           parameters:
-            new_metric__params:
-              componentInputParameter: new_metric__params
-            sensitive_attributes:
-              componentInputParameter: sensitive_attributes
+            parameters:
+              componentInputParameter: parameters
+            sensitive:
+              componentInputParameter: sensitive
         taskInfo:
           name: new-metric
   inputDefinitions:
     artifacts:
-      csv_dataset:
+      dataset:
         artifactType:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
-      onnx_model:
+      model:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      new_metric__params:
+      parameters:
         defaultValue: {}
         isOptional: true
         parameterType: STRUCT
-      sensitive_attributes:
+      sensitive:
         parameterType: LIST
   outputDefinitions:
     artifacts:
-      report:
+      output:
         artifactType:
           schemaTitle: system.Markdown
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.4.0
+sdkVersion: kfp-2.7.0

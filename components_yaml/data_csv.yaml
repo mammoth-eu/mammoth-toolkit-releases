@@ -34,20 +34,20 @@ deploymentSpec:
     exec-data-csv:
       container:
         args:
-        - --executor_input
-        - '{{$}}'
-        - --function_to_execute
-        - data_csv
+          - --executor_input
+          - '{{$}}'
+          - --function_to_execute
+          - data_csv
         command:
-        - sh
-        - -c
-        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          - sh
+          - -c
+          - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
           \ && \"$0\" \"$@\"\n"
-        - python3
-        - -m
-        - kfp.dsl.executor_main
+          - python3
+          - -m
+          - kfp.dsl.executor_main
         image: maniospas/data_csv:v007
 pipelineInfo:
   name: data-csv
@@ -57,8 +57,8 @@ root:
       artifacts:
         output:
           artifactSelectors:
-          - outputArtifactKey: output
-            producerSubtask: data-csv
+            - outputArtifactKey: output
+              producerSubtask: data-csv
       parameters:
         Output:
           valueFromParameter:

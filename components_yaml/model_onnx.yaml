@@ -2,8 +2,10 @@
 # Name: model-onnx
 # Inputs:
 #    model_onnx__params: dict [Default: {'path': 'None'}]
+#    path: str
 # Outputs:
-#    loaded_model: system.Model
+#    Output: str
+#    output: system.Model
 components:
   comp-model-onnx:
     executorLabel: exec-model-onnx
@@ -14,12 +16,17 @@ components:
             path: None
           isOptional: true
           parameterType: STRUCT
+        path:
+          parameterType: STRING
     outputDefinitions:
       artifacts:
-        loaded_model:
+        output:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
 deploymentSpec:
   executors:
     exec-model-onnx:
@@ -36,20 +43,25 @@ deploymentSpec:
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
           \ && \"$0\" \"$@\"\n"
-        - python3
-        - -m
-        - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v005
+          - python3
+          - -m
+          - kfp.dsl.executor_main
+        image: maniospas/model_onnx:v004
 pipelineInfo:
   name: model-onnx
 root:
   dag:
     outputs:
       artifacts:
-        loaded_model:
+        output:
           artifactSelectors:
-            - outputArtifactKey: loaded_model
+            - outputArtifactKey: output
               producerSubtask: model-onnx
+      parameters:
+        Output:
+          valueFromParameter:
+            outputParameterKey: Output
+            producerSubtask: model-onnx
     tasks:
       model-onnx:
         cachingOptions:
@@ -60,8 +72,8 @@ root:
           parameters:
             model_onnx__params:
               componentInputParameter: model_onnx__params
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            path:
+              componentInputParameter: path
         taskInfo:
           name: model-onnx
   inputDefinitions:
@@ -71,11 +83,16 @@ root:
           path: None
         isOptional: true
         parameterType: STRUCT
+      path:
+        parameterType: STRING
   outputDefinitions:
     artifacts:
-      loaded_model:
+      output:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
+    parameters:
+      Output:
+        parameterType: STRING
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.8.0
