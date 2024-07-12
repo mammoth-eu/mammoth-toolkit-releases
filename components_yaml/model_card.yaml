@@ -47,7 +47,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: maniospas/model_card:v006
+        image: mammotheu/model_card:v0020
 pipelineInfo:
   name: model-card
 root:

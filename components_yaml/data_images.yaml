@@ -1,51 +1,56 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: data-images
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': 'None'}]
+#    data_images__params: dict [Default: {'target': '', 'batch_size': 4.0, 'path': '', 'data_transform': '', 'shuffle': False, 'root_dir': './'}]
 # Outputs:
 #    Output: str
-#    output: system.Model
+#    output: system.Dataset
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-data-images:
+    executorLabel: exec-data-images
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        data_images__params:
           defaultValue:
-            path: None
+            batch_size: 4.0
+            data_transform: ''
+            path: ''
+            root_dir: ./
+            shuffle: false
+            target: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Model
+            schemaTitle: system.Dataset
             schemaVersion: 0.0.1
       parameters:
         Output:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-data-images:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - data_images
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'torch' 'torchvision' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0020
+        image: mammotheu/data_images:v0020
 pipelineInfo:
-  name: model-onnx
+  name: data-images
 root:
   dag:
     outputs:
@@ -53,36 +58,41 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: data-images
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: model-onnx
+            producerSubtask: data-images
     tasks:
-      model-onnx:
+      data-images:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-data-images
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            data_images__params:
+              componentInputParameter: data_images__params
         taskInfo:
-          name: model-onnx
+          name: data-images
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      data_images__params:
         defaultValue:
-          path: None
+          batch_size: 4.0
+          data_transform: ''
+          path: ''
+          root_dir: ./
+          shuffle: false
+          target: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Model
+          schemaTitle: system.Dataset
           schemaVersion: 0.0.1
     parameters:
       Output:

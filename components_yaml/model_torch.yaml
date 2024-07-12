@@ -1,18 +1,19 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: model-torch
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': 'None'}]
+#    model_torch__params: dict [Default: {'model': '', 'state': ''}]
 # Outputs:
 #    Output: str
 #    output: system.Model
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-model-torch:
+    executorLabel: exec-model-torch
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        model_torch__params:
           defaultValue:
-            path: None
+            model: ''
+            state: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -26,13 +27,13 @@ components:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-model-torch:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - model_torch
         command:
         - sh
         - -c
@@ -43,9 +44,9 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0020
+        image: mammotheu/model_torch:v0020
 pipelineInfo:
-  name: model-onnx
+  name: model-torch
 root:
   dag:
     outputs:
@@ -53,29 +54,30 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: model-torch
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: model-onnx
+            producerSubtask: model-torch
     tasks:
-      model-onnx:
+      model-torch:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-model-torch
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            model_torch__params:
+              componentInputParameter: model_torch__params
         taskInfo:
-          name: model-onnx
+          name: model-torch
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      model_torch__params:
         defaultValue:
-          path: None
+          model: ''
+          state: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
