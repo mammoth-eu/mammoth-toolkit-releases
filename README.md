@@ -14,7 +14,7 @@ Loader and analysis modules are dockerized components to ensure independent exec
 - [X] Toolkit dockerized and KFP in local K3D instance
 - [ ] Protected characteristics: fixed through the lists
 - [X] Installation: scripts
-- [X] Tested: Linus, WSL
+- [X] Tested: Linux, WSL
 - [ ] Debugging: pipeline result may not be available always to toolkit
 - [ ] Bias analysis pipelines: 1/2 (missing dataset bias analysis)
 
