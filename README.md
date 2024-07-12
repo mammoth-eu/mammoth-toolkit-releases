@@ -1,9 +1,12 @@
 # MAMMOth Bias Toolkit
 
-This readme will guide you to the prerequisites and the installation steps of
-the Mammoth toolkit. All the required scripts can be found in the *scripts/* folder.
+*Alpha version.*
 
-## Development status
+This is a toolkit for the exploration of bias in AI systems and create recommendations for fairer system creation. You can set it up either locally or in your organization's server for developers to access it remotely.
+The toolkit can load a broad range of datatypes (e.g., tabular, graph, vision) and models, and can analyze them with a variety of tools.
+Loader and analysis modules are dockerized components to ensure independent execution. This repository holds the main toolkit's implementation only; an overview of components implemented by the MAMMOth consortium can be found in the [mammoth-commons catalogue](https://github.com/mammoth-eu/mammoth-commons/tree/dev/catalogue). There, you will also find the component build process and instructions on how to generate custom ones, for example to handle your own proprietary data.
+
+## Status
 
 - [ ] Integration of MAMMOth's technical components: 1/6
 - [X] User management: keycloack, shared KFP instance
@@ -16,6 +19,8 @@ the Mammoth toolkit. All the required scripts can be found in the *scripts/* fol
 - [ ] Bias analysis pipelines: 1/2 (missing dataset bias analysis)
 
 ## Installation
+
+You will be guided to install the prerequisite software for the Mammoth toolkit to run. All scripts can be found in the *scripts/* folder.
 
 [Step 1: Docker](#step-1-docker)<br>
 [Step 2: K3D](#step-2-k3d)<br>
@@ -157,9 +162,9 @@ VITE_BACKEND_URL=http://krakend.local.exus.ai:8081
 
 ### Links
 
-- [Docker Engine](https://docs.docker.com/engine/)
-- [K3D](https://k3d.io/)
-- [K3S](https://github.com/k3s-io/k3s)
-- [Kubectl](https://kubernetes.io/docs/reference/kubectl/)
-- [Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/v2/)
-- [KFP GitHub](https://github.com/kubeflow/pipelines)
+[Docker Engine](https://docs.docker.com/engine/)<br>
+[K3D](https://k3d.io/)<br>
+[K3S](https://github.com/k3s-io/k3s)<br>
+[Kubectl](https://kubernetes.io/docs/reference/kubectl/)<br>
+[Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/v2/)<br>
+[KFP GitHub](https://github.com/kubeflow/pipelines)
