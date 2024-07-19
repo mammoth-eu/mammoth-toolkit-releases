@@ -1,38 +1,43 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: data-csv
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': 'None'}]
+#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
 # Outputs:
 #    Output: str
-#    output: system.Model
+#    output: system.Dataset
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-data-csv:
+    executorLabel: exec-data-csv
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        data_csv__params:
           defaultValue:
-            path: None
+            categorical: None
+            delimiter: ','
+            labels: None
+            numeric: None
+            on_bad_lines: skip
+            path: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Model
+            schemaTitle: system.Dataset
             schemaVersion: 0.0.1
       parameters:
         Output:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-data-csv:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - data_csv
         command:
         - sh
         - -c
@@ -43,9 +48,9 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0021
+        image: mammotheu/data_csv:v0021
 pipelineInfo:
-  name: model-onnx
+  name: data-csv
 root:
   dag:
     outputs:
@@ -53,36 +58,41 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: data-csv
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: model-onnx
+            producerSubtask: data-csv
     tasks:
-      model-onnx:
+      data-csv:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-data-csv
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            data_csv__params:
+              componentInputParameter: data_csv__params
         taskInfo:
-          name: model-onnx
+          name: data-csv
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      data_csv__params:
         defaultValue:
-          path: None
+          categorical: None
+          delimiter: ','
+          labels: None
+          numeric: None
+          on_bad_lines: skip
+          path: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Model
+          schemaTitle: system.Dataset
           schemaVersion: 0.0.1
     parameters:
       Output:

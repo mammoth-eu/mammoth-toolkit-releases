@@ -1,6 +1,6 @@
 id: image_bias_analysis
 name: image bias analysis
-description: null
+description: Image bias analysis component.
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:

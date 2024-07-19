@@ -1,0 +1,15 @@
+id: data_csv
+name: data csv
+description: This is a CSV loader.
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+  numeric: None
+  categorical: None
+  labels: None
+  delimiter: ','
+  on_bad_lines: skip
+input_types: []
+output_types:
+- CSV

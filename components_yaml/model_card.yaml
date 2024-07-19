@@ -1,6 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-card
 # Inputs:
+#    dataset: system.Dataset
 #    model: system.Model
 #    model_card__params: dict [Default: {}]
 #    sensitive: list
@@ -11,6 +12,10 @@ components:
     executorLabel: exec-model-card
     inputDefinitions:
       artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
         model:
           artifactType:
             schemaTitle: system.Model
@@ -47,7 +52,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0020
+        image: mammotheu/model_card:v0021
 pipelineInfo:
   name: model-card
 root:
@@ -66,6 +71,8 @@ root:
           name: comp-model-card
         inputs:
           artifacts:
+            dataset:
+              componentInputArtifact: dataset
             model:
               componentInputArtifact: model
           parameters:
@@ -77,6 +84,10 @@ root:
           name: model-card
   inputDefinitions:
     artifacts:
+      dataset:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
       model:
         artifactType:
           schemaTitle: system.Model
