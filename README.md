@@ -239,6 +239,11 @@ Instructions on how to run the pipeline can be found at [FairbenchRun.md](./Fair
 - Updated rules and naming for components metadata files check [Components metadata namiong](./component_metadata.md)
 - Integrated improved auto pipelines generation mechanism.
 
+### Update 2024/07/19
+- Improved auto pipelines generation mechanism.
+- Updated mammoth toolkit libraries, kfp is now 2.8.0
+- Multiple components integrated to the toolkit.
+
 
 ## Links
 
