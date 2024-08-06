@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "This will deploy Kubeflow Pipelines Standalone instance v2.0.3"
+echo "This will deploy Kubeflow Pipelines Standalone instance v2.2.0"
 
 read -p "Please monitor the installation and provide input as required. Press enter to continue..." input
 echo ""
@@ -14,7 +14,7 @@ read -p " Press enter to continue, or CTRL+C to stop the script..." input
 
 
 # Do the installation
-export PIPELINE_VERSION=2.0.3
+export PIPELINE_VERSION=2.2.0
 
 kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
 kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
