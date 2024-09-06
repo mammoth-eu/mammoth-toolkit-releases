@@ -1,155 +1,139 @@
-# Mammoth toolkit installation steps
+# MAMMOth Bias Toolkit
 
-## Info
+*Alpha version.*
 
-This readme will guide you to the prerequisites and the installation steps of
-the Mammoth toolkit.
+This is a toolkit for the exploration of bias in AI systems and create recommendations for fairer system creation. You can set it up either locally or in your organization's server for developers to access it remotely.
+The toolkit can load a broad range of datatypes (e.g., tabular, graph, vision) and models, and can analyze them with a variety of tools.
+Loader and analysis modules are dockerized components to ensure independent execution. This repository holds the main toolkit's implementation only; an overview of components implemented by the MAMMOth consortium can be found in the [mammoth-commons catalogue](https://github.com/mammoth-eu/mammoth-commons/tree/dev/catalogue). There, you will also find the component build process and instructions on how to generate custom ones, for example to handle your own proprietary data.
 
-All the required scripts can be found in the scripts folder.
+## Status
 
-## Step 1: Docker
+- [ ] Integration of MAMMOth's technical components: 1/6
+- [X] User management: keycloack, shared KFP instance
+- [X] Secure API: krackend
+- [X] Toolkit dockerized and KFP in local K3D instance
+- [ ] Protected characteristics: fixed through the lists
+- [X] Installation: scripts
+- [X] Tested: Linux, WSL
+- [ ] Debugging: pipeline result may not be available always to toolkit
+- [ ] Bias analysis pipelines: 1/2 (missing dataset bias analysis)
 
-**Important:** This step should be performed only once if docker is not already
-installed
+## Installation
 
-Just run
+You will be guided to install the prerequisite software for the Mammoth toolkit to run. All scripts can be found in the *scripts/* folder.
+
+[Step 1: Docker](#step-1-docker)<br>
+[Step 2: K3D](#step-2-k3d)<br>
+[Step 3: KFP](#step-3-kfp)<br>
+[Step 4: Toolkit Startup](#step-4-toolkit-startup)<br>
+[Links](#links)
+
+### Step 1: Docker
+
+Install Docker only if it is **not** already installed. On Windows enable WSL and install Docker Desktop instead.
 
 ```bash
+chmod +x docker_install.sh  # make the script executable
 ./docker_install.sh
 ```
 
-In case the script is not executable please run the command
+</details>
 
-```bash
-chmod +x docker_install.sh
-```
 
-and then run it.
+### Step 2: K3D
 
-## Step 2: K3D
-
-**Important:** This step should be performed only once if K3D is not already
-installed
-
-The k3d_install.sh script installs K3d mini Kubernetes distribution on a linux
-environment. Tested with UBUNTU based OS but it could work also for othe linux
-distributions.
-
-k3d is a lightweight wrapper to run k3s (Rancher Lab’s minimal Kubernetes
-distribution) in docker.
-
-k3d makes it very easy to create single- and multi-node k3s clusters in docker,
-e.g. for local development on Kubernetes.
-
-### Requirements
-
-Before running this script the following requirements must be met:
-
-- Docker engine installed and active
-
-### Usage
-
-Just run
-
-```bash
-./k3d_install.sh
-```
-
-In case the script is not executable please run the command
+Install Kubectl (Kubernetes - Command line tool) and the K3D mini Kubernetes distribution if the latter **not** already installed. 
+K3D is a lightweight wrapper to run K3S (Rancher Lab’s minimal Kubernetes
+distribution) in docker. Tested with UBUNTU based OS but it could work also for other linux
+distributions. The docker engine must be installed *and active*.
 
 ```bash
 chmod +x k3d_install.sh
+./k3d_install.sh
+k3d cluster create kfp  # create a K3D cluster
 ```
 
-and then run it.
+### Step 3: KFP
 
-### What will be installed
-
-This script will install the following tools:
-
-- Kubectl (Kubernetes - Command line tool)
-- K3D (mini kubernetes distribution)
-
-## Step 3: KFP
-
-**Important:** This step should be performed only once if KFP is not already
-installed
-
-The kfp_install.sh script installs Kubeflow Pipelines standalone on a linux
-environment. Tested with K3D cluster but it should work with other Kubernetes
-distributions also.
-
-Kubeflow Pipelines (KFP) is a platform for building and deploying portable and
-scalable machine learning (ML) workflows using Docker containers.
-
-With KFP you can author components and pipelines using the KFP Python SDK,
-compile pipelines to an intermediate representation YAML, and submit the
-pipeline to run on a KFP-conformant backend such as the open source KFP backend
+Install KFP (Kubeflow Pipelines) standalone version 2+ if **not** already installed. 
+The K3D cluster needs to be running already.
+Tested with K3D cluster but it should work with other Kubernetes
+distributions also. The toolkit maked use of the KFP Python SDK to
+compile pipelines to an intermediate representation YAML. These pipelines are submitted
+to run on a KFP-conformant backend such as the open source KFP backend
 or Google Cloud Vertex AI Pipelines.
-
-### Requirements
-
-Before running this script the following requirements must be met:
-
-- Docker engine installed and active
-- K3D installed and active (if you are using k3d)
-- At least one Kubernetes cluster active
-- kubectl installed
-
-If you just installed K3d you can create a Kubernetes cluster by running the
-following command
-
-```bash
-k3d cluster create kfp
-```
-
-After the creation of the cluster you are ready to run this script.
-
-### Usage
-
-Just run
-
-```bash
-./kfp_install.sh
-```
-
-In case the script is not executable please run the command
 
 ```bash
 chmod +x kfp_install.sh
+./kfp_install.sh
 ```
 
-and then run it.
+<details>
+<summary>Track progress</summary>
+<br>
 
-When this script completes the Kubeflow pipelines deployment procedure started
-but it takes some time to be ready as many things need to be downloaded and
-configured during the deployment.
-
-You can check the status of the deployment with the following command:
+When the above script completes, the Kubeflow pipelines deployment procedure starts by itself.
+It takes some time to be ready as many things need to be downloaded and
+configured during the deployment. Check deployment status with:
 
 ```bash
 kubectl -n kubeflow get pods
 ```
 
-Kubeflow pipelines will be ready when all pods, are in ready state.
-
-When everything is ready, to access the Kubeflow Pipelines interface availabe at
-localhost:8080 please run
+Kubeflow pipelines will be ready when all pods are in ready state.
+Afterwards,  access the Kubeflow Pipelines interface availabe at
+localhost:8080 by running:
 
 ```bash
 kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
 ```
-
-### What will be installed
-
-This script will install the following:
-
-- Kubeflow Pipelines standalone version 2+
+</details>
 
 
-## Step: 4 Mammoth toolkit startup
 
-Before proceeding please create a file named .env, if not already exists, with the following contents.
+### Step 4: Toolkit startup
+
+Before proceeding please create an *.env* on the top level folder, if it does not already exists.
+Make sure that K3D with KFP installed is up and running and that the port
+forward to KFP is active. In this same top-level folder run the command
+
+Remember that port forward is activated with:
+```bash
+kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
+```bash
+docker compose up -d
+```
+
+Wait until the system loads. The toolkit is available at the following URL in your browser: http://localhost:5173
+
+<details>
+<summary>Create a new user at: http://keycloak.local.exus.ai:8080 </summary>
+<br>
+
+Visit the following URL in your browser to create a user
+
+```url
+http://keycloak.local.exus.ai:8080
+```
+
+Login with the credentials provided in the .env file
+for KEYCLOAK_ADMIN_USER and KEYCLOAK_ADMIN_PASSWORD
+
+- Select from the dropdown at the left the option **toolkit**
+- Select **Users** from the menu
+- Click on **Add user**
+- Fill in the details (username, email, firstname, lastname) and click on **Create**
+- Click on the **Credentials** tab and set a password
+- Turn off the **Temporary** switch
+- Save the password
+
+</details>
+
+
+
+<details>
+<summary>Default .env contents</summary>
+<br>
 
 ```env
 COMPOSE_PROJECT_NAME=mammoth_kk
@@ -175,81 +159,16 @@ VITE_KEYCLOAK_REALM=toolkit
 VITE_LOGOUT_REDIRECT_URI=http://localhost:5173
 VITE_BACKEND_URL=http://krakend.local.exus.ai:8081
 ```
+</details>
 
 
-
-Make sure that K3D with KFP installed is up and running Make sure that the port
-forward to KFP is active.
-
-In this folder run the command
-
-```bash
-docker compose up -d
-```
-
-Wait until the system loads.
-
-Visit the following URL in your browser to create a user
-
-```url
-http://keycloak.local.exus.ai:8080
-```
-
-Login with the credentials provided in the .env file
-for KEYCLOAK_ADMIN_USER and KEYCLOAK_ADMIN_PASSWORD
-
-- Select from the dropdown at the left the option **toolkit**
-- Select **Users** from the menu
-- Click on **Add user**
-- Fill in the details (username, email, firstname, lastname) and click on **Create**
-- Click on the **Credentials** tab and set a password
-- Turn off the **Temporary** switch
-- Save the password
+### Links
 
 
-Visit the following URL in your browser
+[Docker Engine](https://docs.docker.com/engine/)<br>
+[K3D](https://k3d.io/)<br>
+[K3S](https://github.com/k3s-io/k3s)<br>
+[Kubectl](https://kubernetes.io/docs/reference/kubectl/)<br>
+[Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/v2/)<br>
+[KFP GitHub](https://github.com/kubeflow/pipelines)
 
-```url
-http://localhost:5173
-```
-
-Login with the user and the credentials you created.
-
-
-Instructions on how to run the pipeline can be found at [FairbenchRun.md](./FairbenchRun.md)
-
-
-## Status
-
-- Supporting the fairbench components
-- User management through keycloack
-- Secure API with krackend
-- All users use the same KFP instance
-- Toolkit dockerized and KFP in local K3D instance
-- Protected characteristics fixed through the lists
-- Scripts for installation
-- Script for container registry with credentials
-- Toolkit tested under linux (and WSL)
-- Pipeline result may not be available always to toolkit
-- Only model exploration flow is operational with fairbench modules
-- Not all buttons work in the runs screen
-
-### Update 2024/06/19
-
-- Updated rules and naming for components metadata files check [Components metadata namiong](./component_metadata.md)
-- Integrated improved auto pipelines generation mechanism.
-
-### Update 2024/07/19
-- Improved auto pipelines generation mechanism.
-- Updated mammoth toolkit libraries, kfp is now 2.8.0
-- Multiple components integrated to the toolkit.
-
-
-## Links
-
-- [Docker Engine](https://docs.docker.com/engine/)
-- [K3D](https://k3d.io/)
-- [K3S](https://github.com/k3s-io/k3s)
-- [Kubectl](https://kubernetes.io/docs/reference/kubectl/)
-- [Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/v2/)
-- [KFP GitHub](https://github.com/kubeflow/pipelines)
