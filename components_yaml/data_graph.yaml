@@ -1,22 +1,17 @@
 # PIPELINE DEFINITION
-# Name: data-csv
+# Name: data-graph
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    data_graph__params: dict [Default: {'path': ''}]
 # Outputs:
 #    Output: str
 #    output: system.Dataset
 components:
-  comp-data-csv:
-    executorLabel: exec-data-csv
+  comp-data-graph:
+    executorLabel: exec-data-graph
     inputDefinitions:
       parameters:
-        data_csv__params:
+        data_graph__params:
           defaultValue:
-            categorical: None
-            delimiter: ','
-            labels: None
-            numeric: None
-            on_bad_lines: skip
             path: ''
           isOptional: true
           parameterType: STRUCT
@@ -31,26 +26,26 @@ components:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-data-csv:
+    exec-data-graph:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv
+        - data_graph
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'pygrank' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/data_graph:v0020
 pipelineInfo:
-  name: data-csv
+  name: data-graph
 root:
   dag:
     outputs:
@@ -58,33 +53,28 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv
+            producerSubtask: data-graph
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: data-csv
+            producerSubtask: data-graph
     tasks:
-      data-csv:
+      data-graph:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv
+          name: comp-data-graph
         inputs:
           parameters:
-            data_csv__params:
-              componentInputParameter: data_csv__params
+            data_graph__params:
+              componentInputParameter: data_graph__params
         taskInfo:
-          name: data-csv
+          name: data-graph
   inputDefinitions:
     parameters:
-      data_csv__params:
+      data_graph__params:
         defaultValue:
-          categorical: None
-          delimiter: ','
-          labels: None
-          numeric: None
-          on_bad_lines: skip
           path: ''
         isOptional: true
         parameterType: STRUCT

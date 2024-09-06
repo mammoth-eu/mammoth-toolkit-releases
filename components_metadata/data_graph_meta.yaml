@@ -1,0 +1,10 @@
+id: data_graph
+name: data graph
+description: This loads the edges of a graph.
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+input_types: []
+output_types:
+- Graph

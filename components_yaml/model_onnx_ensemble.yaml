@@ -1,22 +1,17 @@
 # PIPELINE DEFINITION
-# Name: data-csv
+# Name: model-onnx-ensemble
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    model_onnx_ensemble__params: dict [Default: {'path': ''}]
 # Outputs:
 #    Output: str
-#    output: system.Dataset
+#    output: system.Model
 components:
-  comp-data-csv:
-    executorLabel: exec-data-csv
+  comp-model-onnx-ensemble:
+    executorLabel: exec-model-onnx-ensemble
     inputDefinitions:
       parameters:
-        data_csv__params:
+        model_onnx_ensemble__params:
           defaultValue:
-            categorical: None
-            delimiter: ','
-            labels: None
-            numeric: None
-            on_bad_lines: skip
             path: ''
           isOptional: true
           parameterType: STRUCT
@@ -24,20 +19,20 @@ components:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Dataset
+            schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
         Output:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-data-csv:
+    exec-model-onnx-ensemble:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv
+        - model_onnx_ensemble
         command:
         - sh
         - -c
@@ -48,9 +43,9 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/model_onnx_ensemble:v0020
 pipelineInfo:
-  name: data-csv
+  name: model-onnx-ensemble
 root:
   dag:
     outputs:
@@ -58,33 +53,28 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv
+            producerSubtask: model-onnx-ensemble
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: data-csv
+            producerSubtask: model-onnx-ensemble
     tasks:
-      data-csv:
+      model-onnx-ensemble:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv
+          name: comp-model-onnx-ensemble
         inputs:
           parameters:
-            data_csv__params:
-              componentInputParameter: data_csv__params
+            model_onnx_ensemble__params:
+              componentInputParameter: model_onnx_ensemble__params
         taskInfo:
-          name: data-csv
+          name: model-onnx-ensemble
   inputDefinitions:
     parameters:
-      data_csv__params:
+      model_onnx_ensemble__params:
         defaultValue:
-          categorical: None
-          delimiter: ','
-          labels: None
-          numeric: None
-          on_bad_lines: skip
           path: ''
         isOptional: true
         parameterType: STRUCT
@@ -92,7 +82,7 @@ root:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Dataset
+          schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
       Output:

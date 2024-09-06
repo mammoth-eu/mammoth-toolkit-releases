@@ -1,0 +1,11 @@
+id: model_torch
+name: model torch
+description: This is an PYTORCH model loader.
+parameter_info: Some parameters are needed.
+component_type: LOADER_MODEL
+parameter_default:
+  model: ''
+  state: ''
+input_types: []
+output_types:
+- Pytorch

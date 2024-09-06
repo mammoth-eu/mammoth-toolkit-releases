@@ -1,0 +1,10 @@
+id: model_onnx_ensemble
+name: model onnx ensemble
+description: This is an ONNX_Ensemble loader.
+parameter_info: Some parameters are needed.
+component_type: LOADER_MODEL
+parameter_default:
+  path: ''
+input_types: []
+output_types:
+- ONNXEnsemble

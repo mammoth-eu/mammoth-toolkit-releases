@@ -1,28 +1,24 @@
 # PIPELINE DEFINITION
-# Name: model-card
+# Name: image-bias-analysis
 # Inputs:
-#    dataset: system.Dataset
+#    image_bias_analysis__params: dict [Default: {'task': ''}]
 #    model: system.Model
-#    model_card__params: dict [Default: {}]
 #    sensitive: list
 # Outputs:
 #    output: system.Markdown
 components:
-  comp-model-card:
-    executorLabel: exec-model-card
+  comp-image-bias-analysis:
+    executorLabel: exec-image-bias-analysis
     inputDefinitions:
       artifacts:
-        dataset:
-          artifactType:
-            schemaTitle: system.Dataset
-            schemaVersion: 0.0.1
         model:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        model_card__params:
-          defaultValue: {}
+        image_bias_analysis__params:
+          defaultValue:
+            task: ''
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -35,26 +31,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-card:
+    exec-image-bias-analysis:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_card
+        - image_bias_analysis
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ 'fairbench' && \"$0\" \"$@\"\n"
+          \ 'torch' 'torchvision' 'cvbiasmitigation' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0021
+        image: mammotheu/image_bias_analysis:v0020
 pipelineInfo:
-  name: model-card
+  name: image-bias-analysis
 root:
   dag:
     outputs:
@@ -62,39 +58,34 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-card
+            producerSubtask: image-bias-analysis
     tasks:
-      model-card:
+      image-bias-analysis:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-card
+          name: comp-image-bias-analysis
         inputs:
           artifacts:
-            dataset:
-              componentInputArtifact: dataset
             model:
               componentInputArtifact: model
           parameters:
-            model_card__params:
-              componentInputParameter: model_card__params
+            image_bias_analysis__params:
+              componentInputParameter: image_bias_analysis__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: model-card
+          name: image-bias-analysis
   inputDefinitions:
     artifacts:
-      dataset:
-        artifactType:
-          schemaTitle: system.Dataset
-          schemaVersion: 0.0.1
       model:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      model_card__params:
-        defaultValue: {}
+      image_bias_analysis__params:
+        defaultValue:
+          task: ''
         isOptional: true
         parameterType: STRUCT
       sensitive:

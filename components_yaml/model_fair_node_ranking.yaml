@@ -1,56 +1,52 @@
 # PIPELINE DEFINITION
-# Name: data-csv
+# Name: model-fair-node-ranking
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    model_fair_node_ranking__params: dict [Default: {'redistribution': 'original', 'diffusion': 0.85}]
 # Outputs:
 #    Output: str
-#    output: system.Dataset
+#    output: system.Model
 components:
-  comp-data-csv:
-    executorLabel: exec-data-csv
+  comp-model-fair-node-ranking:
+    executorLabel: exec-model-fair-node-ranking
     inputDefinitions:
       parameters:
-        data_csv__params:
+        model_fair_node_ranking__params:
           defaultValue:
-            categorical: None
-            delimiter: ','
-            labels: None
-            numeric: None
-            on_bad_lines: skip
-            path: ''
+            diffusion: 0.85
+            redistribution: original
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Dataset
+            schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
         Output:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-data-csv:
+    exec-model-fair-node-ranking:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv
+        - model_fair_node_ranking
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'pygrank' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/model_fair_node_ranking:v0020
 pipelineInfo:
-  name: data-csv
+  name: model-fair-node-ranking
 root:
   dag:
     outputs:
@@ -58,41 +54,37 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv
+            producerSubtask: model-fair-node-ranking
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: data-csv
+            producerSubtask: model-fair-node-ranking
     tasks:
-      data-csv:
+      model-fair-node-ranking:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv
+          name: comp-model-fair-node-ranking
         inputs:
           parameters:
-            data_csv__params:
-              componentInputParameter: data_csv__params
+            model_fair_node_ranking__params:
+              componentInputParameter: model_fair_node_ranking__params
         taskInfo:
-          name: data-csv
+          name: model-fair-node-ranking
   inputDefinitions:
     parameters:
-      data_csv__params:
+      model_fair_node_ranking__params:
         defaultValue:
-          categorical: None
-          delimiter: ','
-          labels: None
-          numeric: None
-          on_bad_lines: skip
-          path: ''
+          diffusion: 0.85
+          redistribution: original
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Dataset
+          schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
       Output:

@@ -1,43 +1,39 @@
 # PIPELINE DEFINITION
-# Name: data-csv
+# Name: model-torch
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    model_torch__params: dict [Default: {'model': '', 'state': ''}]
 # Outputs:
 #    Output: str
-#    output: system.Dataset
+#    output: system.Model
 components:
-  comp-data-csv:
-    executorLabel: exec-data-csv
+  comp-model-torch:
+    executorLabel: exec-model-torch
     inputDefinitions:
       parameters:
-        data_csv__params:
+        model_torch__params:
           defaultValue:
-            categorical: None
-            delimiter: ','
-            labels: None
-            numeric: None
-            on_bad_lines: skip
-            path: ''
+            model: ''
+            state: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Dataset
+            schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
         Output:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-data-csv:
+    exec-model-torch:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv
+        - model_torch
         command:
         - sh
         - -c
@@ -48,9 +44,9 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/model_torch:v0020
 pipelineInfo:
-  name: data-csv
+  name: model-torch
 root:
   dag:
     outputs:
@@ -58,41 +54,37 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv
+            producerSubtask: model-torch
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: data-csv
+            producerSubtask: model-torch
     tasks:
-      data-csv:
+      model-torch:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv
+          name: comp-model-torch
         inputs:
           parameters:
-            data_csv__params:
-              componentInputParameter: data_csv__params
+            model_torch__params:
+              componentInputParameter: model_torch__params
         taskInfo:
-          name: data-csv
+          name: model-torch
   inputDefinitions:
     parameters:
-      data_csv__params:
+      model_torch__params:
         defaultValue:
-          categorical: None
-          delimiter: ','
-          labels: None
-          numeric: None
-          on_bad_lines: skip
-          path: ''
+          model: ''
+          state: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Dataset
+          schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
       Output:

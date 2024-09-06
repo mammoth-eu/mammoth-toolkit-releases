@@ -63,7 +63,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0004
+    image: mammotheu/mt_api:v0007
     # build:
     #   context: ./api
     #   target: development
@@ -107,7 +107,7 @@ services:
       krakend: {}
 
   mammoth-fe:
-    image: mammotheu/mt_ui:v0001
+    image: mammotheu/mt_ui:v0002
     # build:
     #   context: ./
     restart: unless-stopped

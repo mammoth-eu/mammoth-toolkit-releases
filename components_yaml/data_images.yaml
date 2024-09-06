@@ -1,23 +1,23 @@
 # PIPELINE DEFINITION
-# Name: data-csv
+# Name: data-images
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    data_images__params: dict [Default: {'target': '', 'batch_size': 4.0, 'path': '', 'data_transform': '', 'shuffle': False, 'root_dir': './'}]
 # Outputs:
 #    Output: str
 #    output: system.Dataset
 components:
-  comp-data-csv:
-    executorLabel: exec-data-csv
+  comp-data-images:
+    executorLabel: exec-data-images
     inputDefinitions:
       parameters:
-        data_csv__params:
+        data_images__params:
           defaultValue:
-            categorical: None
-            delimiter: ','
-            labels: None
-            numeric: None
-            on_bad_lines: skip
+            batch_size: 4.0
+            data_transform: ''
             path: ''
+            root_dir: ./
+            shuffle: false
+            target: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -31,26 +31,26 @@ components:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-data-csv:
+    exec-data-images:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv
+        - data_images
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'torch' 'torchvision' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/data_images:v0020
 pipelineInfo:
-  name: data-csv
+  name: data-images
 root:
   dag:
     outputs:
@@ -58,34 +58,34 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv
+            producerSubtask: data-images
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: data-csv
+            producerSubtask: data-images
     tasks:
-      data-csv:
+      data-images:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv
+          name: comp-data-images
         inputs:
           parameters:
-            data_csv__params:
-              componentInputParameter: data_csv__params
+            data_images__params:
+              componentInputParameter: data_images__params
         taskInfo:
-          name: data-csv
+          name: data-images
   inputDefinitions:
     parameters:
-      data_csv__params:
+      data_images__params:
         defaultValue:
-          categorical: None
-          delimiter: ','
-          labels: None
-          numeric: None
-          on_bad_lines: skip
+          batch_size: 4.0
+          data_transform: ''
           path: ''
+          root_dir: ./
+          shuffle: false
+          target: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

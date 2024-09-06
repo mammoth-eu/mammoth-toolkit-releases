@@ -1,0 +1,19 @@
+id: data_csv_rankings
+name: data csv rankings
+description: This is a CSV loader.
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+  numeric:
+  - Ranking
+  - Value
+  categorical:
+  - Gender
+  - Nationality
+  labels: None
+  delimiter: ','
+  on_bad_lines: skip
+input_types: []
+output_types:
+- CSV

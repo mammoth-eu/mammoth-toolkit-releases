@@ -1,21 +1,25 @@
 # PIPELINE DEFINITION
-# Name: data-csv
+# Name: data-csv-rankings
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    data_csv_rankings__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': ['Gender', 'Nationality'], 'delimiter': ',', 'numeric': ['Ranking', 'Value'], 'labels': 'None'}]
 # Outputs:
 #    Output: str
 #    output: system.Dataset
 components:
-  comp-data-csv:
-    executorLabel: exec-data-csv
+  comp-data-csv-rankings:
+    executorLabel: exec-data-csv-rankings
     inputDefinitions:
       parameters:
-        data_csv__params:
+        data_csv_rankings__params:
           defaultValue:
-            categorical: None
+            categorical:
+            - Gender
+            - Nationality
             delimiter: ','
             labels: None
-            numeric: None
+            numeric:
+            - Ranking
+            - Value
             on_bad_lines: skip
             path: ''
           isOptional: true
@@ -31,13 +35,13 @@ components:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-data-csv:
+    exec-data-csv-rankings:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv
+        - data_csv_rankings
         command:
         - sh
         - -c
@@ -48,9 +52,9 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/data_csv_rankings:v0022
 pipelineInfo:
-  name: data-csv
+  name: data-csv-rankings
 root:
   dag:
     outputs:
@@ -58,32 +62,36 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv
+            producerSubtask: data-csv-rankings
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: data-csv
+            producerSubtask: data-csv-rankings
     tasks:
-      data-csv:
+      data-csv-rankings:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv
+          name: comp-data-csv-rankings
         inputs:
           parameters:
-            data_csv__params:
-              componentInputParameter: data_csv__params
+            data_csv_rankings__params:
+              componentInputParameter: data_csv_rankings__params
         taskInfo:
-          name: data-csv
+          name: data-csv-rankings
   inputDefinitions:
     parameters:
-      data_csv__params:
+      data_csv_rankings__params:
         defaultValue:
-          categorical: None
+          categorical:
+          - Gender
+          - Nationality
           delimiter: ','
           labels: None
-          numeric: None
+          numeric:
+          - Ranking
+          - Value
           on_bad_lines: skip
           path: ''
         isOptional: true
