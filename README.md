@@ -86,7 +86,6 @@ localhost:8080 by running:
 
 ```bash
 kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
-kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
 ```
 </details>
 
