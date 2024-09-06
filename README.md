@@ -97,9 +97,7 @@ Before proceeding please create an *.env* on the top level folder, if it does no
 Make sure that K3D with KFP installed is up and running and that the port
 forward to KFP is active. In this same top-level folder run the command
 
-Remember that port forward is activated with:
-```bash
-kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
+
 ```bash
 docker compose up -d
 ```
