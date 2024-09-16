@@ -20,6 +20,8 @@ kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scop
 kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
 kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/dev?ref=$PIPELINE_VERSION"
 
+echo 'Applying ingress for kfp.local.exus.ai access'
+kubcetl apply -f ./kfp_ingress.yaml
 
 echo 'If no errors occurred installation of Kubeflow pipelines is complete'
 echo ""

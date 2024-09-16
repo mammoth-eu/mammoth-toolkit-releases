@@ -50,7 +50,7 @@ distributions. The docker engine must be installed *and active*.
 ```bash
 chmod +x k3d_install.sh
 ./k3d_install.sh
-k3d cluster create kfp  # create a K3D cluster
+k3d cluster create kfp --api-port 6550 -p "8082:80@loadbalancer" --agents 1  # create a K3D cluster
 ```
 
 ### Step 3: KFP
@@ -82,10 +82,10 @@ kubectl -n kubeflow get pods
 
 Kubeflow pipelines will be ready when all pods are in ready state.
 Afterwards,  access the Kubeflow Pipelines interface availabe at
-localhost:8080 by running:
+kfp.local.exus.ai:8082 if not, from inside scripts folder run 
 
 ```bash
-kubectl port-forward --address 0.0.0.0 svc/ml-pipeline-ui 8010:80 -n kubeflow
+kubectl apply -f kfp_ingress.yaml
 ```
 </details>
 
