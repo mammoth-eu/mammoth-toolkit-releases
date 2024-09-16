@@ -63,7 +63,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0007
+    image: mammotheu/mt_api:v0008
     # build:
     #   context: ./api
     #   target: development
@@ -81,6 +81,7 @@ services:
       - ./pipelines:/var/lib/pipelines
     extra_hosts:
       - host.docker.internal:host-gateway
+      - kfp.local.exus.ai:host-gateway
 
   api-db:
     image: postgres:16.1-bookworm
