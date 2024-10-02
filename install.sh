@@ -112,7 +112,7 @@ function create_kfp_cluster() {
 	echo -e "\033[33mCreating\033[37m"
 
     # Create the k3d cluster
-    k3d cluster create kfp
+    k3d cluster create kfp --api-port 6550 -p "8082:80@loadbalancer" --agents 1
 }
 
 function check_env_file() {
@@ -140,6 +140,8 @@ function install_kfp() {
     kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
     kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
     kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/dev?ref=$PIPELINE_VERSION"
+    # Add needed KFP ingress for toolkit communication
+    kubectl apply -f ./scripts/kfp_ingress.yaml
 }
 	
 # Function to check if all pods are running and ready
