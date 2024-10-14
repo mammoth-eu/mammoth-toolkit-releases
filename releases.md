@@ -1,5 +1,7 @@
 # Release notes
 
+## Update 2024/10/14
+- Multiple backend improvements and new features
 
 ## Update 2024/07/30
 - Improved UI, for the wizard steps.

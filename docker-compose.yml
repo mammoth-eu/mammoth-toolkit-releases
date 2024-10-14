@@ -63,11 +63,24 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0008
-    # build:
-    #   context: ./api
-    #   target: development
+    image: mammotheu/mt_api:v0010
     restart: unless-stopped
+    environment:
+      API_POSTGRES_USER: ${API_POSTGRES_USER}
+      API_POSTGRES_PASSWORD: ${API_POSTGRES_PASSWORD}
+      API_POSTGRES_DATABASE: ${API_POSTGRES_DATABASE}
+      API_POSTGRES_HOST: ${API_POSTGRES_HOST}
+      API_POSTGRES_PORT: ${API_POSTGRES_PORT}
+      DATABASE_CONNECTION: ${DATABASE_CONNECTION}
+      DB_CONNECTION: ${DB_CONNECTION}
+      KFP_RUNS_API_V1: ${KFP_RUNS_API_V1}
+      KFP_INSTANCE: ${KFP_INSTANCE}
+      KFP_FILE_SERVER_HOST: ${KFP_FILE_SERVER_HOST}
+      API_KEYCLOAK_SERVER_URL: ${API_KEYCLOAK_SERVER_URL}
+      API_KEYCLOAK_USERNAME: ${API_KEYCLOAK_USERNAME}
+      API_KEYCLOAK_PASSWORD: ${API_KEYCLOAK_PASSWORD}
+      API_KEYCLOAK_REALM_NAME: ${API_KEYCLOAK_REALM_NAME}
+      API_KEYCLOAK_USER_REALM: ${API_KEYCLOAK_USER_REALM}
     ports:
       - "8000:8000"
     depends_on:
