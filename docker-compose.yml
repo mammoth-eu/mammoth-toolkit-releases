@@ -95,6 +95,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
       - kfp.local.exus.ai:host-gateway
+      - keycloak.local.exus.ai:host-gateway
 
   api-db:
     image: postgres:16.1-bookworm
