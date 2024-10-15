@@ -135,7 +135,7 @@ function install_kfp() {
     fi
     echo -e "\033[33mInstalling\033[37m"
 	
-    export PIPELINE_VERSION=2.3.0
+    export PIPELINE_VERSION=2.2.0
 
     kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
     kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
