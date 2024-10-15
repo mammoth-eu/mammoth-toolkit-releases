@@ -63,7 +63,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0011
+    image: mammotheu/mt_api:v0012
     restart: unless-stopped
     environment:
       API_POSTGRES_USER: ${API_POSTGRES_USER}
