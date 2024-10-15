@@ -3,7 +3,7 @@
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
-#    model_card__params: dict [Default: {}]
+#    model_card__params: dict [Default: {'pairwise_comparison': True, 'intersectional': True}]
 #    sensitive: list
 # Outputs:
 #    output: system.Markdown
@@ -22,7 +22,9 @@ components:
             schemaVersion: 0.0.1
       parameters:
         model_card__params:
-          defaultValue: {}
+          defaultValue:
+            intersectional: true
+            pairwise_comparison: true
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -47,12 +49,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
           \ 'fairbench' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0021
+        image: mammotheu/model_card:v0022
 pipelineInfo:
   name: model-card
 root:
@@ -94,7 +96,9 @@ root:
           schemaVersion: 0.0.1
     parameters:
       model_card__params:
-        defaultValue: {}
+        defaultValue:
+          intersectional: true
+          pairwise_comparison: true
         isOptional: true
         parameterType: STRUCT
       sensitive:

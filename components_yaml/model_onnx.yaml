@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-onnx
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': 'None'}]
+#    model_onnx__params: dict [Default: {'path': ''}]
 # Outputs:
 #    Output: str
 #    output: system.Model
@@ -12,7 +12,7 @@ components:
       parameters:
         model_onnx__params:
           defaultValue:
-            path: None
+            path: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -38,12 +38,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'onnxruntime' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0021
+        image: mammotheu/model_onnx:v0022
 pipelineInfo:
   name: model-onnx
 root:
@@ -75,7 +75,7 @@ root:
     parameters:
       model_onnx__params:
         defaultValue:
-          path: None
+          path: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

@@ -1,15 +1,22 @@
 id: data_csv
 name: data csv
-description: This is a CSV loader.
+description: "Loads a CSV file that contains numeric, categorical, and predictive\
+  \ data columns.\n\n    Args:\n        path: The local file path or a web URL of\
+  \ the file.\n        numeric: A list of column names that hold numeric data.\n \
+  \       categorical: A list of column names that hold categorical data.\n      \
+  \  label: The name of the categorical column that holds predictive label for each\
+  \ data sample.\n        delimiter: Which character to split loaded csv rows with.\n\
+  \        skip_invalid_lines: Whether to skip invalid lines being read instead of\
+  \ creating an error.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
   path: ''
   numeric: None
   categorical: None
-  labels: None
+  label: None
   delimiter: ','
-  on_bad_lines: skip
+  skip_invalid_lines: true
 input_types: []
 output_types:
-- CSV
+  - CSV

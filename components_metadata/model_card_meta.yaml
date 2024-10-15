@@ -1,10 +1,19 @@
 id: model_card
 name: model card
-description: Creates a model card using FairBench.
-parameter_info: No parameters needed.
+description: "Creates a model card using FairBench. The card includes as many fairness\
+  \ stamps as\n    applicable, and includes caveats and recommendations from a socio-technical\
+  \ database.\n    All stamps summarize the behavior across population groups or subgraphs,\n\
+  \    where intersectional subgroups may be created for analysis of edge cases.\n\
+  \n    Args:\n        intersectional: Whether to consider all non-empty group intersections\
+  \ during analysis. This does nothing if there is only one sensitive attribute.\n\
+  \        pairwise_comparison: Whether to compare groups pairwise. Otherwise, each\
+  \ group is compared to the whole population.\n    "
+parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
-- CSV
-- ONNX
-parameter_default: {}
+  - CSV
+  - ONNX
+parameter_default:
+  intersectional: true
+  pairwise_comparison: true
 output_types: []

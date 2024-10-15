@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-csv
 # Inputs:
-#    data_csv__params: dict [Default: {'path': '', 'on_bad_lines': 'skip', 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'labels': 'None'}]
+#    data_csv__params: dict [Default: {'path': '', 'skip_invalid_lines': True, 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'label': 'None'}]
 # Outputs:
 #    Output: str
 #    output: system.Dataset
@@ -14,10 +14,10 @@ components:
           defaultValue:
             categorical: None
             delimiter: ','
-            labels: None
+            label: None
             numeric: None
-            on_bad_lines: skip
             path: ''
+            skip_invalid_lines: true
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -43,12 +43,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons'\
-          \ && \"$0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'fairbench' 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv:v0021
+        image: mammotheu/data_csv:v0022
 pipelineInfo:
   name: data-csv
 root:
@@ -82,10 +82,10 @@ root:
         defaultValue:
           categorical: None
           delimiter: ','
-          labels: None
+          label: None
           numeric: None
-          on_bad_lines: skip
           path: ''
+          skip_invalid_lines: true
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

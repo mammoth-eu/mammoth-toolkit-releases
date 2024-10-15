@@ -1,10 +1,11 @@
 id: model_onnx
 name: model onnx
-description: This is an ONNX loader.
+description: "Loads an inference model stored in ONNx format.\n\n    Args:\n     \
+  \   path: A url pointing to the loaded file.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_MODEL
 parameter_default:
-  path: None
+  path: ''
 input_types: []
 output_types:
-- ONNX
+  - ONNX
