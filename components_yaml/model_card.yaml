@@ -3,7 +3,7 @@
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
-#    model_card__params: dict [Default: {'pairwise_comparison': True, 'intersectional': True}]
+#    model_card__params: dict [Default: {'compare_groups': 'None', 'intersectional': False}]
 #    sensitive: list
 # Outputs:
 #    output: system.Markdown
@@ -23,8 +23,8 @@ components:
       parameters:
         model_card__params:
           defaultValue:
-            intersectional: true
-            pairwise_comparison: true
+            compare_groups: None
+            intersectional: false
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -54,7 +54,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0022
+        image: mammotheu/model_card:v0024
 pipelineInfo:
   name: model-card
 root:
@@ -97,8 +97,8 @@ root:
     parameters:
       model_card__params:
         defaultValue:
-          intersectional: true
-          pairwise_comparison: true
+          compare_groups: None
+          intersectional: false
         isOptional: true
         parameterType: STRUCT
       sensitive:

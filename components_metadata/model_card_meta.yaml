@@ -6,14 +6,15 @@ description: "Creates a model card using FairBench. The card includes as many fa
   \    where intersectional subgroups may be created for analysis of edge cases.\n\
   \n    Args:\n        intersectional: Whether to consider all non-empty group intersections\
   \ during analysis. This does nothing if there is only one sensitive attribute.\n\
-  \        pairwise_comparison: Whether to compare groups pairwise. Otherwise, each\
-  \ group is compared to the whole population.\n    "
+  \        compare_groups: Whether to compare groups pairwise, or each group to the\
+  \ whole population.\n    \n    Options:\n        compare_groups: Pairwise, To the\
+  \ total population"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
-  - CSV
-  - ONNX
+- CSV
+- ONNX
 parameter_default:
-  intersectional: true
-  pairwise_comparison: true
+  intersectional: false
+  compare_groups: None
 output_types: []

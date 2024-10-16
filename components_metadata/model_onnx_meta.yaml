@@ -8,4 +8,4 @@ parameter_default:
   path: ''
 input_types: []
 output_types:
-  - ONNX
+- ONNX

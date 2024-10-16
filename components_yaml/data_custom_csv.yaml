@@ -1,51 +1,56 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: data-custom-csv
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': ''}]
+#    data_custom_csv__params: dict [Default: {'path': '', 'skip_invalid_lines': True, 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'label': 'None'}]
 # Outputs:
 #    Output: str
-#    output: system.Model
+#    output: system.Dataset
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-data-custom-csv:
+    executorLabel: exec-data-custom-csv
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        data_custom_csv__params:
           defaultValue:
+            categorical: None
+            delimiter: ','
+            label: None
+            numeric: None
             path: ''
+            skip_invalid_lines: true
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Model
+            schemaTitle: system.Dataset
             schemaVersion: 0.0.1
       parameters:
         Output:
           parameterType: STRING
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-data-custom-csv:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - data_custom_csv
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
-          \ 'onnxruntime' && \"$0\" \"$@\"\n"
+          \ 'fairbench' 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0024
+        image: mammotheu/data_custom_csv:v0024
 pipelineInfo:
-  name: model-onnx
+  name: data-custom-csv
 root:
   dag:
     outputs:
@@ -53,36 +58,41 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: data-custom-csv
       parameters:
         Output:
           valueFromParameter:
             outputParameterKey: Output
-            producerSubtask: model-onnx
+            producerSubtask: data-custom-csv
     tasks:
-      model-onnx:
+      data-custom-csv:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-data-custom-csv
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            data_custom_csv__params:
+              componentInputParameter: data_custom_csv__params
         taskInfo:
-          name: model-onnx
+          name: data-custom-csv
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      data_custom_csv__params:
         defaultValue:
+          categorical: None
+          delimiter: ','
+          label: None
+          numeric: None
           path: ''
+          skip_invalid_lines: true
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Model
+          schemaTitle: system.Dataset
           schemaVersion: 0.0.1
     parameters:
       Output:

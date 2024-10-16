@@ -1,0 +1,15 @@
+id: data_auto_csv
+name: data auto csv
+description: "Loads a CSV file that contains numeric, categorical, and predictive\
+  \ data columns.\n    Automatic detection methods for the delimiter and column types\
+  \ are applied.\n    The last categorical column is considered the dataset label.\
+  \ To load the file using\n    different options (e.g., a subset of columns, different\
+  \ label column) use the\n    custom csv loader instead.\n\n    Args:\n        path:\
+  \ The local file path or a web URL of the file.\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+input_types: []
+output_types:
+- CSV

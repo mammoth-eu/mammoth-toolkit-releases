@@ -1,0 +1,24 @@
+id: data_custom_csv
+name: data custom csv
+description: "Loads a CSV file that contains numeric, categorical, and predictive\
+  \ data columns.\n    To use all data in the file and automate discovery of numerical\
+  \ and categorical columns,\n    as well as of delimiters, use the auto csv loader\
+  \ instead. Otherwise, set here all loading\n    parameters.\n\n    Args:\n     \
+  \   path: The local file path or a web URL of the file.\n        numeric: A list\
+  \ of column names that hold numeric data.\n        categorical: A list of column\
+  \ names that hold categorical data.\n        label: The name of the categorical\
+  \ column that holds predictive label for each data sample.\n        delimiter: Which\
+  \ character to split loaded csv rows with.\n        skip_invalid_lines: Whether\
+  \ to skip invalid lines being read instead of creating an error.\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+  numeric: None
+  categorical: None
+  label: None
+  delimiter: ','
+  skip_invalid_lines: true
+input_types: []
+output_types:
+- CSV
