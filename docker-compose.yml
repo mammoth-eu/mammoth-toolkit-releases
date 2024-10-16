@@ -10,7 +10,7 @@ volumes:
 
 services:
   keycloak-postgres:
-    image: postgres:14.5-bullseye
+    image: postgres:16.1-bookworm
     restart: unless-stopped
     volumes:
       - keycloak-postgres:/var/lib/postgresql/data
@@ -46,6 +46,11 @@ services:
       - "8080:8080"
     volumes:
       - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e \"GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n\" >&3;grep \"HTTP/1.1 200 OK\" <&3"]
+      interval: 10s
+      timeout: 5s
+      retries: 50
 
 
   krakend:
@@ -84,7 +89,10 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - api-db
+      keycloak:
+          condition: service_healthy
+      api-db:
+        condition: service_healthy
     networks:
       krakend: {}
     volumes:
@@ -104,6 +112,11 @@ services:
       - "${API_POSTGRES_PORT}:5432"
     volumes:
       - api-postgres:/var/lib/apipostgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${API_POSTGRES_USER} -d ${API_POSTGRES_DATABASE}'"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
       POSTGRES_USER: "${API_POSTGRES_USER}"
       POSTGRES_PASSWORD: "${API_POSTGRES_PASSWORD}"
