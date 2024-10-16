@@ -17,6 +17,7 @@
     - Image bias analysis
     - XAI Analysis
     - PyTorch
+    - No model
 - The components built with mammot-commons v0.26
 
 If you have any issues running this version please do a 
