@@ -3,7 +3,8 @@
   "timeout": "60s",
   "extra_config": {
     "router": {
-      "auto_options": true
+      "auto_options": true,
+      "return_error_msg": true
     },
     "security/cors": {
       "allow_origins": [
@@ -52,7 +53,12 @@
     "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/keycloak-protected"
+          "url_pattern": "/keycloak-protected",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
     ]
   },
@@ -82,7 +88,12 @@
         {
           "host":["http://api:8000"],
           "method": "POST",
-          "url_pattern": "/wizard/store/{uuid}"
+          "url_pattern": "/wizard/store/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -111,7 +122,12 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/model/{uuid}"
+          "url_pattern": "/wizard/databias/model/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -140,7 +156,12 @@
     "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/data/{uuid}"
+          "url_pattern": "/wizard/databias/data/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
     ]
   },
@@ -169,7 +190,12 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/metric/{uuid}"
+          "url_pattern": "/wizard/databias/metric/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -198,7 +224,12 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/attributes/{uuid}"
+          "url_pattern": "/wizard/databias/attributes/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -227,7 +258,12 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/submit/{uuid}"
+          "url_pattern": "/wizard/databias/submit/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -256,7 +292,12 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/results/{uuid}"
+          "url_pattern": "/wizard/databias/results/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -285,7 +326,12 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/runs"
+          "url_pattern": "/wizard/databias/runs",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     },
@@ -314,7 +360,163 @@
       "backend": [
         {
           "host":["http://api:8000"],
-          "url_pattern": "/wizard/databias/overview/{uuid}"
+          "url_pattern": "/wizard/databias/overview/{uuid}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/import/component",
+      "method": "POST",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/import/component",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/users/add",
+      "method": "POST",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/users/add",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/users/get",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/users/get",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/users/delete/{user_id}",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/users/delete/{user_id}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/wizard/users/default",
+      "method": "GET",      
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
         }
       ]
     }
