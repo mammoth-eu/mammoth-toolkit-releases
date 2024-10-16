@@ -1,0 +1,21 @@
+id: interactive_sklearn_report
+name: interactive sklearn report
+description: "Creates an interactive report using the FairBench library, after running\
+  \ an internal training-test split\n    on a basic sklearn model. The report creates\
+  \ traceable evaluations that you can shift through to find sources\n    of unfairness\
+  \ on a common task.\n\n    Args:\n        predictor: Which sklearn predictor should\
+  \ be used.\n        intersectional: Whether to consider all non-empty group intersections\
+  \ during analysis. This does nothing if there is only one sensitive attribute.\n\
+  \        compare_groups: Whether to compare groups pairwise, or each group to the\
+  \ whole population.\n    \n    Options:\n        predictor: Logistic regression,\
+  \ Gaussian naive Bayes\n        compare_groups: Pairwise, To the total population"
+parameter_info: Some parameters are needed.
+component_type: METRIC
+input_types:
+- CSV
+- EmptyModel
+parameter_default:
+  predictor: None
+  intersectional: false
+  compare_groups: None
+output_types: []

@@ -1,0 +1,113 @@
+# PIPELINE DEFINITION
+# Name: facex
+# Inputs:
+#    dataset: system.Dataset
+#    facex__params: dict [Default: {'target_layer': 'None', 'target_class': 'None'}]
+#    model: system.Model
+#    sensitive: list
+# Outputs:
+#    output: system.HTML
+components:
+  comp-facex:
+    executorLabel: exec-facex
+    inputDefinitions:
+      artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+        model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        facex__params:
+          defaultValue:
+            target_class: None
+            target_layer: None
+          isOptional: true
+          parameterType: STRUCT
+        sensitive:
+          parameterType: LIST
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.HTML
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-facex:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - facex
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'torch' 'torchvision' 'timm' 'facextool' && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/facex:v0024
+pipelineInfo:
+  name: facex
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: facex
+    tasks:
+      facex:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-facex
+        inputs:
+          artifacts:
+            dataset:
+              componentInputArtifact: dataset
+            model:
+              componentInputArtifact: model
+          parameters:
+            facex__params:
+              componentInputParameter: facex__params
+            sensitive:
+              componentInputParameter: sensitive
+        taskInfo:
+          name: facex
+  inputDefinitions:
+    artifacts:
+      dataset:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
+      model:
+        artifactType:
+          schemaTitle: system.Model
+          schemaVersion: 0.0.1
+    parameters:
+      facex__params:
+        defaultValue:
+          target_class: None
+          target_layer: None
+        isOptional: true
+        parameterType: STRUCT
+      sensitive:
+        parameterType: LIST
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.HTML
+          schemaVersion: 0.0.1
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.8.0

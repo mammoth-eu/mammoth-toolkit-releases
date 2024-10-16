@@ -1,0 +1,97 @@
+# PIPELINE DEFINITION
+# Name: model-torch
+# Inputs:
+#    model_torch__params: dict [Default: {'model_path': '', 'state_path': '', 'safe_libraries': 'torch, torchvision', 'model_name': 'model'}]
+# Outputs:
+#    Output: str
+#    output: system.Model
+components:
+  comp-model-torch:
+    executorLabel: exec-model-torch
+    inputDefinitions:
+      parameters:
+        model_torch__params:
+          defaultValue:
+            model_name: model
+            model_path: ''
+            safe_libraries: torch, torchvision
+            state_path: ''
+          isOptional: true
+          parameterType: STRUCT
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-model-torch:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - model_torch
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/model_torch:v0024
+pipelineInfo:
+  name: model-torch
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: model-torch
+      parameters:
+        Output:
+          valueFromParameter:
+            outputParameterKey: Output
+            producerSubtask: model-torch
+    tasks:
+      model-torch:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-torch
+        inputs:
+          parameters:
+            model_torch__params:
+              componentInputParameter: model_torch__params
+        taskInfo:
+          name: model-torch
+  inputDefinitions:
+    parameters:
+      model_torch__params:
+        defaultValue:
+          model_name: model
+          model_path: ''
+          safe_libraries: torch, torchvision
+          state_path: ''
+        isOptional: true
+        parameterType: STRUCT
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.Model
+          schemaVersion: 0.0.1
+    parameters:
+      Output:
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.8.0

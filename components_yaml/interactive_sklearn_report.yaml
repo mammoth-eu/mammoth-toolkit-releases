@@ -1,0 +1,115 @@
+# PIPELINE DEFINITION
+# Name: interactive-sklearn-report
+# Inputs:
+#    dataset: system.Dataset
+#    interactive_sklearn_report__params: dict [Default: {'predictor': 'None', 'compare_groups': 'None', 'intersectional': False}]
+#    model: system.Model
+#    sensitive: list
+# Outputs:
+#    output: system.HTML
+components:
+  comp-interactive-sklearn-report:
+    executorLabel: exec-interactive-sklearn-report
+    inputDefinitions:
+      artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+        model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        interactive_sklearn_report__params:
+          defaultValue:
+            compare_groups: None
+            intersectional: false
+            predictor: None
+          isOptional: true
+          parameterType: STRUCT
+        sensitive:
+          parameterType: LIST
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.HTML
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-interactive-sklearn-report:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - interactive_sklearn_report
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'fairbench' 'scikit-learn' && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/interactive_sklearn_report:v0024
+pipelineInfo:
+  name: interactive-sklearn-report
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: interactive-sklearn-report
+    tasks:
+      interactive-sklearn-report:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-interactive-sklearn-report
+        inputs:
+          artifacts:
+            dataset:
+              componentInputArtifact: dataset
+            model:
+              componentInputArtifact: model
+          parameters:
+            interactive_sklearn_report__params:
+              componentInputParameter: interactive_sklearn_report__params
+            sensitive:
+              componentInputParameter: sensitive
+        taskInfo:
+          name: interactive-sklearn-report
+  inputDefinitions:
+    artifacts:
+      dataset:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
+      model:
+        artifactType:
+          schemaTitle: system.Model
+          schemaVersion: 0.0.1
+    parameters:
+      interactive_sklearn_report__params:
+        defaultValue:
+          compare_groups: None
+          intersectional: false
+          predictor: None
+        isOptional: true
+        parameterType: STRUCT
+      sensitive:
+        parameterType: LIST
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.HTML
+          schemaVersion: 0.0.1
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.8.0

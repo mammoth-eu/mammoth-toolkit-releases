@@ -1,0 +1,30 @@
+id: data_image_pairs
+name: data image pairs
+description: "\n    Loads image pairs declared in a CSV file.\n    The expected format\
+  \ is to have the first image's identifier in the first column,\n    and the second\
+  \ image's identifier in the second column, Sensitive attributes\n    can be selected\
+  \ from the rest of the columns. The images identifiers read from the columns\n \
+  \   are transformed to loading paths by string specifications that can contain the\n\
+  \    symbols: {root} to refer to the root directory, {col} to refer to the column\
+  \ name, and {id}\n    to refer to the column entry.\n\n    Args:\n        path:\
+  \ The path to the CSV file containing information about the dataset.\n        image_root_dir:\
+  \ The root directory where the actual image files are stored.\n        target: Indicates\
+  \ the predictive attribute in the dataset.\n        data_transform: A path or implementation\
+  \ of a torchvision data transform.\n        batch_size: The number of image pairs\
+  \ in each batch.\n        shuffle: Whether to shuffle the dataset.\n        img1_path_format:\
+  \ The first image path format.\n        img2_path_format: The second image path\
+  \ format.\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+  image_root_dir: ./
+  target: ''
+  data_transform: ''
+  batch_size: 4
+  shuffle: false
+  img1_path_format: '{root}/{col}/{id}.png'
+  img2_path_format: '{root}/{col}/{id}.png'
+input_types: []
+output_types:
+- ImagePairs

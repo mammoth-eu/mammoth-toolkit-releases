@@ -1,0 +1,12 @@
+id: data_graph
+name: data graph
+description: "Loads the edges of a graph organized as rows of a comma-delimited file.\n\
+  \n    Args:\n        path: A url from which to load the edges, or a pygrank dataset\
+  \ name to be automatically downloaded, preprocessed and loaded.\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+input_types: []
+output_types:
+- Graph

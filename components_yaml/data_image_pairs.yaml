@@ -1,0 +1,105 @@
+# PIPELINE DEFINITION
+# Name: data-image-pairs
+# Inputs:
+#    data_image_pairs__params: dict [Default: {'image_root_dir': './', 'batch_size': 4.0, 'path': '', 'shuffle': False, 'img2_path_format': '{root}/{col}/{id}.png', 'img1_path_format': '{root}/{col}/{id}.png', 'target': '', 'data_transform': ''}]
+# Outputs:
+#    Output: str
+#    output: system.Dataset
+components:
+  comp-data-image-pairs:
+    executorLabel: exec-data-image-pairs
+    inputDefinitions:
+      parameters:
+        data_image_pairs__params:
+          defaultValue:
+            batch_size: 4.0
+            data_transform: ''
+            image_root_dir: ./
+            img1_path_format: '{root}/{col}/{id}.png'
+            img2_path_format: '{root}/{col}/{id}.png'
+            path: ''
+            shuffle: false
+            target: ''
+          isOptional: true
+          parameterType: STRUCT
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-data-image-pairs:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - data_image_pairs
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'torch' 'torchvision' 'pandas' && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/data_image_pairs:v0024
+pipelineInfo:
+  name: data-image-pairs
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: data-image-pairs
+      parameters:
+        Output:
+          valueFromParameter:
+            outputParameterKey: Output
+            producerSubtask: data-image-pairs
+    tasks:
+      data-image-pairs:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-data-image-pairs
+        inputs:
+          parameters:
+            data_image_pairs__params:
+              componentInputParameter: data_image_pairs__params
+        taskInfo:
+          name: data-image-pairs
+  inputDefinitions:
+    parameters:
+      data_image_pairs__params:
+        defaultValue:
+          batch_size: 4.0
+          data_transform: ''
+          image_root_dir: ./
+          img1_path_format: '{root}/{col}/{id}.png'
+          img2_path_format: '{root}/{col}/{id}.png'
+          path: ''
+          shuffle: false
+          target: ''
+        isOptional: true
+        parameterType: STRUCT
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
+    parameters:
+      Output:
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.8.0

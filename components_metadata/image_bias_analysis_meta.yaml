@@ -1,0 +1,14 @@
+id: image_bias_analysis
+name: image bias analysis
+description: "\n    Performs analysis of image bias, and recommends mitigation strategies.\n\
+  \n    Args:\n        task: The type of predictive task. It should be either face\
+  \ verification or image classification.\n    \n    Options:\n        task: face\
+  \ verification, image classification"
+parameter_info: Some parameters are needed.
+component_type: METRIC
+input_types:
+- Image
+- EmptyModel
+parameter_default:
+  task: None
+output_types: []

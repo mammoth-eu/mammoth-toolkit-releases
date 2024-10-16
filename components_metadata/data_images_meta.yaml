@@ -1,0 +1,27 @@
+id: data_images
+name: data images
+description: "\n    Loads image data from a CSV file holding their sensitive and predictive\
+  \ attribute\n    data, as well as paths relative to a root directory. Loaded images\
+  \ are subjected to a Python transformation.\n\n    Args:\n        path: The path\
+  \ to the CSV file containing information about the dataset.\n        image_root_dir:\
+  \ The root directory where the actual image files are stored.\n        target: Indicates\
+  \ the predictive attribute in the dataset.\n        batch_size: The batch size at\
+  \ which images should be loaded.\n        shuffle: Whether to shuffle loaded images.\n\
+  \        data_transform_path: A path or implementation of a torchvision data transform.\
+  \ Alternatively, paste the transformation code here.\n        transform_variable:\
+  \ The transformation target variable.\n        safe_libraries: A comma-separated\
+  \ list of safe libraries.\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+  image_root_dir: ''
+  target: ''
+  batch_size: 4
+  shuffle: false
+  data_transform_path: ''
+  transform_variable: transform
+  safe_libraries: torchvision
+input_types: []
+output_types:
+- Image

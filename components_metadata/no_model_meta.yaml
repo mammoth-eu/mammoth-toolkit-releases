@@ -1,0 +1,10 @@
+id: no_model
+name: no model
+description: Signifies that the analysis should focus solely on the fairness of the
+  dataset.
+parameter_info: No parameters needed.
+component_type: LOADER_MODEL
+parameter_default: {}
+input_types: []
+output_types:
+- EmptyModel

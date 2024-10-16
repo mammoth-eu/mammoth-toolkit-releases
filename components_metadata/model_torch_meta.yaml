@@ -1,0 +1,21 @@
+id: model_torch
+name: model torch
+description: "Loads a pytorch model that comprises a Python code initializing the\n\
+  \    architecture and a file of trained parameters. For safety, the architecture's\n\
+  \    definition is allowed to directly import only specified libraries.\n\n    Args:\n\
+  \        state_path: The path in which the architecture's state is stored.\n   \
+  \     model_path: The path in which the architecture's initialization script resides.\
+  \ Alternatively, you may also just paste the initialization code in this field.\n\
+  \        model_name: The variable in the model path's script to which the architecture\
+  \ is assigned.\n        safe_libraries: A comma-separated list of libraries that\
+  \ can be imported.\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_MODEL
+parameter_default:
+  state_path: ''
+  model_path: ''
+  model_name: model
+  safe_libraries: torch, torchvision
+input_types: []
+output_types:
+- Pytorch
