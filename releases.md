@@ -1,5 +1,19 @@
 # Release notes
 
+## Update 2024/10/29
+- Multiple backend improvements
+- Multiple frontend improvements
+- New feature to add a component from an existing open source github repository
+- New feature to see existing users from inside the toolkit
+- New feature to add users from inside the toolkit
+- Fix for https://github.com/mammoth-eu/mammoth-toolkit-releases/issues/9
+- Added about page to the toolkit
+- Updated dashboard page
+- More items added to the left menu of the toolkit
+- Improved handling of multiple output results, all results are available now
+- Tested pipeline with multiple metric components
+- Updated model exploration wizard steps, run properties in separate screen
+
 ## Update 2024/10/16
 - Multiple backend improvements
 - Added default user with demo/demo
