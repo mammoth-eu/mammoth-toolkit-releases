@@ -135,7 +135,7 @@ services:
       krakend: {}
 
   mammoth-fe:
-    image: mammotheu/mt_ui:v0003
+    image: mammotheu/mt_ui:v0005
     # build:
     #   context: ./
     restart: unless-stopped

@@ -1,5 +1,10 @@
 # Release notes
 
+## Update 2024/11/01
+- Improved steps wizard, with fields for all module parameters
+- Beautified formatted json in steps wizard
+
+
 ## Update 2024/10/29
 - Multiple backend improvements
 - Multiple frontend improvements
