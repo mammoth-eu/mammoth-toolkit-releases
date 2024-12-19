@@ -28,19 +28,6 @@
 - Improved module loading code to continue even if one module fails to load.
 
 
-
-
-Toolkit suggestions
-Better presentation of results links
-- Run view with title
-- Module name
-- Tooltips for all toolkit fields, even the ones of the toolkit like Run, Group Run,
-- Documentation
-- Run progress
-- Sensitive params manualy entered
-
-
-
 ## Update 2024/11/01
 - Improved steps wizard, with fields for all module parameters
 - Beautified formatted json in steps wizard
