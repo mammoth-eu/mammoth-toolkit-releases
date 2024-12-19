@@ -2,7 +2,14 @@
 id: images
 name: Face recognition
 attributes:
-  - Face
-  - Glasses
-  - Color
-  - Beard
+  - skin color
+  - skin
+  - age
+  - sex
+  - glasses
+  - flare
+  - gender
+  - OVD
+  - hair
+  - beard
+

@@ -1,11 +1,27 @@
 id: model_onnx
 name: model onnx
-description: "Loads an inference model stored in ONNx format.\n\n    Args:\n     \
-  \   path: A url pointing to the loaded file.\n    "
+description: "Loads an inference model stored in <a href=\"https://onnx.ai/\">ONNx</a>\
+  \ format.\n    This is a generic cross-platform format for representing machine\
+  \ learning models with a common set of operations.\n    Several machine learning\
+  \ frameworks can export to this format.\n    The loaded model should be compatible\
+  \ with the dataset being analysed. For example,\n    the same data columns as in\
+  \ the dataset should be used for training on tabular data.\n\n    ONNx supports\
+  \ several different runtimes, but this loader's implementation selects\n    the\
+  \ `CPUExecutionProvider` runtime to run on, therefore maintaining compatibility\n\
+  \    with most machines.\n    For inference in GPUs, prefer storing and loading\
+  \ models in formats\n    that are guaranteed to maintain all features that could\
+  \ be included in the architectures\n    of respective frameworks; this can be achieved\
+  \ with different model loaders.\n\n    Here are some quick links on how to export\
+  \ ONNx models from popular frameworks:\n    <ul>\n    <li><a href=\"https://onnx.ai/sklearn-onnx\"\
+  >scikit-learn</a></li>\n    <li><a href=\"https://pytorch.org/tutorials/beginner/onnx/export_simple_model_to_onnx_tutorial.html\"\
+  >PyTorch</a></li>\n    <li><a href=\"https://onnxruntime.ai/docs/tutorials/tf-get-started.html\"\
+  >TensorFlow</a></li>\n    </ul>\n\n    Args:\n        path: A local path or url\
+  \ pointing to the loaded file. The loader checks for the existence of the local\
+  \ path, and if it does not exist the `urllib.request` module is obtained to read\
+  \ the model's bytes.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_MODEL
 parameter_default:
   path: ''
-input_types: []
 output_types:
-- ONNX
+- Predictor

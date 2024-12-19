@@ -2,14 +2,24 @@
 id: finance
 name: Finance
 attributes:
-  - Language
-  - Occupation
-  - Nationality
-  - Marital Status
-  - Gender
-  - Birth Date
-  - Identification Type
-  - Country of Residence
-  - Is Bankrupt
-  - Bankrupt Date
+  - sex
+  - occupation
+  - job
+  - race
+  - nationality
+  - ethnic origin
+  - social origin
+  - genetic features
+  - language
+  - religion
+  - belief
+  - political opinion
+  - minority
   - marital
+  - gender
+  - birth
+  - disability
+  - sexual orientation
+  - bankrupt
+  - education
+

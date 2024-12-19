@@ -1,15 +1,21 @@
 id: data_auto_csv
 name: data auto csv
 description: "Loads a CSV file that contains numeric, categorical, and predictive\
-  \ data columns.\n    Automatic detection methods for the delimiter and column types\
-  \ are applied.\n    The last categorical column is considered the dataset label.\
-  \ To load the file using\n    different options (e.g., a subset of columns, different\
-  \ label column) use the\n    custom csv loader instead.\n\n    Args:\n        path:\
-  \ The local file path or a web URL of the file.\n    "
+  \ data columns.\n    This automatically detects the characteristics of the dataset\
+  \ being loaded,\n    namely the delimiter that separates the columns, and whether\
+  \ each column contains\n    numeric or categorical data. A <a href=\"https://pandas.pydata.org/\"\
+  >pandas</a>\n    CSV reader is employed internally.\n    The last categorical column\
+  \ is used as the dataset label. To load the file using\n    different options (e.g.,\
+  \ a subset of columns, a different label column) use the\n    custom csv loader\
+  \ instead.\n\n    Args:\n        path: The local file path or a web URL of the file.\n\
+  \        max_discrete: If a numeric column has a number of discrete entries than\
+  \ is less than this number (e.g., if it contains binary numeric values) then it\
+  \ is considered to hold categorical instead of numeric data. Minimum accepted value\
+  \ is 2.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
   path: ''
-input_types: []
+  max_discrete: 10
 output_types:
-- CSV
+- Dataset

@@ -68,7 +68,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0016
+    image: mammotheu/mt_api:v0017
     restart: unless-stopped
     environment:
       API_POSTGRES_USER: ${API_POSTGRES_USER}
@@ -135,11 +135,16 @@ services:
       krakend: {}
 
   mammoth-fe:
-    image: mammotheu/mt_ui:v0005
+    image: mammotheu/mt_ui:v0007
     # build:
     #   context: ./
     restart: unless-stopped
     ports:
       - "5173:80"
+    depends_on:
+      keycloak:
+          condition: service_healthy
+      api-db:
+        condition: service_healthy
     networks:
       krakend: {}

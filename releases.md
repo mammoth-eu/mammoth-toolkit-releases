@@ -1,5 +1,46 @@
 # Release notes
 
+## Update 2024/12/19 Beta
+
+- Updated protected attributes domain lists for finance, research, images.
+- Added functionality to manually add extra protected attributes.
+- Now the suggested protected attributes are the ones that exist both in domain list and dataset.
+- Added support for modules compiled with the latest version of mammoth commons.
+- Support of multiple links of metrics components to loader components.
+- Added tooltips to most of the fields in the wizard.
+- New layout on displaying the module information on wizard steps pages.
+- New toolkit logo added
+- Improved backend configuration engine.
+- Improved auto pipelines creation code.
+- Improved toolkit components connection.
+- Improvements to Mammoth Github organization.
+- Improved integration of toolkit and commons components.
+- Improved meta yaml files format.
+- Improved meta yaml files handling.
+- Improved communication with KFP.
+- Updated KFP to more stable version.
+- Improved messages to user when starting a pipeline.
+- New modules integration
+- Various minor UI improvements
+- Start services with order and health checks
+- All configuration parameters moved to docker compose file of the main toolkit.
+- Improvements to internal db to handle modules info.
+- Improved module loading code to continue even if one module fails to load.
+
+
+
+
+Toolkit suggestions
+Better presentation of results links
+- Run view with title
+- Module name
+- Tooltips for all toolkit fields, even the ones of the toolkit like Run, Group Run,
+- Documentation
+- Run progress
+- Sensitive params manualy entered
+
+
+
 ## Update 2024/11/01
 - Improved steps wizard, with fields for all module parameters
 - Beautified formatted json in steps wizard

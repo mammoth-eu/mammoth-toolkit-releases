@@ -54,7 +54,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0024
+        image: mammotheu/model_card:v0025
 pipelineInfo:
   name: model-card
 root:
@@ -110,4 +110,4 @@ root:
           schemaTitle: system.Markdown
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.8.0
+sdkVersion: kfp-2.10.1

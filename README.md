@@ -1,6 +1,6 @@
 # MAMMOth Bias Toolkit
 
-*Alpha version.*
+*Beta version.*
 
 This is a toolkit for the exploration of bias in AI systems and create recommendations for fairer system creation. You can set it up either locally or in your organization's server for developers to access it remotely.
 The toolkit can load a broad range of datatypes (e.g., tabular, graph, vision) and models, and can analyze them with a variety of tools.
@@ -8,15 +8,15 @@ Loader and analysis modules are dockerized components to ensure independent exec
 
 ## Status
 
-- [ ] Integration of MAMMOth's technical components: 1/6
+- [X] Integration of MAMMOth's technical components: 14
 - [X] User management: keycloack, shared KFP instance
 - [X] Secure API: krackend
 - [X] Toolkit dockerized and KFP in local K3D instance
-- [ ] Protected characteristics: fixed through the lists
+- [X] Protected characteristics: domain lists, dataset columns and manual entries
 - [X] Installation: scripts
 - [X] Tested: Linux, WSL
 - [ ] Debugging: pipeline result may not be available always to toolkit
-- [ ] Bias analysis pipelines: 1/2 (missing dataset bias analysis)
+- [ ] Bias analysis pipelines: Model analysis can include data analysis
 
 ## Installation
 

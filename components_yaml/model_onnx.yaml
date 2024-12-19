@@ -3,7 +3,6 @@
 # Inputs:
 #    model_onnx__params: dict [Default: {'path': ''}]
 # Outputs:
-#    Output: str
 #    output: system.Model
 components:
   comp-model-onnx:
@@ -21,9 +20,6 @@ components:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-model-onnx:
@@ -43,7 +39,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0024
+        image: mammotheu/model_onnx:v0026
 pipelineInfo:
   name: model-onnx
 root:
@@ -53,11 +49,6 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
             producerSubtask: model-onnx
     tasks:
       model-onnx:
@@ -84,8 +75,5 @@ root:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.8.0
+sdkVersion: kfp-2.10.1

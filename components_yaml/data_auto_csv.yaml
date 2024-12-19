@@ -1,9 +1,8 @@
 # PIPELINE DEFINITION
 # Name: data-auto-csv
 # Inputs:
-#    data_auto_csv__params: dict [Default: {'path': ''}]
+#    data_auto_csv__params: dict [Default: {'path': '', 'max_discrete': 10.0}]
 # Outputs:
-#    Output: str
 #    output: system.Dataset
 components:
   comp-data-auto-csv:
@@ -12,6 +11,7 @@ components:
       parameters:
         data_auto_csv__params:
           defaultValue:
+            max_discrete: 10.0
             path: ''
           isOptional: true
           parameterType: STRUCT
@@ -21,9 +21,6 @@ components:
           artifactType:
             schemaTitle: system.Dataset
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-data-auto-csv:
@@ -43,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_auto_csv:v0024
+        image: mammotheu/data_auto_csv:v0025
 pipelineInfo:
   name: data-auto-csv
 root:
@@ -53,11 +50,6 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-auto-csv
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
             producerSubtask: data-auto-csv
     tasks:
       data-auto-csv:
@@ -75,6 +67,7 @@ root:
     parameters:
       data_auto_csv__params:
         defaultValue:
+          max_discrete: 10.0
           path: ''
         isOptional: true
         parameterType: STRUCT
@@ -84,8 +77,5 @@ root:
         artifactType:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.8.0
+sdkVersion: kfp-2.10.1

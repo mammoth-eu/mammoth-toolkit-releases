@@ -1,0 +1,13 @@
+---
+id: research
+name: Research
+attributes:
+  - affiliation
+  - name
+  - surname
+  - gender
+  - nationality
+  - ethnicity
+  - age
+  - career age
+
