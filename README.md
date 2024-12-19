@@ -37,8 +37,6 @@ chmod +x docker_install.sh  # make the script executable
 ./docker_install.sh
 ```
 
-</details>
-
 
 ### Step 2: K3D
 
