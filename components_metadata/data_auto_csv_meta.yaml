@@ -19,3 +19,4 @@ parameter_default:
   max_discrete: 10
 output_types:
 - Dataset
+- CSV

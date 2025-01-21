@@ -25,3 +25,4 @@ parameter_default:
   path: ''
 output_types:
 - Predictor
+- ONNX
