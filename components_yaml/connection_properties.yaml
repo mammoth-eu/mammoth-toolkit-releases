@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: interactive-report
+# Name: connection-properties
 # Inputs:
+#    connection_properties__params: dict [Default: {}]
 #    dataset: system.Dataset
-#    interactive_report__params: dict [Default: {'compare_groups': 'None', 'intersectional': False}]
 #    model: system.Model
 #    sensitive: list
 # Outputs:
-#    output: system.HTML
+#    output: system.Markdown
 components:
-  comp-interactive-report:
-    executorLabel: exec-interactive-report
+  comp-connection-properties:
+    executorLabel: exec-connection-properties
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,10 +21,8 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        interactive_report__params:
-          defaultValue:
-            compare_groups: None
-            intersectional: false
+        connection_properties__params:
+          defaultValue: {}
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -33,31 +31,30 @@ components:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.HTML
+            schemaTitle: system.Markdown
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-interactive-report:
+    exec-connection-properties:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - interactive_report
+        - connection_properties
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'fairbench' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"\
-          $@\"\n"
+          \ 'multisoc' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/interactive_report:v0036
+        image: mammotheu/connection_properties:v0036
 pipelineInfo:
-  name: interactive-report
+  name: connection-properties
 root:
   dag:
     outputs:
@@ -65,13 +62,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: interactive-report
+            producerSubtask: connection-properties
     tasks:
-      interactive-report:
+      connection-properties:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-interactive-report
+          name: comp-connection-properties
         inputs:
           artifacts:
             dataset:
@@ -79,12 +76,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            interactive_report__params:
-              componentInputParameter: interactive_report__params
+            connection_properties__params:
+              componentInputParameter: connection_properties__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: interactive-report
+          name: connection-properties
   inputDefinitions:
     artifacts:
       dataset:
@@ -96,10 +93,8 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      interactive_report__params:
-        defaultValue:
-          compare_groups: None
-          intersectional: false
+      connection_properties__params:
+        defaultValue: {}
         isOptional: true
         parameterType: STRUCT
       sensitive:
@@ -108,7 +103,7 @@ root:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.HTML
+          schemaTitle: system.Markdown
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.11.0

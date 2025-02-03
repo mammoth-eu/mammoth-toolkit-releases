@@ -10,8 +10,8 @@ description: "Creates an interactive report using the FairBench library. The rep
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
-- CSV
-- ONNX
+- Dataset
+- Predictor
 parameter_default:
   intersectional: false
   compare_groups: None

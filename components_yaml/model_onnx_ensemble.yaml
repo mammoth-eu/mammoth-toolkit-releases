@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: model-onnx-ensemble
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': ''}]
+#    model_onnx_ensemble__params: dict [Default: {'path': ''}]
 # Outputs:
 #    output: system.Model
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-model-onnx-ensemble:
+    executorLabel: exec-model-onnx-ensemble
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        model_onnx_ensemble__params:
           defaultValue:
             path: ''
           isOptional: true
@@ -22,13 +22,13 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-model-onnx-ensemble:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - model_onnx_ensemble
         command:
         - sh
         - -c
@@ -39,9 +39,9 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0036
+        image: mammotheu/model_onnx_ensemble:v0036
 pipelineInfo:
-  name: model-onnx
+  name: model-onnx-ensemble
 root:
   dag:
     outputs:
@@ -49,22 +49,22 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: model-onnx-ensemble
     tasks:
-      model-onnx:
+      model-onnx-ensemble:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-model-onnx-ensemble
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            model_onnx_ensemble__params:
+              componentInputParameter: model_onnx_ensemble__params
         taskInfo:
-          name: model-onnx
+          name: model-onnx-ensemble
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      model_onnx_ensemble__params:
         defaultValue:
           path: ''
         isOptional: true

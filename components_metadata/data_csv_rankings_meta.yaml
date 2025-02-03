@@ -1,0 +1,14 @@
+id: data_csv_rankings
+name: data csv rankings
+description: "\n    This is a Loader to load .csv files with information about researchers\n\
+  \    The `Path` should be given relative to your locally running instance (e.g.:\
+  \ *./data/researchers/Top&#95;researchers.csv*)\n    The `Delimiter` should match\
+  \ the CSV file you have (e.g.: '|')\n    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path: ''
+  delimiter: '|'
+output_types:
+- Dataset
+- CSV

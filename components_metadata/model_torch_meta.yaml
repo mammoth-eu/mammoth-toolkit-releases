@@ -16,6 +16,6 @@ parameter_default:
   model_path: ''
   model_name: model
   safe_libraries: torch, torchvision
-input_types: []
 output_types:
+- Predictor
 - Pytorch

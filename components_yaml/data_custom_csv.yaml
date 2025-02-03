@@ -3,7 +3,6 @@
 # Inputs:
 #    data_custom_csv__params: dict [Default: {'path': '', 'skip_invalid_lines': True, 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'label': 'None'}]
 # Outputs:
-#    Output: str
 #    output: system.Dataset
 components:
   comp-data-custom-csv:
@@ -26,9 +25,6 @@ components:
           artifactType:
             schemaTitle: system.Dataset
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-data-custom-csv:
@@ -43,12 +39,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
-          \ 'fairbench' 'pandas' && \"$0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
+          \ 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_custom_csv:v0024
+        image: mammotheu/data_custom_csv:v0036
 pipelineInfo:
   name: data-custom-csv
 root:
@@ -58,11 +54,6 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-custom-csv
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
             producerSubtask: data-custom-csv
     tasks:
       data-custom-csv:
@@ -94,8 +85,5 @@ root:
         artifactType:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.8.0
+sdkVersion: kfp-2.11.0

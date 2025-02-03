@@ -1,0 +1,20 @@
+id: data_uci
+name: data uci
+description: "Loads a dataset from the UCI Machine Learning Repository (<a href=\"\
+  https://archive.ics.uci.edu/ml/index.php\" target=\"_blank\">www.uci.org</a>) containing\
+  \ numeric, categorical, and predictive data columns. The dataset is automatically\
+  \ downloaded from the repository, and basic preprocessing is applied to identify\
+  \ the column types. The specified target column is treated as the predictive label.\n\
+  \        To customize the loading process (e.g., use a different target column,\
+  \ load a subset of features, or handle missing data differently), additional parameters\
+  \ or a custom loader can be used.\n\n    Args:\n        dataset_name: The name of\
+  \ the dataset.\n        target: The name of the predictive label.\n    \n    Options:\n\
+  \        dataset_name: Credit, Bank"
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  dataset_name: None
+  target: None
+output_types:
+- CSV
+- Dataset

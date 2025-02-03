@@ -1,17 +1,32 @@
 id: model_fair_node_ranking
 name: model fair node ranking
-description: "Constructs a node ranking algorithm based on PageRank.\n    The algorithm\
-  \ employs a diffusion parameter in the range [0, 1),\n    and can either have a\
-  \ none, uniform or original rank redistribution\n    strategy to achieve fairness.\
-  \ This strategy transfers node score mass\n    from over-represented groups of nodes\
-  \ to those with lesser average mass.\n\n    Args:\n        diffusion: The diffusion\
-  \ parameters of the corresponding PageRank algorithm.\n        redistribution: The\
-  \ redistribution strategy. Can be none, uniform or original.\n    "
+description: "\n    Constructs a node ranking algorithm that is a variation non-personalized\
+  \ PageRank.\n    The base algorithm is often computes a notion of centrality/structural\n\
+  \    importance for each node in the graph, and employs a diffusion parameter in\
+  \ the range [0, 1).\n    Find more details on how the algorithm works based on the\
+  \ following seminal paper:\n\n    <i>Page, L. (1999). The PageRank citation ranking:\
+  \ Bringing order to the web. Technical Report.</i>\n\n    The base node ranking\
+  \ algorithm is enriched by fairness-aware interventions implemented\n    by the\
+  \ <a href=\"https://pygrank.readthedocs.io/en/latest/\">pygrank</a> library. The\
+  \ latter\n    may run on various computational backends, but `numpy` is selected\
+  \ due to its compatibility\n    with a broad range of software and hardware. All\
+  \ implemented algorithms transfer node score\n    mass from over-represented groups\
+  \ of nodes to those with lesser average mass using different\n    strategies that\
+  \ determine the redistribution details. Fairness is imposed in terms of centrality\n\
+  \    scores achieving similar score mass between groups. The three available strategies\
+  \ are\n    described here:\n\n    <ul>\n    <li>`none` does not employ any fairness\
+  \ intervention and runs the base algorithm.</li>\n    <li>`uniform` applies a uniform\
+  \ rank redistribution strategy.</li>\n    <li>`original` tries to preserve the order\
+  \ of original node ranks by distributing more score mass to those.</li>\n    </ul>\n\
+  \n    Args:\n        diffusion: The diffusion parameters of the corresponding PageRank\
+  \ algorithm.\n        redistribution: The redistribution strategy. Can be none,\
+  \ uniform or original.\n    \n    Options:\n        redistribution: none, uniform,\
+  \ original"
 parameter_info: Some parameters are needed.
 component_type: LOADER_MODEL
 parameter_default:
   diffusion: 0.85
   redistribution: original
-input_types: []
 output_types:
 - NodeRanking
+- Predictor

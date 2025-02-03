@@ -1,47 +1,49 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: data-graph-csv
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': ''}]
+#    data_graph_csv__params: dict [Default: {'attributes': '', 'path_edges': '', 'path_nodes': ''}]
 # Outputs:
-#    output: system.Model
+#    output: system.Dataset
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-data-graph-csv:
+    executorLabel: exec-data-graph-csv
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        data_graph_csv__params:
           defaultValue:
-            path: ''
+            attributes: ''
+            path_edges: ''
+            path_nodes: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Model
+            schemaTitle: system.Dataset
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-data-graph-csv:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - data_graph_csv
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'onnxruntime' && \"$0\" \"$@\"\n"
+          \ 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0036
+        image: mammotheu/data_graph_csv:v0036
 pipelineInfo:
-  name: model-onnx
+  name: data-graph-csv
 root:
   dag:
     outputs:
@@ -49,31 +51,33 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: data-graph-csv
     tasks:
-      model-onnx:
+      data-graph-csv:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-data-graph-csv
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            data_graph_csv__params:
+              componentInputParameter: data_graph_csv__params
         taskInfo:
-          name: model-onnx
+          name: data-graph-csv
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      data_graph_csv__params:
         defaultValue:
-          path: ''
+          attributes: ''
+          path_edges: ''
+          path_nodes: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Model
+          schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.11.0

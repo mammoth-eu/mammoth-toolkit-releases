@@ -1,47 +1,48 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: data-uci
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': ''}]
+#    data_uci__params: dict [Default: {'target': 'None', 'dataset_name': 'None'}]
 # Outputs:
-#    output: system.Model
+#    output: system.Dataset
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-data-uci:
+    executorLabel: exec-data-uci
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        data_uci__params:
           defaultValue:
-            path: ''
+            dataset_name: None
+            target: None
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Model
+            schemaTitle: system.Dataset
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-data-uci:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - data_uci
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'onnxruntime' && \"$0\" \"$@\"\n"
+          \ 'pandas' 'ucimlrepo' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0036
+        image: mammotheu/data_uci:v0036
 pipelineInfo:
-  name: model-onnx
+  name: data-uci
 root:
   dag:
     outputs:
@@ -49,31 +50,32 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: data-uci
     tasks:
-      model-onnx:
+      data-uci:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-data-uci
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            data_uci__params:
+              componentInputParameter: data_uci__params
         taskInfo:
-          name: model-onnx
+          name: data-uci
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      data_uci__params:
         defaultValue:
-          path: ''
+          dataset_name: None
+          target: None
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Model
+          schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.11.0

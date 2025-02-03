@@ -1,0 +1,16 @@
+id: data_graph_csv
+name: data graph csv
+description: "This loads the nodes and edges of a graph.\n\n    Args:\n        path_nodes:\
+  \ A csv file containing the node identifiers as the first column.\n        path_edges:\
+  \ A csv file, where each raw corresponds to a pair of node identifiers of an edge.\n\
+  \        attributes: A comma separated list of attributes to retain from the dataset.\n\
+  \    "
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  path_nodes: ''
+  path_edges: ''
+  attributes: ''
+output_types:
+- Dataset
+- Graph_CSH

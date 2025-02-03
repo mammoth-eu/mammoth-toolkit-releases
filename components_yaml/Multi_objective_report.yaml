@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: interactive-report
+# Name: multi-objective-report
 # Inputs:
+#    Multi_objective_report__params: dict [Default: {'compare_groups': 'None', 'intersectional': False}]
 #    dataset: system.Dataset
-#    interactive_report__params: dict [Default: {'compare_groups': 'None', 'intersectional': False}]
 #    model: system.Model
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
 components:
-  comp-interactive-report:
-    executorLabel: exec-interactive-report
+  comp-multi-objective-report:
+    executorLabel: exec-multi-objective-report
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,7 +21,7 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        interactive_report__params:
+        Multi_objective_report__params:
           defaultValue:
             compare_groups: None
             intersectional: false
@@ -37,27 +37,27 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-interactive-report:
+    exec-multi-objective-report:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - interactive_report
+        - Multi_objective_report
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'fairbench' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"\
-          $@\"\n"
+          \ 'fairbench' 'plotly' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"\
+          $0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/interactive_report:v0036
+        image: mammotheu/Multi_objective_report:v0036
 pipelineInfo:
-  name: interactive-report
+  name: multi-objective-report
 root:
   dag:
     outputs:
@@ -65,13 +65,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: interactive-report
+            producerSubtask: multi-objective-report
     tasks:
-      interactive-report:
+      multi-objective-report:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-interactive-report
+          name: comp-multi-objective-report
         inputs:
           artifacts:
             dataset:
@@ -79,12 +79,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            interactive_report__params:
-              componentInputParameter: interactive_report__params
+            Multi_objective_report__params:
+              componentInputParameter: Multi_objective_report__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: interactive-report
+          name: multi-objective-report
   inputDefinitions:
     artifacts:
       dataset:
@@ -96,7 +96,7 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      interactive_report__params:
+      Multi_objective_report__params:
         defaultValue:
           compare_groups: None
           intersectional: false

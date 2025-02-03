@@ -3,7 +3,6 @@
 # Inputs:
 #    model_torch__params: dict [Default: {'model_path': '', 'state_path': '', 'safe_libraries': 'torch, torchvision', 'model_name': 'model'}]
 # Outputs:
-#    Output: str
 #    output: system.Model
 components:
   comp-model-torch:
@@ -24,9 +23,6 @@ components:
           artifactType:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-model-torch:
@@ -41,12 +37,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
           \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_torch:v0024
+        image: mammotheu/model_torch:v0036
 pipelineInfo:
   name: model-torch
 root:
@@ -56,11 +52,6 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-torch
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
             producerSubtask: model-torch
     tasks:
       model-torch:
@@ -90,8 +81,5 @@ root:
         artifactType:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.8.0
+sdkVersion: kfp-2.11.0

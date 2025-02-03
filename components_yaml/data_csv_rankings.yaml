@@ -1,16 +1,17 @@
 # PIPELINE DEFINITION
-# Name: model-onnx
+# Name: data-csv-rankings
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': ''}]
+#    data_csv_rankings__params: dict [Default: {'path': '', 'delimiter': '|'}]
 # Outputs:
-#    output: system.Model
+#    output: system.Dataset
 components:
-  comp-model-onnx:
-    executorLabel: exec-model-onnx
+  comp-data-csv-rankings:
+    executorLabel: exec-data-csv-rankings
     inputDefinitions:
       parameters:
-        model_onnx__params:
+        data_csv_rankings__params:
           defaultValue:
+            delimiter: '|'
             path: ''
           isOptional: true
           parameterType: STRUCT
@@ -18,30 +19,30 @@ components:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Model
+            schemaTitle: system.Dataset
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-onnx:
+    exec-data-csv-rankings:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_onnx
+        - data_csv_rankings
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'onnxruntime' && \"$0\" \"$@\"\n"
+          \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0036
+        image: mammotheu/data_csv_rankings:v0036
 pipelineInfo:
-  name: model-onnx
+  name: data-csv-rankings
 root:
   dag:
     outputs:
@@ -49,23 +50,24 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-onnx
+            producerSubtask: data-csv-rankings
     tasks:
-      model-onnx:
+      data-csv-rankings:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-onnx
+          name: comp-data-csv-rankings
         inputs:
           parameters:
-            model_onnx__params:
-              componentInputParameter: model_onnx__params
+            data_csv_rankings__params:
+              componentInputParameter: data_csv_rankings__params
         taskInfo:
-          name: model-onnx
+          name: data-csv-rankings
   inputDefinitions:
     parameters:
-      model_onnx__params:
+      data_csv_rankings__params:
         defaultValue:
+          delimiter: '|'
           path: ''
         isOptional: true
         parameterType: STRUCT
@@ -73,7 +75,7 @@ root:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Model
+          schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.11.0

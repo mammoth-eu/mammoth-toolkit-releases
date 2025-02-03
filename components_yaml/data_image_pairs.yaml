@@ -1,9 +1,8 @@
 # PIPELINE DEFINITION
 # Name: data-image-pairs
 # Inputs:
-#    data_image_pairs__params: dict [Default: {'image_root_dir': './', 'batch_size': 4.0, 'path': '', 'shuffle': False, 'img2_path_format': '{root}/{col}/{id}.png', 'img1_path_format': '{root}/{col}/{id}.png', 'target': '', 'data_transform': ''}]
+#    data_image_pairs__params: dict [Default: {'image_root_dir': './', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'torchvision'}]
 # Outputs:
-#    Output: str
 #    output: system.Dataset
 components:
   comp-data-image-pairs:
@@ -13,13 +12,13 @@ components:
         data_image_pairs__params:
           defaultValue:
             batch_size: 4.0
-            data_transform: ''
+            data_transform_path: ''
             image_root_dir: ./
-            img1_path_format: '{root}/{col}/{id}.png'
-            img2_path_format: '{root}/{col}/{id}.png'
             path: ''
+            safe_libraries: torchvision
             shuffle: false
             target: ''
+            transform_variable: transform
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -28,9 +27,6 @@ components:
           artifactType:
             schemaTitle: system.Dataset
             schemaVersion: 0.0.1
-      parameters:
-        Output:
-          parameterType: STRING
 deploymentSpec:
   executors:
     exec-data-image-pairs:
@@ -45,12 +41,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
           \ 'torch' 'torchvision' 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_image_pairs:v0024
+        image: mammotheu/data_image_pairs:v0036
 pipelineInfo:
   name: data-image-pairs
 root:
@@ -60,11 +56,6 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-image-pairs
-      parameters:
-        Output:
-          valueFromParameter:
-            outputParameterKey: Output
             producerSubtask: data-image-pairs
     tasks:
       data-image-pairs:
@@ -83,13 +74,13 @@ root:
       data_image_pairs__params:
         defaultValue:
           batch_size: 4.0
-          data_transform: ''
+          data_transform_path: ''
           image_root_dir: ./
-          img1_path_format: '{root}/{col}/{id}.png'
-          img2_path_format: '{root}/{col}/{id}.png'
           path: ''
+          safe_libraries: torchvision
           shuffle: false
           target: ''
+          transform_variable: transform
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
@@ -98,8 +89,5 @@ root:
         artifactType:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
-    parameters:
-      Output:
-        parameterType: STRING
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.8.0
+sdkVersion: kfp-2.11.0
