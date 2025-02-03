@@ -1,5 +1,33 @@
 # Release notes
 
+## Update 2025/02/03 
+
+Integrated the following modules:
+
+- Multi_objective_report
+- connection_properties
+- data_auto_csv
+- data_csv_rankings
+- data_custom_csv
+- data_graph
+- data_graph_csv
+- data_image_pairs
+- data_images
+- data_uci
+- facex_embeddings
+- facex_regions
+- image_bias_analysis
+- interactive_report
+- interactive_sklearn_report
+- model_card
+- model_fair_node_ranking
+- model_onnx
+- model_onnx_ensemble
+- model_torch
+- no_model
+
+
+
 ## Update 2024/12/19 Beta
 
 - Updated protected attributes domain lists for finance, research, images.
