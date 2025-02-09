@@ -1,0 +1,117 @@
+# PIPELINE DEFINITION
+# Name: exposure-distance-comparison
+# Inputs:
+#    dataset: system.Dataset
+#    exposure_distance_comparison__params: dict [Default: {'protected': 'female', 'n_runs': 1.0, 'ranking_variable': 'Degree', 'sampling_attribute': 'Nationality_IncomeGroup'}]
+#    model: system.Model
+#    sensitive: list
+# Outputs:
+#    output: system.HTML
+components:
+  comp-exposure-distance-comparison:
+    executorLabel: exec-exposure-distance-comparison
+    inputDefinitions:
+      artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+        model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        exposure_distance_comparison__params:
+          defaultValue:
+            n_runs: 1.0
+            protected: female
+            ranking_variable: Degree
+            sampling_attribute: Nationality_IncomeGroup
+          isOptional: true
+          parameterType: STRUCT
+        sensitive:
+          parameterType: LIST
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.HTML
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-exposure-distance-comparison:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - exposure_distance_comparison
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: csh/exposure_distance_comparison:v002
+pipelineInfo:
+  name: exposure-distance-comparison
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: exposure-distance-comparison
+    tasks:
+      exposure-distance-comparison:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-exposure-distance-comparison
+        inputs:
+          artifacts:
+            dataset:
+              componentInputArtifact: dataset
+            model:
+              componentInputArtifact: model
+          parameters:
+            exposure_distance_comparison__params:
+              componentInputParameter: exposure_distance_comparison__params
+            sensitive:
+              componentInputParameter: sensitive
+        taskInfo:
+          name: exposure-distance-comparison
+  inputDefinitions:
+    artifacts:
+      dataset:
+        artifactType:
+          schemaTitle: system.Dataset
+          schemaVersion: 0.0.1
+      model:
+        artifactType:
+          schemaTitle: system.Model
+          schemaVersion: 0.0.1
+    parameters:
+      exposure_distance_comparison__params:
+        defaultValue:
+          n_runs: 1.0
+          protected: female
+          ranking_variable: Degree
+          sampling_attribute: Nationality_IncomeGroup
+        isOptional: true
+        parameterType: STRUCT
+      sensitive:
+        parameterType: LIST
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.HTML
+          schemaVersion: 0.0.1
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.9.0

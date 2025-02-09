@@ -1,0 +1,16 @@
+id: ExposureDistanceComparison
+name: ExposureDistanceComparison
+description: Compute the exposure distance and return it without any markup
+parameter_info: Some parameters are needed.
+component_type: METRIC
+input_types:
+- Dataset
+- NodeRanking
+parameter_default:
+  model_baseline: None
+  n_runs: 1
+  protected: female
+  sampling_attribute: Nationality_IncomeGroup
+  ranking_variable: Degree
+  intro: ''
+output_types: []

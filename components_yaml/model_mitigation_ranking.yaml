@@ -1,0 +1,77 @@
+# PIPELINE DEFINITION
+# Name: model-mitigation-ranking
+# Inputs:
+#    model_mitigation_ranking__params: dict [Default: {}]
+# Outputs:
+#    output: system.Model
+components:
+  comp-model-mitigation-ranking:
+    executorLabel: exec-model-mitigation-ranking
+    inputDefinitions:
+      parameters:
+        model_mitigation_ranking__params:
+          defaultValue: {}
+          isOptional: true
+          parameterType: STRUCT
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-model-mitigation-ranking:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - model_mitigation_ranking
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: csh/model_mitigation_ranking:v002
+pipelineInfo:
+  name: model-mitigation-ranking
+root:
+  dag:
+    outputs:
+      artifacts:
+        output:
+          artifactSelectors:
+          - outputArtifactKey: output
+            producerSubtask: model-mitigation-ranking
+    tasks:
+      model-mitigation-ranking:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-mitigation-ranking
+        inputs:
+          parameters:
+            model_mitigation_ranking__params:
+              componentInputParameter: model_mitigation_ranking__params
+        taskInfo:
+          name: model-mitigation-ranking
+  inputDefinitions:
+    parameters:
+      model_mitigation_ranking__params:
+        defaultValue: {}
+        isOptional: true
+        parameterType: STRUCT
+  outputDefinitions:
+    artifacts:
+      output:
+        artifactType:
+          schemaTitle: system.Model
+          schemaVersion: 0.0.1
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.9.0

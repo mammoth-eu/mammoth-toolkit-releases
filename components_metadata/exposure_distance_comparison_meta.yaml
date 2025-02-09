@@ -1,0 +1,24 @@
+id: exposure_distance_comparison
+name: exposure distance comparison
+description: "\n    Compute the exposure distance between the protected and non-protected\
+  \ groups in the dataset and ranking.\n    Parameters:  \n\n        - `N runs`: Choose\
+  \ a natural number between 1 and 100 \n\n        - `Sensitive attributes`: Which\
+  \ attribute is relevant for fairness analysis.  To select this, click the blue '+'\
+  \ and then use the dropdown.  Currently, only *Gender* is supported \n\n       \
+  \ - `Protected`: The protected group for the fairness analysis. Currenly, only *female*\
+  \ or *male* are supported \n\n        - `Sampling Attribute`: The value by which\
+  \ we group the analysis for finer-grained results. One of *Nationality&#95;IncomeGroup*\
+  \ or *Nationality&#95;Region*. \n\n        - `Ranking Variable`: This refers to\
+  \ the main criteria by which ranking is done.  One of *Degree*, *Citations* or *Productivity*\n\
+  \    "
+parameter_info: Some parameters are needed.
+component_type: METRIC
+input_types:
+- CSV
+- ResearcherRanking
+parameter_default:
+  n_runs: 1
+  protected: female
+  sampling_attribute: Nationality_IncomeGroup
+  ranking_variable: Degree
+output_types: []

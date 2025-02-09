@@ -1,0 +1,10 @@
+id: model_mitigation_ranking
+name: model mitigation ranking
+description: This is a fair Ranking loader with Sampling. In this model, we will use
+  a mitigation strategy based on Statistical Parity, and compare it with a normal
+  ranking based on one of the Numerical columns
+parameter_info: No parameters needed.
+component_type: LOADER_MODEL
+parameter_default: {}
+output_types:
+- ResearcherRanking

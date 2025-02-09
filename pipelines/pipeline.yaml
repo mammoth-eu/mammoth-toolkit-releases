@@ -1,0 +1,187 @@
+# PIPELINE DEFINITION
+# Name: test
+# Inputs:
+#    data_csv_rankings__params: dict
+#    exposure_distance_comparison__params: dict
+#    model_mitigation_ranking__params: dict
+#    sensitive: list
+components:
+  comp-data-csv-rankings:
+    executorLabel: exec-data-csv-rankings
+    inputDefinitions:
+      parameters:
+        data_csv_rankings__params:
+          defaultValue:
+            delimiter: '|'
+            path: ''
+          isOptional: true
+          parameterType: STRUCT
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+  comp-exposure-distance-comparison:
+    executorLabel: exec-exposure-distance-comparison
+    inputDefinitions:
+      artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+        model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        exposure_distance_comparison__params:
+          defaultValue:
+            n_runs: 1.0
+            protected: female
+            ranking_variable: Degree
+            sampling_attribute: Nationality_IncomeGroup
+          isOptional: true
+          parameterType: STRUCT
+        sensitive:
+          parameterType: LIST
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.HTML
+            schemaVersion: 0.0.1
+  comp-model-mitigation-ranking:
+    executorLabel: exec-model-mitigation-ranking
+    inputDefinitions:
+      parameters:
+        model_mitigation_ranking__params:
+          defaultValue: {}
+          isOptional: true
+          parameterType: STRUCT
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-data-csv-rankings:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - data_csv_rankings
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: mammotheu/data_csv_rankings:v0036
+    exec-exposure-distance-comparison:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - exposure_distance_comparison
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: csh/exposure_distance_comparison:v002
+    exec-model-mitigation-ranking:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - model_mitigation_ranking
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ && \"$0\" \"$@\"\n"
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: csh/model_mitigation_ranking:v002
+pipelineInfo:
+  name: test
+root:
+  dag:
+    tasks:
+      data-csv-rankings:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-data-csv-rankings
+        inputs:
+          parameters:
+            data_csv_rankings__params:
+              componentInputParameter: data_csv_rankings__params
+        taskInfo:
+          name: data-csv-rankings
+      exposure-distance-comparison:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-exposure-distance-comparison
+        dependentTasks:
+        - data-csv-rankings
+        - model-mitigation-ranking
+        inputs:
+          artifacts:
+            dataset:
+              taskOutputArtifact:
+                outputArtifactKey: output
+                producerTask: data-csv-rankings
+            model:
+              taskOutputArtifact:
+                outputArtifactKey: output
+                producerTask: model-mitigation-ranking
+          parameters:
+            exposure_distance_comparison__params:
+              componentInputParameter: exposure_distance_comparison__params
+            sensitive:
+              componentInputParameter: sensitive
+        taskInfo:
+          name: exposure-distance-comparison
+      model-mitigation-ranking:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-model-mitigation-ranking
+        inputs:
+          parameters:
+            model_mitigation_ranking__params:
+              componentInputParameter: model_mitigation_ranking__params
+        taskInfo:
+          name: model-mitigation-ranking
+  inputDefinitions:
+    parameters:
+      data_csv_rankings__params:
+        parameterType: STRUCT
+      exposure_distance_comparison__params:
+        parameterType: STRUCT
+      model_mitigation_ranking__params:
+        parameterType: STRUCT
+      sensitive:
+        parameterType: LIST
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.9.0
