@@ -1,4 +1,6 @@
-# MAMMOth Bias Toolkit
+# MAI-BIAS Toolkit
+
+![MAI-BIAS Logo](logo.png)
 
 *Beta version.*
 
@@ -20,7 +22,7 @@ Loader and analysis modules are dockerized components to ensure independent exec
 
 ## Installation
 
-You will be guided to install the prerequisite software for the Mammoth toolkit to run. All scripts can be found in the *scripts/* folder.
+You will be guided to install the prerequisite software for the MAI-BIAS Toolkit to run. All scripts can be found in the *scripts/* folder.
 
 [Step 1: Docker](#step-1-docker)<br>
 [Step 2: K3D](#step-2-k3d)<br>
