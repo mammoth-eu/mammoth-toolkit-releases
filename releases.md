@@ -1,5 +1,19 @@
 # Release notes
 
+
+## Update 2025/02/26
+
+Changes included in this release:
+
+- MAI-BIAS logo update
+- Fix for running more than 2 metric modules in parallel
+- Tooltips are wrapping properly now
+- Model Exploration button renamed to Bias Exploration
+- HTML code is now rendered, for modules description
+- Improved UI elements, now module options are presented as combo boxes
+- Various minor improvements to backend core engine
+
+
 ## Update 2025/02/03 
 
 Integrated the following modules:
