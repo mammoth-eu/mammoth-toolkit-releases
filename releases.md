@@ -8,6 +8,32 @@
 - Updated install.sh script 
 - Updated readme.md file
 
+Included modules:
+
+- bias_scan
+- data_images
+- interactive_report
+- model_torch
+- data_auto_csv
+- data_researchers
+- model_card
+- multi_objective_report
+- data_csv_rankings 
+- data_uci
+- model_fair_node_ranking
+- no_model
+- data_custom_csv
+- facex_embeddings
+- model_mitigation_ranking
+- optimal_transport
+- data_graph
+- facex_regions
+- model_onnx_ensemble
+- sklearn_report
+- data_image_pairs  
+- image_bias_analysis 
+- model_onnx
+
 ## Update 2025/02/26
 
 Changes included in this release:
