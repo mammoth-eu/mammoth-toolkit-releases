@@ -8,7 +8,7 @@
 - Updated install.sh script 
 - Updated readme.md file
 
-Included modules:
+Included modules updated to current latest version:
 
 - bias_scan
 - data_images
