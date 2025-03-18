@@ -1,5 +1,12 @@
 # Release notes
 
+## Update 2025/03/18
+
+- Added start_toolkit.sh script to start the toolkit and related services
+- Added stop_toolkit.sh script to stop the toolkit and related services
+- Added kube_hosts.sh script to config kubeflow pipelines CoreDNS
+- Updated install.sh script 
+- Updated readme.md file
 
 ## Update 2025/02/26
 

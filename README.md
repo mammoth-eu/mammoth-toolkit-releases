@@ -22,6 +22,34 @@ Loader and analysis modules are dockerized components to ensure independent exec
 
 ## Installation
 
+### Default user credentials after first install
+
+You can directly use the toolkit using the following credentials:
+
+- **Username**: *demo*
+- **Password**: *demo*
+
+### Single script approach
+
+You can install everything needed for the toolkit by running one script for the installation.
+
+Just run in linux or wsl environment the script called **install.sh** and follow the instructions in the terminal.
+
+After installation the toolkit and related services is activated.
+
+#### Stopping the toolkit
+
+Yoy can stop the toolkit and related services using the **stop_toolkit.sh** script. 
+
+#### Starting the toolkit
+
+Yoy can start the toolkit and related services using the **start_toolkit.sh** script. 
+
+
+### Multi script approach
+
+In case you already have some of the requirements installed or you want more control on the procedure.
+
 You will be guided to install the prerequisite software for the MAI-BIAS Toolkit to run. All scripts can be found in the *scripts/* folder.
 
 [Step 1: Docker](#step-1-docker)<br>
@@ -30,7 +58,7 @@ You will be guided to install the prerequisite software for the MAI-BIAS Toolkit
 [Step 4: Toolkit Startup](#step-4-toolkit-startup)<br>
 [Links](#links)
 
-### Step 1: Docker
+#### Step 1: Docker
 
 Install Docker only if it is **not** already installed. On Windows enable WSL and install Docker Desktop instead.
 
@@ -40,7 +68,7 @@ chmod +x docker_install.sh  # make the script executable
 ```
 
 
-### Step 2: K3D
+#### Step 2: K3D
 
 Install Kubectl (Kubernetes - Command line tool) and the K3D mini Kubernetes distribution if the latter **not** already installed. 
 K3D is a lightweight wrapper to run K3S (Rancher Lab’s minimal Kubernetes
@@ -53,7 +81,7 @@ chmod +x k3d_install.sh
 k3d cluster create kfp --api-port 6550 -p "8082:80@loadbalancer" --agents 1  # create a K3D cluster
 ```
 
-### Step 3: KFP
+#### Step 3: KFP
 
 Install KFP (Kubeflow Pipelines) standalone version 2+ if **not** already installed. 
 The K3D cluster needs to be running already.
@@ -91,7 +119,7 @@ kubectl apply -f kfp_ingress.yaml
 
 
 
-### Step 4: Toolkit startup
+#### Step 4: Toolkit startup
 
 Before proceeding please create an *.env* on the top level folder, if it does not already exists.
 Make sure that K3D with KFP installed is up and running and that the port
