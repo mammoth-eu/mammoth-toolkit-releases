@@ -1,39 +1,34 @@
 id: model_card
 name: model card
-description: "Creates a model card using the <a href=\"https://github.com/mever-team/FairBench\"\
-  >FairBench</a>\n    library. The card includes several fairness stamps; these are\
-  \ specific measures of bias\n    or fairness that are commonly used in the algorithmic\
-  \ fairness literature. Only the most prominent\n    of those measures are used as\
-  \ stamps, and they correspond to a perfunctory fairness analysis.\n\n    This module\
-  \ computes all applicable FairBench stamps, which\n    summarize behavior across\
-  \ all population groups or intersectional\n    subgroups.\n    Multiple sensitive\
-  \ attributes may be present, such as gender, age, and race.\n    Furthermore, each\
-  \ of those attributes may obtain multiple values, as happens when multiple genders\
-  \ or\n    races are considered. Numeric attributes, like age, are normalized to\n\
-  \    the range [0,1] and we consider the result as truth values of membership to\
-  \ the group of the maximum\n    value - as opposed to membership to the group with\
-  \ minimum value.\n    A different stamp is computed for each prediction label.\n\
-  \n    You may optionally create intersectional subgroups, that is, create\n    a\
-  \ separate subgroup for each combination of sensitive attribute values. Many of\
-  \ those groups will have few\n    members if there are too many attributes, and\
-  \ empty groups are ignored during the analysis.\n\n    The created model card contains\
-  \ exact descriptions of methods used to compute fairness under\n    the selected\
-  \ stamps, and it lists population groups that were taken into account\n    These\
-  \ come alongside an extensive list of\n    caveats and recommendations that help\
-  \ the reader get a grasp on how they should\n    account for the social context.\
-  \ This material is retrieved from FairBench's\n    online socio-technical database\
-  \ generated through MAMMOth's multidisciplinary activities.\n\n    Finally, the\
-  \ generated model card may contain details about out-of-the-box datasets.\n    To\
-  \ get the full picture, a detailed fairness report that also allows you to backtrack\
-  \ computations\n    is available in the `interactive report` module.\n\n    Args:\n\
-  \        intersectional: Whether to consider all non-empty group intersections during\
-  \ analysis. This does nothing if there is only one sensitive attribute, but may\
-  \ also be computationally intensive if too many group intersections are selected.\n\
-  \        compare_groups: Whether to compare groups pairwise, or each group to the\
-  \ whole population. For example, if the 4/5ths rule stamp is applicable, it computes\
-  \ positive rates and obtains the minimum ratio, either across all pairs of groups\
-  \ (for pairwise comparison) or otherwise between each group and the total population.\n\
-  \    \n    Options:\n        compare_groups: Pairwise, To the total population"
+description: "\n    <p>Generates a fairness and bias report using the <a href=\"https://github.com/mever-team/FairBench\"\
+  >FairBench</a>\n    library. This explores many kinds of bias to paint a broad picture\
+  \ and help you decide on what is problematic\n    and what is acceptable behavior.\n\
+  \    The generated report can be viewed in three different formats, where the model\
+  \ card contains a subset of\n    results but attaches to these socio-technical concerns\
+  \ to be taken into account:</p>\n    <ol>\n        <li>A summary table of results.</li>\n\
+  \        <li>A simplified model card that includes concerns.</li>\n        <li>The\
+  \ full report, including details.</li>\n    </ol>\n\n    <p>The module's report\
+  \ summarizes how a model behaves on a provided dataset across different population\
+  \ groups.\n    These groups are based on sensitive attributes like gender, age,\
+  \ and race. Each attribute can have multiple values,\n    such as several genders\
+  \ or races. Numeric attributes, like age, are normalized to the range [0,1] and\
+  \ treated\n    as fuzzy values, where 0 indicates membership to a fuzzy group of\
+  \ \"small\" values, and 1 indicates membership to\n    a fuzzy group of \"large\"\
+  \ values. A separate set of fairness metrics is calculated for each prediction label.</p>\n\
+  \n    <p>If intersectional subgroup analysis is enabled, separate subgroups are\
+  \ created for each combination of sensitive\n    attribute values. However, if there\
+  \ are too many attributes, some groups will be small or empty. Empty groups are\n\
+  \    ignored in the analysis. The report may also include information about built-in\
+  \ datasets.</p>\n\n    Args:\n        intersectional: Whether to consider all non-empty\
+  \ group intersections during analysis. This does nothing if there is only one sensitive\
+  \ attribute. It could be computationally intensive if too many group intersections\
+  \ are selected.\n        compare_groups: Whether to compare groups pairwise, or\
+  \ each group to the behavior of the whole population.\n        minimum_shown_deviation:\
+  \ Show only results where the deviation from ideal values exceeds the given threshold.\
+  \ If nothing is shown, fairness is not necessarily achieved, but this is a good\
+  \ way to identify the most prominent biases. If value of 0 is set, all report values\
+  \ are shown, including those that have no set ideal value.\n    \n    Options:\n\
+  \        compare_groups: Pairwise, To the total population"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
@@ -42,4 +37,5 @@ input_types:
 parameter_default:
   intersectional: false
   compare_groups: None
+  minimum_shown_deviation: 0.1
 output_types: []

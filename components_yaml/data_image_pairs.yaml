@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-image-pairs
 # Inputs:
-#    data_image_pairs__params: dict [Default: {'image_root_dir': './', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'torchvision'}]
+#    data_image_pairs__params: dict [Default: {'image_root_dir': './', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'numpy,torch,torchvision'}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -15,7 +15,7 @@ components:
             data_transform_path: ''
             image_root_dir: ./
             path: ''
-            safe_libraries: torchvision
+            safe_libraries: numpy,torch,torchvision
             shuffle: false
             target: ''
             transform_variable: transform
@@ -41,12 +41,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
           \ 'torch' 'torchvision' 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_image_pairs:v0036
+        image: mammotheu/data_image_pairs:v0037
 pipelineInfo:
   name: data-image-pairs
 root:
@@ -77,7 +77,7 @@ root:
           data_transform_path: ''
           image_root_dir: ./
           path: ''
-          safe_libraries: torchvision
+          safe_libraries: numpy,torch,torchvision
           shuffle: false
           target: ''
           transform_variable: transform
@@ -90,4 +90,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.11.0
+sdkVersion: kfp-2.12.1

@@ -1,18 +1,20 @@
 # PIPELINE DEFINITION
-# Name: data-csv-rankings
+# Name: data-researchers
 # Inputs:
-#    data_csv_rankings__params: dict [Default: {'path': '', 'delimiter': '|'}]
+#    data_researchers__params: dict [Default: {'paper_affiliations_path': '', 'paper_graph_path': '', 'paper_affiliation_delimiter': '|', 'paper_graph_delimiter': '|'}]
 # Outputs:
 #    output: system.Dataset
 components:
-  comp-data-csv-rankings:
-    executorLabel: exec-data-csv-rankings
+  comp-data-researchers:
+    executorLabel: exec-data-researchers
     inputDefinitions:
       parameters:
-        data_csv_rankings__params:
+        data_researchers__params:
           defaultValue:
-            delimiter: '|'
-            path: ''
+            paper_affiliation_delimiter: '|'
+            paper_affiliations_path: ''
+            paper_graph_delimiter: '|'
+            paper_graph_path: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -23,26 +25,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-data-csv-rankings:
+    exec-data-researchers:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_csv_rankings
+        - data_researchers
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'pandas' 'networkx' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv_rankings:v0037
+        image: mammotheu/data_researchers:v0037
 pipelineInfo:
-  name: data-csv-rankings
+  name: data-researchers
 root:
   dag:
     outputs:
@@ -50,25 +52,27 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-csv-rankings
+            producerSubtask: data-researchers
     tasks:
-      data-csv-rankings:
+      data-researchers:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-csv-rankings
+          name: comp-data-researchers
         inputs:
           parameters:
-            data_csv_rankings__params:
-              componentInputParameter: data_csv_rankings__params
+            data_researchers__params:
+              componentInputParameter: data_researchers__params
         taskInfo:
-          name: data-csv-rankings
+          name: data-researchers
   inputDefinitions:
     parameters:
-      data_csv_rankings__params:
+      data_researchers__params:
         defaultValue:
-          delimiter: '|'
-          path: ''
+          paper_affiliation_delimiter: '|'
+          paper_affiliations_path: ''
+          paper_graph_delimiter: '|'
+          paper_graph_path: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

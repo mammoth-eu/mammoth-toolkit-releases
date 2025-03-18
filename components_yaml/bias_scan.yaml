@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: multi-objective-report
+# Name: bias-scan
 # Inputs:
-#    Multi_objective_report__params: dict [Default: {'compare_groups': 'None', 'intersectional': False}]
+#    bias_scan__params: dict [Default: {'scoring': 'Bernoulli', 'penalty': 0.5}]
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
 components:
-  comp-multi-objective-report:
-    executorLabel: exec-multi-objective-report
+  comp-bias-scan:
+    executorLabel: exec-bias-scan
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,10 +21,10 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        Multi_objective_report__params:
+        bias_scan__params:
           defaultValue:
-            compare_groups: None
-            intersectional: false
+            penalty: 0.5
+            scoring: Bernoulli
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -37,27 +37,27 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-multi-objective-report:
+    exec-bias-scan:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - Multi_objective_report
+        - bias_scan
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'fairbench' 'plotly' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"\
-          $0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'aif360' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"$@\"\
+          \n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/Multi_objective_report:v0036
+        image: mammotheu/bias_scan:v0037
 pipelineInfo:
-  name: multi-objective-report
+  name: bias-scan
 root:
   dag:
     outputs:
@@ -65,13 +65,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: multi-objective-report
+            producerSubtask: bias-scan
     tasks:
-      multi-objective-report:
+      bias-scan:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-multi-objective-report
+          name: comp-bias-scan
         inputs:
           artifacts:
             dataset:
@@ -79,12 +79,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            Multi_objective_report__params:
-              componentInputParameter: Multi_objective_report__params
+            bias_scan__params:
+              componentInputParameter: bias_scan__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: multi-objective-report
+          name: bias-scan
   inputDefinitions:
     artifacts:
       dataset:
@@ -96,10 +96,10 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      Multi_objective_report__params:
+      bias_scan__params:
         defaultValue:
-          compare_groups: None
-          intersectional: false
+          penalty: 0.5
+          scoring: Bernoulli
         isOptional: true
         parameterType: STRUCT
       sensitive:
@@ -111,4 +111,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.11.0
+sdkVersion: kfp-2.12.1

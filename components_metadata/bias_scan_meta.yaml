@@ -1,0 +1,23 @@
+id: bias_scan
+name: bias scan
+description: "<p>Performs a scan for the most biased attribute intersection in the\
+  \ dataset.\n    Any sensitive attributes that are already known will be <b>excluded</b>\
+  \ from the scan. That is, you can\n    condition the scan to discover more attributes\
+  \ other than those declared as sensitive (these may not be\n    actually sensitive,\
+  \ but set so because you are trying to find more subtle biases).\n    To start a\
+  \ scan for the first time, do not set any sensitive attributes.\n    A paper describing\
+  \ how this approach is implemented to estimate the intersection\n    in linear rather\
+  \ than exponential time is available <a href=\"https://arxiv.org/pdf/1611.08292\"\
+  >here</a>.</p>\n\n    Args:\n        penalty: The higher the penalty, the less complex\
+  \ the highest scoring subset that gets returned is.\n        scoring: The distribution\
+  \ used to computer p-values.\n    \n    Options:\n        scoring: Bernoulli, Gaussian,\
+  \ Poisson, BerkJones"
+parameter_info: Some parameters are needed.
+component_type: METRIC
+input_types:
+- CSV
+- Predictor
+parameter_default:
+  penalty: 0.5
+  scoring: Bernoulli
+output_types: []

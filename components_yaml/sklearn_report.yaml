@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: image-bias-analysis
+# Name: sklearn-report
 # Inputs:
 #    dataset: system.Dataset
-#    image_bias_analysis__params: dict [Default: {'task': 'None'}]
 #    model: system.Model
 #    sensitive: list
+#    sklearn_report__params: dict [Default: {'predictor': 'None', 'minimum_shown_deviation': 0.1, 'compare_groups': 'None', 'intersectional': False}]
 # Outputs:
-#    output: system.Markdown
+#    output: system.HTML
 components:
-  comp-image-bias-analysis:
-    executorLabel: exec-image-bias-analysis
+  comp-sklearn-report:
+    executorLabel: exec-sklearn-report
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,41 +21,45 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        image_bias_analysis__params:
-          defaultValue:
-            task: None
-          isOptional: true
-          parameterType: STRUCT
         sensitive:
           parameterType: LIST
+        sklearn_report__params:
+          defaultValue:
+            compare_groups: None
+            intersectional: false
+            minimum_shown_deviation: 0.1
+            predictor: None
+          isOptional: true
+          parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Markdown
+            schemaTitle: system.HTML
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-image-bias-analysis:
+    exec-sklearn-report:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - image_bias_analysis
+        - sklearn_report
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
-          \ 'torch' 'torchvision' 'cvbiasmitigation' && \"$0\" \"$@\"\n"
+          \ 'fairbench' 'scikit-learn' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank'\
+          \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/image_bias_analysis:v0037
+        image: mammotheu/sklearn_report:v0037
 pipelineInfo:
-  name: image-bias-analysis
+  name: sklearn-report
 root:
   dag:
     outputs:
@@ -63,13 +67,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: image-bias-analysis
+            producerSubtask: sklearn-report
     tasks:
-      image-bias-analysis:
+      sklearn-report:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-image-bias-analysis
+          name: comp-sklearn-report
         inputs:
           artifacts:
             dataset:
@@ -77,12 +81,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            image_bias_analysis__params:
-              componentInputParameter: image_bias_analysis__params
             sensitive:
               componentInputParameter: sensitive
+            sklearn_report__params:
+              componentInputParameter: sklearn_report__params
         taskInfo:
-          name: image-bias-analysis
+          name: sklearn-report
   inputDefinitions:
     artifacts:
       dataset:
@@ -94,18 +98,21 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      image_bias_analysis__params:
-        defaultValue:
-          task: None
-        isOptional: true
-        parameterType: STRUCT
       sensitive:
         parameterType: LIST
+      sklearn_report__params:
+        defaultValue:
+          compare_groups: None
+          intersectional: false
+          minimum_shown_deviation: 0.1
+          predictor: None
+        isOptional: true
+        parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Markdown
+          schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.12.1

@@ -18,10 +18,10 @@ parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
   path: ''
+  delimiter: ','
   numeric: None
   categorical: None
   label: None
-  delimiter: ','
   skip_invalid_lines: true
 output_types:
 - Dataset

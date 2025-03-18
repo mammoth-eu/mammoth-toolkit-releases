@@ -49,13 +49,13 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
           \ 'fairbench' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"\
           $@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/interactive_report:v0036
+        image: mammotheu/interactive_report:v0037
 pipelineInfo:
   name: interactive-report
 root:
@@ -111,4 +111,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.11.0
+sdkVersion: kfp-2.12.1

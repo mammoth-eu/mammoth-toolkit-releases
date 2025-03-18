@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: connection-properties
+# Name: multi-objective-report
 # Inputs:
-#    connection_properties__params: dict [Default: {}]
 #    dataset: system.Dataset
 #    model: system.Model
+#    multi_objective_report__params: dict [Default: {}]
 #    sensitive: list
 # Outputs:
-#    output: system.Markdown
+#    output: system.HTML
 components:
-  comp-connection-properties:
-    executorLabel: exec-connection-properties
+  comp-multi-objective-report:
+    executorLabel: exec-multi-objective-report
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,7 +21,7 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        connection_properties__params:
+        multi_objective_report__params:
           defaultValue: {}
           isOptional: true
           parameterType: STRUCT
@@ -31,30 +31,31 @@ components:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Markdown
+            schemaTitle: system.HTML
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-connection-properties:
+    exec-multi-objective-report:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - connection_properties
+        - multi_objective_report
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'multisoc' && \"$0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ 'fairbench' 'plotly' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"\
+          $0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/connection_properties:v0036
+        image: mammotheu/multi_objective_report:v0037
 pipelineInfo:
-  name: connection-properties
+  name: multi-objective-report
 root:
   dag:
     outputs:
@@ -62,13 +63,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: connection-properties
+            producerSubtask: multi-objective-report
     tasks:
-      connection-properties:
+      multi-objective-report:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-connection-properties
+          name: comp-multi-objective-report
         inputs:
           artifacts:
             dataset:
@@ -76,12 +77,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            connection_properties__params:
-              componentInputParameter: connection_properties__params
+            multi_objective_report__params:
+              componentInputParameter: multi_objective_report__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: connection-properties
+          name: multi-objective-report
   inputDefinitions:
     artifacts:
       dataset:
@@ -93,7 +94,7 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      connection_properties__params:
+      multi_objective_report__params:
         defaultValue: {}
         isOptional: true
         parameterType: STRUCT
@@ -103,7 +104,7 @@ root:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Markdown
+          schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.11.0
+sdkVersion: kfp-2.12.1

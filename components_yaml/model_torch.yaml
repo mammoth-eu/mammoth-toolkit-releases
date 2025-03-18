@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-torch
 # Inputs:
-#    model_torch__params: dict [Default: {'model_path': '', 'state_path': '', 'safe_libraries': 'torch, torchvision', 'model_name': 'model'}]
+#    model_torch__params: dict [Default: {'model_path': '', 'multiclass_threshold': 0.0, 'state_path': '', 'safe_libraries': 'numpy, torch, torchvision', 'model_name': 'model'}]
 # Outputs:
 #    output: system.Model
 components:
@@ -13,7 +13,8 @@ components:
           defaultValue:
             model_name: model
             model_path: ''
-            safe_libraries: torch, torchvision
+            multiclass_threshold: 0.0
+            safe_libraries: numpy, torch, torchvision
             state_path: ''
           isOptional: true
           parameterType: STRUCT
@@ -37,12 +38,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
           \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_torch:v0036
+        image: mammotheu/model_torch:v0037
 pipelineInfo:
   name: model-torch
 root:
@@ -71,7 +72,8 @@ root:
         defaultValue:
           model_name: model
           model_path: ''
-          safe_libraries: torch, torchvision
+          multiclass_threshold: 0.0
+          safe_libraries: numpy, torch, torchvision
           state_path: ''
         isOptional: true
         parameterType: STRUCT
@@ -82,4 +84,4 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.11.0
+sdkVersion: kfp-2.12.1

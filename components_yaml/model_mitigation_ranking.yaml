@@ -1,49 +1,46 @@
 # PIPELINE DEFINITION
-# Name: data-graph-csv
+# Name: model-mitigation-ranking
 # Inputs:
-#    data_graph_csv__params: dict [Default: {'attributes': '', 'path_edges': '', 'path_nodes': ''}]
+#    model_mitigation_ranking__params: dict [Default: {}]
 # Outputs:
-#    output: system.Dataset
+#    output: system.Model
 components:
-  comp-data-graph-csv:
-    executorLabel: exec-data-graph-csv
+  comp-model-mitigation-ranking:
+    executorLabel: exec-model-mitigation-ranking
     inputDefinitions:
       parameters:
-        data_graph_csv__params:
-          defaultValue:
-            attributes: ''
-            path_edges: ''
-            path_nodes: ''
+        model_mitigation_ranking__params:
+          defaultValue: {}
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Dataset
+            schemaTitle: system.Model
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-data-graph-csv:
+    exec-model-mitigation-ranking:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_graph_csv
+        - model_mitigation_ranking
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]==0.0.38'\
-          \ 'pandas' && \"$0\" \"$@\"\n"
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_graph_csv:v0036
+        image: csh/model_mitigation_ranking:v002
 pipelineInfo:
-  name: data-graph-csv
+  name: model-mitigation-ranking
 root:
   dag:
     outputs:
@@ -51,33 +48,30 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-graph-csv
+            producerSubtask: model-mitigation-ranking
     tasks:
-      data-graph-csv:
+      model-mitigation-ranking:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-graph-csv
+          name: comp-model-mitigation-ranking
         inputs:
           parameters:
-            data_graph_csv__params:
-              componentInputParameter: data_graph_csv__params
+            model_mitigation_ranking__params:
+              componentInputParameter: model_mitigation_ranking__params
         taskInfo:
-          name: data-graph-csv
+          name: model-mitigation-ranking
   inputDefinitions:
     parameters:
-      data_graph_csv__params:
-        defaultValue:
-          attributes: ''
-          path_edges: ''
-          path_nodes: ''
+      model_mitigation_ranking__params:
+        defaultValue: {}
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Dataset
+          schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.11.0
+sdkVersion: kfp-2.12.1

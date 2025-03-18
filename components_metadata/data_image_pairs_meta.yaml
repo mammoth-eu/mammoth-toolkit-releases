@@ -16,7 +16,8 @@ description: "\n    Loads image pairs declared in a CSV file.\n    The expected 
   \ the transformation code here.\n        transform_variable: The transformation\
   \ target variable that should be extracted after the namesake code runs.\n     \
   \   safe_libraries: A comma-separated list of safe libraries that are allowed in\
-  \ the transformation code.\n    "
+  \ the transformation code. As a safety measure against code injection attacks, an\
+  \ error will be created if libraries other than those are encountered.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
@@ -27,7 +28,7 @@ parameter_default:
   shuffle: false
   data_transform_path: ''
   transform_variable: transform
-  safe_libraries: torchvision
+  safe_libraries: numpy,torch,torchvision
 output_types:
-- Dataset
 - ImagePairs
+- Dataset
