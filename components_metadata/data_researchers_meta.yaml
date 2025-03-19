@@ -16,5 +16,5 @@ parameter_default:
   paper_affiliations_path: ''
   paper_affiliation_delimiter: '|'
 output_types:
-- Dataset
 - Graph_CSH
+- Dataset

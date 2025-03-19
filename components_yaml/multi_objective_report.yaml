@@ -53,7 +53,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/multi_objective_report:v0037
+        image: mammotheu/multi_objective_report:v0038
 pipelineInfo:
   name: multi-objective-report
 root:

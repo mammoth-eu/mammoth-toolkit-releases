@@ -39,7 +39,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0037
+        image: mammotheu/model_onnx:v0038
 pipelineInfo:
   name: model-onnx
 root:

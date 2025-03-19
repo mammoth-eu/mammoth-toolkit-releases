@@ -57,7 +57,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/sklearn_report:v0037
+        image: mammotheu/sklearn_report:v0038
 pipelineInfo:
   name: sklearn-report
 root:

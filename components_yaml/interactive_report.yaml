@@ -55,7 +55,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/interactive_report:v0037
+        image: mammotheu/interactive_report:v0038
 pipelineInfo:
   name: interactive-report
 root:

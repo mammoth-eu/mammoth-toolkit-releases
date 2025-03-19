@@ -6,5 +6,5 @@ parameter_info: No parameters needed.
 component_type: LOADER_MODEL
 parameter_default: {}
 output_types:
-- Model
 - EmptyModel
+- Model

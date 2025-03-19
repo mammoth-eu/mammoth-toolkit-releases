@@ -43,7 +43,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_torch:v0037
+        image: mammotheu/model_torch:v0038
 pipelineInfo:
   name: model-torch
 root:

@@ -46,7 +46,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_images:v0037
+        image: mammotheu/data_images:v0038
 pipelineInfo:
   name: data-images
 root:

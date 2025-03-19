@@ -54,7 +54,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/facex_regions:v0037
+        image: mammotheu/facex_regions:v0038
 pipelineInfo:
   name: facex-regions
 root:

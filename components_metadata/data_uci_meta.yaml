@@ -16,5 +16,5 @@ parameter_default:
   dataset_name: None
   target: None
 output_types:
-- CSV
 - Dataset
+- CSV
