@@ -1,5 +1,36 @@
 # Release notes
 
+## Update 2025/03/19
+
+Improvements to start_toolkit.sh script.
+
+Included modules updated to current latest version:
+
+- bias_scan
+- data_images
+- interactive_report
+- model_torch
+- data_auto_csv
+- data_researchers
+- model_card
+- multi_objective_report
+- data_csv_rankings 
+- data_uci
+- model_fair_node_ranking
+- no_model
+- data_custom_csv
+- facex_embeddings
+- model_mitigation_ranking
+- optimal_transport
+- data_graph
+- facex_regions
+- model_onnx_ensemble
+- sklearn_report
+- data_image_pairs  
+- image_bias_analysis 
+- model_onnx
+
+
 ## Update 2025/03/18
 
 - Added start_toolkit.sh script to start the toolkit and related services
