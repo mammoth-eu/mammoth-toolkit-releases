@@ -2,7 +2,7 @@
 # Name: facex-embeddings
 # Inputs:
 #    dataset: system.Dataset
-#    facex_embeddings__params: dict [Default: {'target_layer': 'None', 'target_class': 'None'}]
+#    facex_embeddings__params: dict [Default: {'target_layer': 'None', 'target_class': 1.0}]
 #    model: system.Model
 #    sensitive: list
 # Outputs:
@@ -23,7 +23,7 @@ components:
       parameters:
         facex_embeddings__params:
           defaultValue:
-            target_class: None
+            target_class: 1.0
             target_layer: None
           isOptional: true
           parameterType: STRUCT
@@ -49,12 +49,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
           \ 'torch' 'torchvision' 'timm' 'facextool' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/facex_embeddings:v0038
+        image: mammotheu/facex_embeddings:v0042
 pipelineInfo:
   name: facex-embeddings
 root:
@@ -97,7 +97,7 @@ root:
     parameters:
       facex_embeddings__params:
         defaultValue:
-          target_class: None
+          target_class: 1.0
           target_layer: None
         isOptional: true
         parameterType: STRUCT
@@ -110,4 +110,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.12.1
+sdkVersion: kfp-2.12.2

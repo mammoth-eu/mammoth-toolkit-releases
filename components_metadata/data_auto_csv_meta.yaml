@@ -18,5 +18,5 @@ parameter_default:
   path: ''
   max_discrete: 10
 output_types:
-- CSV
 - Dataset
+- CSV

@@ -7,7 +7,10 @@ description: "\n\n    This is a Loader to load .csv files with information about
   \        paper_graph_path: The path to the paper citation graph.\n        paper_graph_delimiter:\
   \ The delimiter in the paper graph file.\n        paper_affiliations_path: The path\
   \ to the paper affiliation map.\n        paper_affiliation_delimiter: The delimiter\
-  \ of the paper affiliation map file.\n    "
+  \ of the paper affiliation map file.\n        country_codes_path: Metadata mapping\
+  \ countries to respective codes found in researcher profilers. Prefer the default\
+  \ value.\n        country_divisions_path: Metadata of country divisions. Prefer\
+  \ the default value.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
@@ -15,6 +18,8 @@ parameter_default:
   paper_graph_delimiter: '|'
   paper_affiliations_path: ''
   paper_affiliation_delimiter: '|'
+  country_codes_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/Country_codes.csv
+  country_divisions_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14/Metadata_Country_API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14.csv
 output_types:
 - Graph_CSH
 - Dataset

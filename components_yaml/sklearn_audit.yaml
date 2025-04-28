@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: sklearn-report
+# Name: sklearn-audit
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
-#    sklearn_report__params: dict [Default: {'predictor': 'None', 'minimum_shown_deviation': 0.1, 'compare_groups': 'None', 'intersectional': False}]
+#    sklearn_audit__params: dict [Default: {'predictor': 'None', 'problematic_deviation': 0.1, 'top_recommendations': 3.0, 'compare_groups': 'None', 'show_non_problematic': False, 'intersectional': False}]
 # Outputs:
 #    output: system.HTML
 components:
-  comp-sklearn-report:
-    executorLabel: exec-sklearn-report
+  comp-sklearn-audit:
+    executorLabel: exec-sklearn-audit
     inputDefinitions:
       artifacts:
         dataset:
@@ -23,12 +23,14 @@ components:
       parameters:
         sensitive:
           parameterType: LIST
-        sklearn_report__params:
+        sklearn_audit__params:
           defaultValue:
             compare_groups: None
             intersectional: false
-            minimum_shown_deviation: 0.1
             predictor: None
+            problematic_deviation: 0.1
+            show_non_problematic: false
+            top_recommendations: 3.0
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -39,27 +41,27 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-sklearn-report:
+    exec-sklearn-audit:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - sklearn_report
+        - sklearn_audit
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
           \ 'fairbench' 'scikit-learn' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank'\
           \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/sklearn_report:v0038
+        image: mammotheu/sklearn_audit:v0042
 pipelineInfo:
-  name: sklearn-report
+  name: sklearn-audit
 root:
   dag:
     outputs:
@@ -67,13 +69,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: sklearn-report
+            producerSubtask: sklearn-audit
     tasks:
-      sklearn-report:
+      sklearn-audit:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-sklearn-report
+          name: comp-sklearn-audit
         inputs:
           artifacts:
             dataset:
@@ -83,10 +85,10 @@ root:
           parameters:
             sensitive:
               componentInputParameter: sensitive
-            sklearn_report__params:
-              componentInputParameter: sklearn_report__params
+            sklearn_audit__params:
+              componentInputParameter: sklearn_audit__params
         taskInfo:
-          name: sklearn-report
+          name: sklearn-audit
   inputDefinitions:
     artifacts:
       dataset:
@@ -100,12 +102,14 @@ root:
     parameters:
       sensitive:
         parameterType: LIST
-      sklearn_report__params:
+      sklearn_audit__params:
         defaultValue:
           compare_groups: None
           intersectional: false
-          minimum_shown_deviation: 0.1
           predictor: None
+          problematic_deviation: 0.1
+          show_non_problematic: false
+          top_recommendations: 3.0
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
@@ -115,4 +119,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.12.1
+sdkVersion: kfp-2.12.2

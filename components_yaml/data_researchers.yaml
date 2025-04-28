@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-researchers
 # Inputs:
-#    data_researchers__params: dict [Default: {'paper_affiliations_path': '', 'paper_graph_path': '', 'paper_affiliation_delimiter': '|', 'paper_graph_delimiter': '|'}]
+#    data_researchers__params: dict [Default: {'country_codes_path': 'https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/Country_codes.csv', 'paper_affiliations_path': '', 'paper_graph_path': '', 'country_divisions_path': 'https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14/Metadata_Country_API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14.csv', 'paper_affiliation_delimiter': '|', 'paper_graph_delimiter': '|'}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -11,6 +11,8 @@ components:
       parameters:
         data_researchers__params:
           defaultValue:
+            country_codes_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/Country_codes.csv
+            country_divisions_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14/Metadata_Country_API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14.csv
             paper_affiliation_delimiter: '|'
             paper_affiliations_path: ''
             paper_graph_delimiter: '|'
@@ -37,12 +39,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
           \ 'pandas' 'networkx' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_researchers:v0038
+        image: mammotheu/data_researchers:v0042
 pipelineInfo:
   name: data-researchers
 root:
@@ -69,6 +71,8 @@ root:
     parameters:
       data_researchers__params:
         defaultValue:
+          country_codes_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/Country_codes.csv
+          country_divisions_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14/Metadata_Country_API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14.csv
           paper_affiliation_delimiter: '|'
           paper_affiliations_path: ''
           paper_graph_delimiter: '|'
@@ -82,4 +86,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.12.1
+sdkVersion: kfp-2.12.2

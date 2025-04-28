@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-images
 # Inputs:
-#    data_images__params: dict [Default: {'image_root_dir': '', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'numpy,torch,torchvision'}]
+#    data_images__params: dict [Default: {'image_root_dir': '', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'numpy,torch,torchvision,PIL', 'num_workers': 0.0}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -14,8 +14,9 @@ components:
             batch_size: 4.0
             data_transform_path: ''
             image_root_dir: ''
+            num_workers: 0.0
             path: ''
-            safe_libraries: numpy,torch,torchvision
+            safe_libraries: numpy,torch,torchvision,PIL
             shuffle: false
             target: ''
             transform_variable: transform
@@ -41,12 +42,12 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
           \ 'torch' 'torchvision' 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_images:v0038
+        image: mammotheu/data_images:v0042
 pipelineInfo:
   name: data-images
 root:
@@ -76,8 +77,9 @@ root:
           batch_size: 4.0
           data_transform_path: ''
           image_root_dir: ''
+          num_workers: 0.0
           path: ''
-          safe_libraries: numpy,torch,torchvision
+          safe_libraries: numpy,torch,torchvision,PIL
           shuffle: false
           target: ''
           transform_variable: transform
@@ -90,4 +92,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.12.1
+sdkVersion: kfp-2.12.2

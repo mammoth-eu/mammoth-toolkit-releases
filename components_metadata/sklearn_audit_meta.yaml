@@ -1,12 +1,12 @@
-id: sklearn_report
-name: sklearn report
+id: sklearn_audit
+name: sklearn audit
 description: "\n    <p>One way to evaluate the fairness of a dataset is by testing\
   \ for biases using simple models with limited\n    degrees of freedom. This module\
   \ audits datasets by training such models provided by the\n    <a href=\"https://scikit-learn.org/stable/index.html\"\
   >scikit-learn</a> library on half of the dataset.\n    The second half is then used\
   \ as test data to assess predictive performance and detect classification\n    or\
   \ scoring biases.</p>\n\n    <p>Test data are used to generate a fairness and bias\
-  \ report using the\n    <a href=\"https://fairbench.readthedocs.io/\">FairBench</a>\
+  \ report with the\n    <a href=\"https://fairbench.readthedocs.io/\">FairBench</a>\
   \ library. If strong biases appear in the simple models\n    that are explored,\
   \ they may also persist in more complex models trained on the same data. To focus\
   \ on the most\n    significant biases, adjust the minimum shown deviation parameter.\n\
@@ -32,13 +32,19 @@ description: "\n    <p>One way to evaluate the fairness of a dataset is by testi
   \ analysis. This does nothing if there is only one sensitive attribute. It could\
   \ be computationally intensive if too many group intersections are selected.\n \
   \       compare_groups: Whether to compare groups pairwise, or each group to the\
-  \ behavior of the whole population.\n        minimum_shown_deviation: Show only\
-  \ results where the deviation from ideal values exceeds the given threshold. If\
-  \ nothing is shown, fairness is not necessarily achieved, but this is a good way\
-  \ to identify the most prominent biases. If value of 0 is set, all report values\
-  \ are shown, including those that have no set ideal value.\n    \n    Options:\n\
-  \        predictor: Logistic regression, Gaussian naive Bayes\n        compare_groups:\
-  \ Pairwise, To the total population"
+  \ behavior of the whole population.\n        problematic_deviation: Sets up a threshold\
+  \ of when to consider deviation from ideal values as problematic. If nothing is\
+  \ considered problematic fairness is not necessarily achieved, but this is a good\
+  \ way to identify the most prominent biases. If value of 0 is set, all report values\
+  \ are shown, including those that have no ideal value.\n        show_non_problematic:\
+  \ Determine whether deviations less than the problematic one should be shown or\
+  \ not. If they are shown, the coloring scheme is adjusted to identify non-problematic\
+  \ values as green and the rest as either orange or red.\n        top_recommendations:\
+  \ The number of top recommendations in evaluation that emulates showing the respective\
+  \ data samples to users when querying the trained model to give examples for each\
+  \ class in the dataset. Common values in the literature are 1,3,5,10.\n    \n  \
+  \  Options:\n        predictor: Logistic regression, Gaussian naive Bayes\n    \
+  \    compare_groups: Pairwise, To the total population"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
@@ -48,5 +54,7 @@ parameter_default:
   predictor: None
   intersectional: false
   compare_groups: None
-  minimum_shown_deviation: 0.1
+  problematic_deviation: 0.1
+  show_non_problematic: false
+  top_recommendations: 3
 output_types: []

@@ -10,10 +10,10 @@ description: "\n    Loads image data from a CSV file holding their sensitive and
   \ images.\n        data_transform_path: A path or implementation of a torchvision\
   \ data transform. Alternatively, paste the transformation code here.\n        transform_variable:\
   \ The transformation target variable that should be extracted after the namesake\
-  \ code runs.\n        safe_libraries: A comma-separated list of safe libraries that\
-  \ are allowed in the transformation code. As a safety measure against code injection\
-  \ attacks, an error will be created if libraries other than those are encountered.\n\
-  \    "
+  \ code runs.\n        num_workers: Number of subprocesses to use for data loading.\n\
+  \        safe_libraries: A comma-separated list of safe libraries that are allowed\
+  \ in the transformation code. As a safety measure against code injection attacks,\
+  \ an error will be created if libraries other than those are encountered.\n    "
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
@@ -24,7 +24,8 @@ parameter_default:
   shuffle: false
   data_transform_path: ''
   transform_variable: transform
-  safe_libraries: numpy,torch,torchvision
+  num_workers: 0
+  safe_libraries: numpy,torch,torchvision,PIL
 output_types:
-- Dataset
 - Image
+- Dataset

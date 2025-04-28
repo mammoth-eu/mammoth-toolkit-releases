@@ -31,5 +31,5 @@ component_type: LOADER_MODEL
 parameter_default:
   path: ''
 output_types:
-- ONNXEnsemble
 - Predictor
+- ONNXEnsemble

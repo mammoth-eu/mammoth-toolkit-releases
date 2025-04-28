@@ -43,6 +43,6 @@ input_types:
 - Image
 - Pytorch
 parameter_default:
-  target_class: None
+  target_class: 1
   target_layer: None
 output_types: []

@@ -3,7 +3,7 @@
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
-#    model_card__params: dict [Default: {'minimum_shown_deviation': 0.1, 'compare_groups': 'None', 'intersectional': False}]
+#    model_card__params: dict [Default: {'problematic_deviation': 0.1, 'compare_groups': 'None', 'show_non_problematic': False, 'intersectional': False}]
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
@@ -25,7 +25,8 @@ components:
           defaultValue:
             compare_groups: None
             intersectional: false
-            minimum_shown_deviation: 0.1
+            problematic_deviation: 0.1
+            show_non_problematic: false
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -50,13 +51,13 @@ deploymentSpec:
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
-          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth-commons[deployment]'\
+          \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
           \ 'fairbench' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"\
           $@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0038
+        image: mammotheu/model_card:v0042
 pipelineInfo:
   name: model-card
 root:
@@ -101,7 +102,8 @@ root:
         defaultValue:
           compare_groups: None
           intersectional: false
-          minimum_shown_deviation: 0.1
+          problematic_deviation: 0.1
+          show_non_problematic: false
         isOptional: true
         parameterType: STRUCT
       sensitive:
@@ -113,4 +115,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.12.1
+sdkVersion: kfp-2.12.2

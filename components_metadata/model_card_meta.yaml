@@ -23,12 +23,15 @@ description: "\n    <p>Generates a fairness and bias report using the <a href=\"
   \ group intersections during analysis. This does nothing if there is only one sensitive\
   \ attribute. It could be computationally intensive if too many group intersections\
   \ are selected.\n        compare_groups: Whether to compare groups pairwise, or\
-  \ each group to the behavior of the whole population.\n        minimum_shown_deviation:\
-  \ Show only results where the deviation from ideal values exceeds the given threshold.\
-  \ If nothing is shown, fairness is not necessarily achieved, but this is a good\
-  \ way to identify the most prominent biases. If value of 0 is set, all report values\
-  \ are shown, including those that have no set ideal value.\n    \n    Options:\n\
-  \        compare_groups: Pairwise, To the total population"
+  \ each group to the behavior of the whole population.\n        problematic_deviation:\
+  \ Sets up a threshold of when to consider deviation from ideal values as problematic.\
+  \ If nothing is considered problematic fairness is not necessarily achieved, but\
+  \ this is a good way to identify the most prominent biases. If value of 0 is set,\
+  \ all report values are shown, including those that have no ideal value.\n     \
+  \   show_non_problematic: Determine whether deviations less than the problematic\
+  \ one should be shown or not. If they are shown, the coloring scheme is adjusted\
+  \ to identify problematic values as red.\n    \n    Options:\n        compare_groups:\
+  \ Pairwise, To the total population"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
@@ -37,5 +40,6 @@ input_types:
 parameter_default:
   intersectional: false
   compare_groups: None
-  minimum_shown_deviation: 0.1
+  problematic_deviation: 0.1
+  show_non_problematic: false
 output_types: []

@@ -1,5 +1,10 @@
 # Release notes
 
+
+## Update 2025/04/28
+
+Updated 25 modules to latest version.
+
 ## Update 2025/03/19
 
 Improvements to start_toolkit.sh script.

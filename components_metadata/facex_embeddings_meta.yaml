@@ -51,6 +51,6 @@ input_types:
 - ImagePairs
 - Pytorch
 parameter_default:
-  target_class: None
+  target_class: 1
   target_layer: None
 output_types: []
