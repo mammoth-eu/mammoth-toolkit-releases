@@ -1,5 +1,8 @@
 # Release notes
 
+## Update 2025/05/05
+
+Updated 25 modules to latest version.
 
 ## Update 2025/04/28
 

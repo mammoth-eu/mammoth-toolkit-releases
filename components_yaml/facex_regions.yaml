@@ -110,4 +110,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.12.2
+sdkVersion: kfp-2.13.0
