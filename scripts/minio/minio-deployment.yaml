@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kfp-minio
+  name: kfp-minio
+  namespace: kubeflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kfp-minio
+  template:
+    metadata:
+      labels:
+        app: kfp-minio
+    spec:
+      containers:
+        - env:
+            - name: MINIO_ROOT_USER
+              value: minio_user
+            - name: MINIO_ROOT_PASSWORD
+              value: minio_pass
+          image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+          name: kfp-minio
+          args:
+            - server
+            - /data
+            - --console-address
+            - ":9001"
+          ports:
+            - containerPort: 9000
+              protocol: TCP
+            - containerPort: 9001
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data
+              name: toolkit-data
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "mc ready local"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "mc ready local"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 5
+      restartPolicy: Always
+      volumes:
+        - name: toolkit-data
+          persistentVolumeClaim:
+            claimName: local-pvc
+
+
+
+
