@@ -1,23 +1,40 @@
 id: bias_scan
 name: bias scan
-description: "<p>Performs a scan for the most biased attribute intersection in the\
-  \ dataset.\n    Any sensitive attributes that are already known will be <b>excluded</b>\
-  \ from the scan. That is, you can\n    condition the scan to discover more attributes\
-  \ other than those declared as sensitive (these may not be\n    actually sensitive,\
-  \ but set so because you are trying to find more subtle biases).\n    To start a\
-  \ scan for the first time, do not set any sensitive attributes.\n    A paper describing\
-  \ how this approach is implemented to estimate the intersection\n    in linear rather\
-  \ than exponential time is available <a href=\"https://arxiv.org/pdf/1611.08292\"\
-  >here</a>.</p>\n\n    Args:\n        penalty: The higher the penalty, the less complex\
-  \ the highest scoring subset that gets returned is.\n        scoring: The distribution\
-  \ used to computer p-values.\n    \n    Options:\n        scoring: Bernoulli, Gaussian,\
-  \ Poisson, BerkJones"
+description: "<p>This module scans your dataset to estimate the most biased attributes\
+  \ or combinations of attributes.\nFor example, gender may only show bias when combined\
+  \ with socioeconomic status, despite the latter not\nbein inherently sensitive.\
+  \ If you have already marked some\nattributes as sensitive (such as race or gender),\
+  \ the module will **exclude** them from the scan. This allows\nsearching for additional\
+  \ patterns that contribute to unfair outcomes.</p>\n\n<p>A paper describing how\
+  \ this approach estimates biased intersection candidates in **linear** rather\n\
+  than **exponential** time is available <a href=\"https://arxiv.org/pdf/1611.08292\"\
+  >here</a>. Instead of checking\nevery possible combination (which can be very time-consuming),\
+  \ it uses a more efficient method.</p>\n\n<p>To get started, run the module without\
+  \ setting any sensitive attributes. After the first scan,\nadvanced users can review\
+  \ the results and mark any problematic attributes it identifies as sensitive.\n\
+  Then, run the scan again to uncover additional potential issues\u2014these may be\
+  \ less prominent but still\nworth investigating.</p>\n\n<p>For convenience, there\
+  \ is a <i>discovery</i> mode available in the parameters. This automatically adds\n\
+  attributes suspected of contributing to bias to the list of ignored (already known\
+  \ sensitive) ones, then reruns\nthe scan. While this automation helps streamline\
+  \ the process, it removes all attributes contributing to biased\nintersections.\
+  \ A domain expert may prefer to manually remove one attribute at a time by adding\
+  \ it to known\nsensitive attributes and rerun the module to investigate more granular\
+  \ effects on the results.</p>\n\nArgs:\n    penalty: A positive. The higher the\
+  \ penalty, the less complex the highest scoring subset that gets returned is, but\
+  \ penalties as small as 1.E-12 could also be acceptable to promote finding intersections\
+  \ of many attributes.\n    scoring: The distribution used to compute p-values. Can\
+  \ be Bernoulli, Gaussian, Poisson, or BerkJones.\n    discovery: Whether the scan\
+  \ should attempt to create a list of problematic attribute combinations in decreasing\
+  \ order of importance. That list will contain only non-overlapping attribute intersections.\n\
+  \n    Options:\n        scoring: Bernoulli, Gaussian, Poisson, BerkJones"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
-- CSV
+- Dataset
 - Predictor
 parameter_default:
   penalty: 0.5
   scoring: Bernoulli
+  discovery: true
 output_types: []

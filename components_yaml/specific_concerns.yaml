@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: multi-objective-report
+# Name: specific-concerns
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
-#    multi_objective_report__params: dict [Default: {}]
 #    sensitive: list
+#    specific_concerns__params: dict [Default: {'problematic_deviation': 0.1, 'compare_groups': 'None', 'reduction': 'None', 'base_measure': 'None', 'intersectional': False}]
 # Outputs:
 #    output: system.HTML
 components:
-  comp-multi-objective-report:
-    executorLabel: exec-multi-objective-report
+  comp-specific-concerns:
+    executorLabel: exec-specific-concerns
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,12 +21,17 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        multi_objective_report__params:
-          defaultValue: {}
-          isOptional: true
-          parameterType: STRUCT
         sensitive:
           parameterType: LIST
+        specific_concerns__params:
+          defaultValue:
+            base_measure: None
+            compare_groups: None
+            intersectional: false
+            problematic_deviation: 0.1
+            reduction: None
+          isOptional: true
+          parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
@@ -35,27 +40,27 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-multi-objective-report:
+    exec-specific-concerns:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - multi_objective_report
+        - specific_concerns
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'fairbench' 'plotly' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' 'mmm-fair'\
-          \ 'skl2onnx>=1.19.1' && \"$0\" \"$@\"\n"
+          \ 'fairbench' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"\
+          $@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/multi_objective_report:v0043
+        image: mammotheu/specific_concerns:v0043
 pipelineInfo:
-  name: multi-objective-report
+  name: specific-concerns
 root:
   dag:
     outputs:
@@ -63,13 +68,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: multi-objective-report
+            producerSubtask: specific-concerns
     tasks:
-      multi-objective-report:
+      specific-concerns:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-multi-objective-report
+          name: comp-specific-concerns
         inputs:
           artifacts:
             dataset:
@@ -77,12 +82,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            multi_objective_report__params:
-              componentInputParameter: multi_objective_report__params
             sensitive:
               componentInputParameter: sensitive
+            specific_concerns__params:
+              componentInputParameter: specific_concerns__params
         taskInfo:
-          name: multi-objective-report
+          name: specific-concerns
   inputDefinitions:
     artifacts:
       dataset:
@@ -94,12 +99,17 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      multi_objective_report__params:
-        defaultValue: {}
-        isOptional: true
-        parameterType: STRUCT
       sensitive:
         parameterType: LIST
+      specific_concerns__params:
+        defaultValue:
+          base_measure: None
+          compare_groups: None
+          intersectional: false
+          problematic_deviation: 0.1
+          reduction: None
+        isOptional: true
+        parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:

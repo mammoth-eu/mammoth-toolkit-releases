@@ -1,47 +1,46 @@
 # PIPELINE DEFINITION
-# Name: data-graph
+# Name: model-trivial-predictor
 # Inputs:
-#    data_graph__params: dict [Default: {'path': ''}]
+#    model_trivial_predictor__params: dict [Default: {}]
 # Outputs:
-#    output: system.Dataset
+#    output: system.Model
 components:
-  comp-data-graph:
-    executorLabel: exec-data-graph
+  comp-model-trivial-predictor:
+    executorLabel: exec-model-trivial-predictor
     inputDefinitions:
       parameters:
-        data_graph__params:
-          defaultValue:
-            path: ''
+        model_trivial_predictor__params:
+          defaultValue: {}
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
       artifacts:
         output:
           artifactType:
-            schemaTitle: system.Dataset
+            schemaTitle: system.Model
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-data-graph:
+    exec-model-trivial-predictor:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_graph
+        - model_trivial_predictor
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'pygrank' && \"$0\" \"$@\"\n"
+          \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_graph:v0043
+        image: mammotheu/model_trivial_predictor:v0043
 pipelineInfo:
-  name: data-graph
+  name: model-trivial-predictor
 root:
   dag:
     outputs:
@@ -49,31 +48,30 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-graph
+            producerSubtask: model-trivial-predictor
     tasks:
-      data-graph:
+      model-trivial-predictor:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-graph
+          name: comp-model-trivial-predictor
         inputs:
           parameters:
-            data_graph__params:
-              componentInputParameter: data_graph__params
+            model_trivial_predictor__params:
+              componentInputParameter: model_trivial_predictor__params
         taskInfo:
-          name: data-graph
+          name: model-trivial-predictor
   inputDefinitions:
     parameters:
-      data_graph__params:
-        defaultValue:
-          path: ''
+      model_trivial_predictor__params:
+        defaultValue: {}
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
     artifacts:
       output:
         artifactType:
-          schemaTitle: system.Dataset
+          schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
 sdkVersion: kfp-2.13.0

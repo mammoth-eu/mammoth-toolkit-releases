@@ -1,12 +1,12 @@
 id: interactive_report
 name: interactive report
 description: "Creates an interactive report using the FairBench library. The report\
-  \ creates traceable evaluations that\n    you can shift through to find actual sources\
-  \ of unfairness.\n\n    Args:\n        intersectional: Whether to consider all non-empty\
+  \ creates traceable evaluations that\nyou can shift through to find actual sources\
+  \ of unfairness.\n\nArgs:\n    intersectional: Whether to consider all non-empty\
   \ group intersections during analysis. This does nothing if there is only one sensitive\
-  \ attribute.\n        compare_groups: Whether to compare groups pairwise, or each\
-  \ group to the whole population.\n    \n    Options:\n        compare_groups: Pairwise,\
-  \ To the total population"
+  \ attribute.\n    compare_groups: Whether to compare groups pairwise, or each group\
+  \ to the whole population.\n\n    Options:\n        compare_groups: Pairwise, To\
+  \ the total population"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:

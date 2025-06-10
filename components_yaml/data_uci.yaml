@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-uci
 # Inputs:
-#    data_uci__params: dict [Default: {'target': 'None', 'dataset_name': 'None'}]
+#    data_uci__params: dict [Default: {'dataset_name': 'None'}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -12,7 +12,6 @@ components:
         data_uci__params:
           defaultValue:
             dataset_name: None
-            target: None
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -40,7 +39,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_uci:v0042
+        image: mammotheu/data_uci:v0038
 pipelineInfo:
   name: data-uci
 root:
@@ -68,7 +67,6 @@ root:
       data_uci__params:
         defaultValue:
           dataset_name: None
-          target: None
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

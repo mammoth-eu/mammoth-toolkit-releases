@@ -1,17 +1,17 @@
 # PIPELINE DEFINITION
-# Name: data-graph
+# Name: data-free-text
 # Inputs:
-#    data_graph__params: dict [Default: {'path': ''}]
+#    data_free_text__params: dict [Default: {'text': ''}]
 # Outputs:
 #    output: system.Dataset
 components:
-  comp-data-graph:
-    executorLabel: exec-data-graph
+  comp-data-free-text:
+    executorLabel: exec-data-free-text
     inputDefinitions:
       parameters:
-        data_graph__params:
+        data_free_text__params:
           defaultValue:
-            path: ''
+            text: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -22,26 +22,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-data-graph:
+    exec-data-free-text:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_graph
+        - data_free_text
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'pygrank' && \"$0\" \"$@\"\n"
+          \ 'bs4' 'requests' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_graph:v0043
+        image: mammotheu/data_free_text:v0043
 pipelineInfo:
-  name: data-graph
+  name: data-free-text
 root:
   dag:
     outputs:
@@ -49,24 +49,24 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-graph
+            producerSubtask: data-free-text
     tasks:
-      data-graph:
+      data-free-text:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-graph
+          name: comp-data-free-text
         inputs:
           parameters:
-            data_graph__params:
-              componentInputParameter: data_graph__params
+            data_free_text__params:
+              componentInputParameter: data_free_text__params
         taskInfo:
-          name: data-graph
+          name: data-free-text
   inputDefinitions:
     parameters:
-      data_graph__params:
+      data_free_text__params:
         defaultValue:
-          path: ''
+          text: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

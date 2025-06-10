@@ -35,11 +35,11 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'onnxruntime' && \"$0\" \"$@\"\n"
+          \ 'onnxruntime' 'mmm-fair' 'skl2onnx>=1.19.1' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx_ensemble:v0042
+        image: mammotheu/model_onnx_ensemble:v0043
 pipelineInfo:
   name: model-onnx-ensemble
 root:

@@ -1,30 +1,30 @@
 id: image_bias_analysis
 name: image bias analysis
-description: "\n    This module provides a comprehensive solution for analyzing image\
-  \ bias and recommending effective\n    mitigation strategies. It can be used for\
-  \ both classification tasks (e.g., facial attribute\n    extraction) and face verification.\
-  \ The core functionality revolves around evaluating how well\n    different population\
-  \ groups, defined by a given protected attribute (such as gender, age, or\n    ethnicity),\
+description: "\nThis module provides a comprehensive solution for analyzing image\
+  \ bias and recommending effective\nmitigation strategies. It can be used for both\
+  \ classification tasks (e.g., facial attribute\nextraction) and face verification.\
+  \ The core functionality revolves around evaluating how well\ndifferent population\
+  \ groups, defined by a given protected attribute (such as gender, age, or\nethnicity),\
   \ are represented in the dataset. Representation bias occurs when some groups are\n\
-  \    overrepresented or underrepresented, leading to models that may perform poorly\
-  \ or unfairly on\n    certain groups.\n\n    Additionally, the module detects spurious\
-  \ correlations between the target attribute (e.g., the\n    label a model is trying\
-  \ to predict) and other annotated attributes (such as image features like\n    color\
-  \ or shape). Spurious correlations are misleading patterns that do not reflect meaningful\n\
-  \    relationships and can cause a model to make biased or inaccurate predictions.\
-  \ By identifying and\n    addressing these hidden biases, the module helps improve\
-  \ the fairness and accuracy of your model.\n\n    When you run the analysis, the\
-  \ module identifies specific biases within the dataset and suggests\n    tailored\
-  \ mitigation approaches. Specifically, the suitable mitigation methodologies are\
-  \ determined\n    based on the task and the types of the detected biases in the\
-  \ data.\n    The analysis is conducted based on the <a href=\"https://github.com/gsarridis/cv-bias-mitigation-library\"\
-  >CV Bias Mitigation Library</a>.\n\n\n    Args:\n        task: The type of predictive\
-  \ task. It should be either face verification or image classification.\n    \n \
-  \   Options:\n        task: face verification, image classification"
+  overrepresented or underrepresented, leading to models that may perform poorly or\
+  \ unfairly on\ncertain groups.\n\nAdditionally, the module detects spurious correlations\
+  \ between the target attribute (e.g., the\nlabel a model is trying to predict) and\
+  \ other annotated attributes (such as image features like\ncolor or shape). Spurious\
+  \ correlations are misleading patterns that do not reflect meaningful\nrelationships\
+  \ and can cause a model to make biased or inaccurate predictions. By identifying\
+  \ and\naddressing these hidden biases, the module helps improve the fairness and\
+  \ accuracy of your model.\n\nWhen you run the analysis, the module identifies specific\
+  \ biases within the dataset and suggests\ntailored mitigation approaches. Specifically,\
+  \ the suitable mitigation methodologies are determined\nbased on the task and the\
+  \ types of the detected biases in the data.\nThe analysis is conducted based on\
+  \ the <a href=\"https://github.com/gsarridis/cv-bias-mitigation-library\">CV Bias\
+  \ Mitigation Library</a>.\n\n\nArgs:\n    task: The type of predictive task. It\
+  \ should be either face verification or image classification.\n\n    Options:\n\
+  \        task: face verification, image classification"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
-- Image
+- ImageLike
 - EmptyModel
 parameter_default:
   task: None

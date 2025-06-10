@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: multi-objective-report
+# Name: exposure-distance-comparison
 # Inputs:
 #    dataset: system.Dataset
+#    exposure_distance_comparison__params: dict [Default: {'n_runs': 1.0, 'ranking_variable': 'Degree', 'sampling_attribute': 'Nationality_IncomeGroup'}]
 #    model: system.Model
-#    multi_objective_report__params: dict [Default: {}]
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
 components:
-  comp-multi-objective-report:
-    executorLabel: exec-multi-objective-report
+  comp-exposure-distance-comparison:
+    executorLabel: exec-exposure-distance-comparison
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,8 +21,11 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        multi_objective_report__params:
-          defaultValue: {}
+        exposure_distance_comparison__params:
+          defaultValue:
+            n_runs: 1.0
+            ranking_variable: Degree
+            sampling_attribute: Nationality_IncomeGroup
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -35,27 +38,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-multi-objective-report:
+    exec-exposure-distance-comparison:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - multi_objective_report
+        - exposure_distance_comparison
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'fairbench' 'plotly' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' 'mmm-fair'\
-          \ 'skl2onnx>=1.19.1' && \"$0\" \"$@\"\n"
+          \ 'seaborn' 'matplotlib' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/multi_objective_report:v0043
+        image: mammotheu/exposure_distance_comparison:v0043
 pipelineInfo:
-  name: multi-objective-report
+  name: exposure-distance-comparison
 root:
   dag:
     outputs:
@@ -63,13 +65,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: multi-objective-report
+            producerSubtask: exposure-distance-comparison
     tasks:
-      multi-objective-report:
+      exposure-distance-comparison:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-multi-objective-report
+          name: comp-exposure-distance-comparison
         inputs:
           artifacts:
             dataset:
@@ -77,12 +79,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            multi_objective_report__params:
-              componentInputParameter: multi_objective_report__params
+            exposure_distance_comparison__params:
+              componentInputParameter: exposure_distance_comparison__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: multi-objective-report
+          name: exposure-distance-comparison
   inputDefinitions:
     artifacts:
       dataset:
@@ -94,8 +96,11 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      multi_objective_report__params:
-        defaultValue: {}
+      exposure_distance_comparison__params:
+        defaultValue:
+          n_runs: 1.0
+          ranking_variable: Degree
+          sampling_attribute: Nationality_IncomeGroup
         isOptional: true
         parameterType: STRUCT
       sensitive:

@@ -1,16 +1,15 @@
 id: data_researchers
 name: data researchers
-description: "\n\n    This is a Loader to load .csv files with information about researchers\n\
-  \    The `papers_path` and `papers_affiliations` should be given relative to your\
-  \ locally running instance\n    (e.g.: *./data/researchers/Top&#95;researchers.csv*)\n\
-  \    The `Delimiter` should match the CSV file you have (e.g.: '|')\n\n    Args:\n\
-  \        paper_graph_path: The path to the paper citation graph.\n        paper_graph_delimiter:\
-  \ The delimiter in the paper graph file.\n        paper_affiliations_path: The path\
-  \ to the paper affiliation map.\n        paper_affiliation_delimiter: The delimiter\
-  \ of the paper affiliation map file.\n        country_codes_path: Metadata mapping\
-  \ countries to respective codes found in researcher profilers. Prefer the default\
-  \ value.\n        country_divisions_path: Metadata of country divisions. Prefer\
-  \ the default value.\n    "
+description: "\n\nThis is a Loader to load .csv files with information about researchers\n\
+  The `papers_path` and `papers_affiliations` should be given relative to your locally\
+  \ running instance\n(e.g.: *./data/researchers/Top&#95;researchers.csv*)\nThe `Delimiter`\
+  \ should match the CSV file you have (e.g.: '|')\n\nArgs:\n    paper_graph_path:\
+  \ The path to the paper citation graph.\n    paper_graph_delimiter: The delimiter\
+  \ in the paper graph file.\n    paper_affiliations_path: The path to the paper affiliation\
+  \ map.\n    paper_affiliation_delimiter: The delimiter of the paper affiliation\
+  \ map file.\n    country_codes_path: Metadata mapping countries to respective codes\
+  \ found in researcher profilers. Prefer the default value.\n    country_divisions_path:\
+  \ Metadata of country divisions. Prefer the default value.\n"
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:

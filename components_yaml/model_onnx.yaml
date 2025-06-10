@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-onnx
 # Inputs:
-#    model_onnx__params: dict [Default: {'path': ''}]
+#    model_onnx__params: dict [Default: {'path': '', 'trained_with_sensitive': True}]
 # Outputs:
 #    output: system.Model
 components:
@@ -12,6 +12,7 @@ components:
         model_onnx__params:
           defaultValue:
             path: ''
+            trained_with_sensitive: true
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -39,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_onnx:v0042
+        image: mammotheu/model_onnx:v0043
 pipelineInfo:
   name: model-onnx
 root:
@@ -67,6 +68,7 @@ root:
       model_onnx__params:
         defaultValue:
           path: ''
+          trained_with_sensitive: true
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

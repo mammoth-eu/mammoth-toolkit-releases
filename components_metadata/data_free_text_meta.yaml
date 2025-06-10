@@ -1,0 +1,14 @@
+id: data_free_text
+name: data free text
+description: "Sets a free text that can be used by text-based AI to perform various\
+  \ kinds of analysis,\nsuch as detecting biases and sentiment. Some modules may also\
+  \ use this text as a prompt\nto feed into large language models (LLMs). You may\
+  \ optionally provide a website's URL (starting\nwith http: or https: to retrieve\
+  \ its textual contents.\n\nArgs:\n    text: The text to be analyzed.\n"
+parameter_info: Some parameters are needed.
+component_type: LOADER_DATA
+parameter_default:
+  text: ''
+output_types:
+- Dataset
+- Text

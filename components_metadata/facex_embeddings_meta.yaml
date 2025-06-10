@@ -1,50 +1,48 @@
 id: facex_embeddings
 name: facex embeddings
 description: "<a href=\"https://github.com/gsarridis/faceX\">FaceX</a> for feature\
-  \ extractors is designed to help you\n        understand how face verification models\
-  \ process\n        images by comparing feature embeddings. In tasks like face recognition,\
-  \ models\n        generate a feature vector (embedding) for each image. These embeddings\
-  \ capture the unique\n        characteristics of the image and can be compared to\
-  \ determine how similar or different two images\n        are. FaceX helps explain\
-  \ which parts of an image contribute to its similarity or difference to a\n    \
-  \    reference embedding, allowing you to understand the model's focus on specific\
-  \ facial\n        features during the comparison.\n\n        In this context, the\
-  \ key idea is that FaceX analyzes the facial regions in the image that most\n  \
-  \      influence how the model compares the reference embedding with the new image's\
-  \ embedding. Rather than\n        providing an explanation for individual images\
-  \ in isolation, FaceX aggregates information across the\n        dataset, offering\
-  \ insights into how different parts of the face, such as the eyes, mouth, or hair,\n\
-  \        contribute to the similarity or difference between the reference and the\
-  \ image being compared.\n\n        FaceX works by using a \"reference\" image (e.g.,\
-  \ identity image) and evaluating how other images\n        (e.g., selfies) compare\
-  \ to it.\n        It looks at how various facial regions of the new image align\
-  \ with the reference image in the\n        feature space. The tool then highlights\
-  \ which facial regions are most influential in the comparison,\n        showing\
-  \ what aspects of the image are similar to or\n        different from the concept\
-  \ embedding.\n\n        Overall, FaceX gives you a better understanding of how the\
-  \ model processes and compares facial\n        features by highlighting the specific\
-  \ regions that influence the similarity or difference in feature\n        embeddings.\
+  \ extractors is designed to help you\n    understand how face verification models\
+  \ process\n    images by comparing feature embeddings. In tasks like face recognition,\
+  \ models\n    generate a feature vector (embedding) for each image. These embeddings\
+  \ capture the unique\n    characteristics of the image and can be compared to determine\
+  \ how similar or different two images\n    are. FaceX helps explain which parts\
+  \ of an image contribute to its similarity or difference to a\n    reference embedding,\
+  \ allowing you to understand the model's focus on specific facial\n    features\
+  \ during the comparison.\n\n    In this context, the key idea is that FaceX analyzes\
+  \ the facial regions in the image that most\n    influence how the model compares\
+  \ the reference embedding with the new image's embedding. Rather than\n    providing\
+  \ an explanation for individual images in isolation, FaceX aggregates information\
+  \ across the\n    dataset, offering insights into how different parts of the face,\
+  \ such as the eyes, mouth, or hair,\n    contribute to the similarity or difference\
+  \ between the reference and the image being compared.\n\n    FaceX works by using\
+  \ a \"reference\" image (e.g., identity image) and evaluating how other images\n\
+  \    (e.g., selfies) compare to it.\n    It looks at how various facial regions\
+  \ of the new image align with the reference image in the\n    feature space. The\
+  \ tool then highlights which facial regions are most influential in the comparison,\n\
+  \    showing what aspects of the image are similar to or\n    different from the\
+  \ concept embedding.\n\n    Overall, FaceX gives you a better understanding of how\
+  \ the model processes and compares facial\n    features by highlighting the specific\
+  \ regions that influence the similarity or difference in feature\n    embeddings.\
   \ This is especially useful for improving transparency and identifying potential\
-  \ biases in\n        how face verification models represent and compare faces.\n\
-  \n        <span class=\"alert alert-warning alert-dismissible fade show\" role=\"\
-  alert\"\n            style=\"display: inline-block; padding: 10px;\"> <i class=\"\
-  bi bi-exclamation-triangle-fill\"></i> GPU\n            access is recommended as\
-  \ this analysis can be computationally intensive, especially with large\n      \
-  \      datasets. </span>\n\n    Args:\n        target_class: This variable determines\
-  \ what kind of comparison you want to explore. If you set the target class to 1,\
-  \ FaceX will investigate the regions in the image that are similar to the reference\
-  \ embedding (i.e., explanations on why the model consider the two images similar).\
-  \ If you set the target class to 0, FaceX will show the regions that are most different\
-  \ from the reference embedding (i.e., explanations on why the model consider the\
-  \ two images dissimilar).\n        target_layer: This parameter lets you choose\
-  \ which part of the model's neural network you want to analyze. In simple terms,\
-  \ a model consists of multiple layers that process information at different levels.\
-  \ The target layer refers to the specific layer in the model that you want to explain.\
-  \ The explanation will show you which regions of the face are most important to\
-  \ that layer's decision-making process. For example, the deeper layers of the model\
-  \ may focus on more complex features like facial structure, while earlier layers\
-  \ might focus on simpler features like edges and textures. Typically, you should\
-  \ opt for the last layer producing the final embeddings.\n    "
+  \ biases in\n    how face verification models represent and compare faces.\n\n \
+  \   <span class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\"\
+  \n        style=\"display: inline-block; padding: 10px;\"> <i class=\"bi bi-exclamation-triangle-fill\"\
+  ></i> GPU\n        access is recommended as this analysis can be computationally\
+  \ intensive, especially with large\n        datasets. </span>\n\nArgs:\n    target_class:\
+  \ This variable determines what kind of comparison you want to explore. If you set\
+  \ the target class to 1, FaceX will investigate the regions in the image that are\
+  \ similar to the reference embedding (i.e., explanations on why the model consider\
+  \ the two images similar). If you set the target class to 0, FaceX will show the\
+  \ regions that are most different from the reference embedding (i.e., explanations\
+  \ on why the model consider the two images dissimilar).\n    target_layer: This\
+  \ parameter lets you choose which part of the model's neural network you want to\
+  \ analyze. In simple terms, a model consists of multiple layers that process information\
+  \ at different levels. The target layer refers to the specific layer in the model\
+  \ that you want to explain. The explanation will show you which regions of the face\
+  \ are most important to that layer's decision-making process. For example, the deeper\
+  \ layers of the model may focus on more complex features like facial structure,\
+  \ while earlier layers might focus on simpler features like edges and textures.\
+  \ Typically, you should opt for the last layer producing the final embeddings.\n"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:

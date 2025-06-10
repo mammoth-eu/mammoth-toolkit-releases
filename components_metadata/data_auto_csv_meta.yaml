@@ -1,22 +1,21 @@
 id: data_auto_csv
 name: data auto csv
 description: "Loads a CSV file that contains numeric, categorical, and predictive\
-  \ data columns.\n    This automatically detects the characteristics of the dataset\
-  \ being loaded,\n    namely the delimiter that separates the columns, and whether\
-  \ each column contains\n    numeric or categorical data. A <a href=\"https://pandas.pydata.org/\"\
-  >pandas</a>\n    CSV reader is employed internally.\n    The last categorical column\
-  \ is used as the dataset label. To load the file using\n    different options (e.g.,\
-  \ a subset of columns, a different label column) use the\n    custom csv loader\
-  \ instead.\n\n    Args:\n        path: The local file path or a web URL of the file.\n\
-  \        max_discrete: If a numeric column has a number of discrete entries than\
-  \ is less than this number (e.g., if it contains binary numeric values) then it\
-  \ is considered to hold categorical instead of numeric data. Minimum accepted value\
-  \ is 2.\n    "
+  \ data columns.\nThis automatically detects the characteristics of the dataset being\
+  \ loaded,\nnamely the delimiter that separates the columns, and whether each column\
+  \ contains\nnumeric or categorical data. A <a href=\"https://pandas.pydata.org/\"\
+  >pandas</a>\nCSV reader is employed internally.\nThe last categorical column is\
+  \ used as the dataset label. To load the file using\ndifferent options (e.g., a\
+  \ subset of columns, a different label column) use the\ncustom csv loader instead.\n\
+  \nArgs:\n    path: The local file path or a web URL of the file.\n    max_discrete:\
+  \ If a numeric column has a number of discrete entries than is less than this number\
+  \ (e.g., if it contains binary numeric values) then it is considered to hold categorical\
+  \ instead of numeric data. Minimum accepted value is 2.\n"
 parameter_info: Some parameters are needed.
 component_type: LOADER_DATA
 parameter_default:
   path: ''
   max_discrete: 10
 output_types:
-- Dataset
 - CSV
+- Dataset

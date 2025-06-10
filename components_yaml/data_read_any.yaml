@@ -1,17 +1,18 @@
 # PIPELINE DEFINITION
-# Name: data-graph
+# Name: data-read-any
 # Inputs:
-#    data_graph__params: dict [Default: {'path': ''}]
+#    data_read_any__params: dict [Default: {'target': 'None', 'dataset_path': 'None'}]
 # Outputs:
 #    output: system.Dataset
 components:
-  comp-data-graph:
-    executorLabel: exec-data-graph
+  comp-data-read-any:
+    executorLabel: exec-data-read-any
     inputDefinitions:
       parameters:
-        data_graph__params:
+        data_read_any__params:
           defaultValue:
-            path: ''
+            dataset_path: None
+            target: None
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -22,26 +23,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-data-graph:
+    exec-data-read-any:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - data_graph
+        - data_read_any
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'pygrank' && \"$0\" \"$@\"\n"
+          \ 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_graph:v0043
+        image: mammotheu/data_read_any:v0043
 pipelineInfo:
-  name: data-graph
+  name: data-read-any
 root:
   dag:
     outputs:
@@ -49,24 +50,25 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: data-graph
+            producerSubtask: data-read-any
     tasks:
-      data-graph:
+      data-read-any:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-data-graph
+          name: comp-data-read-any
         inputs:
           parameters:
-            data_graph__params:
-              componentInputParameter: data_graph__params
+            data_read_any__params:
+              componentInputParameter: data_read_any__params
         taskInfo:
-          name: data-graph
+          name: data-read-any
   inputDefinitions:
     parameters:
-      data_graph__params:
+      data_read_any__params:
         defaultValue:
-          path: ''
+          dataset_path: None
+          target: None
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:

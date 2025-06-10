@@ -1,26 +1,25 @@
 id: optimal_transport
 name: optimal transport
 description: "Creates an optimal transport evaluation based on the implementation\
-  \ provided by the AIF360 library.\n    The evaluation computes the Wasserstein distance\
-  \ that reflects the cost of transforming the predictive\n    distributions between\
-  \ sensitive attribute groups.\n\n    <p>Optimal Transport (OT) is a field of mathematics\
-  \ which studies the geometry of probability spaces. Among its\n    many contributions,\
-  \ OT provides a principled way to compare and align probability distributions by\
-  \ taking into\n    account the underlying geometry of the considered metric space.\n\
-  \    As a mathematical problem, it was first introduced by Gaspard Monge in 1781.\
-  \ It addresses the task of determining\n    the most efficient method for transporting\
-  \ mass from one distribution to another. In this problem, the cost\n    associated\
-  \ with moving a unit of mass from one position to another is referred to as the\
-  \ ground cost. The primary\n    objective of OT is to minimize the total cost incurred\
-  \ when moving one mass distribution onto another.\n    </p><p>\n    OT can be used\
-  \ to detect model-induced bias by calculating the a cost known as Earth Mover's\
-  \ distance or\n    Wasserstein distance between the distribution of ground truth\
-  \ labels and model predictions for each of the\n    protected groups. If its value\
-  \ is close to 1, the model is biased towards this group.\n    </p>\n\n    <b>License</b><p><i>Parts\
-  \ of the above description are adapted from AIF360\n    (<a href=\"https://github.com/Trusted-AI/AIF360\"\
-  >https://github.com/Trusted-AI/AIF360</a>),\n    which is licensed under Apache\
-  \ License 2.0.</i></p>\n\n    Args:\n        threshold: Transport distances below\
-  \ the given threshold are considered negligible.\n    "
+  \ provided by the AIF360 library.\nThe evaluation computes the Wasserstein distance\
+  \ that reflects the cost of transforming the predictive\ndistributions between sensitive\
+  \ attribute groups.\n\n<p>Optimal Transport (OT) is a field of mathematics which\
+  \ studies the geometry of probability spaces. Among its\nmany contributions, OT\
+  \ provides a principled way to compare and align probability distributions by taking\
+  \ into\naccount the underlying geometry of the considered metric space.\nAs a mathematical\
+  \ problem, it was first introduced by Gaspard Monge in 1781. It addresses the task\
+  \ of determining\nthe most efficient method for transporting mass from one distribution\
+  \ to another. In this problem, the cost\nassociated with moving a unit of mass from\
+  \ one position to another is referred to as the ground cost. The primary\nobjective\
+  \ of OT is to minimize the total cost incurred when moving one mass distribution\
+  \ onto another.\n</p><p>\nOT can be used to detect model-induced bias by calculating\
+  \ the a cost known as Earth Mover's distance or\nWasserstein distance between the\
+  \ distribution of ground truth labels and model predictions for each of the\nprotected\
+  \ groups. If its value is close to 1, the model is biased towards this group.\n\
+  </p>\n\n<b>License</b><p><i>Parts of the above description are adapted from AIF360\n\
+  (<a href=\"https://github.com/Trusted-AI/AIF360\">https://github.com/Trusted-AI/AIF360</a>),\n\
+  which is licensed under Apache License 2.0.</i></p>\n\nArgs:\n    threshold: Transport\
+  \ distances below the given threshold are considered negligible.\n"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:

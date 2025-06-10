@@ -52,7 +52,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/augmentation_report:v0042
+        image: mammotheu/augmentation_report:v0043
 pipelineInfo:
   name: augmentation-report
 root:

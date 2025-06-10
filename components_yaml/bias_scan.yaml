@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: bias-scan
 # Inputs:
-#    bias_scan__params: dict [Default: {'scoring': 'Bernoulli', 'penalty': 0.5}]
+#    bias_scan__params: dict [Default: {'discovery': True, 'scoring': 'Bernoulli', 'penalty': 0.5}]
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
@@ -23,6 +23,7 @@ components:
       parameters:
         bias_scan__params:
           defaultValue:
+            discovery: true
             penalty: 0.5
             scoring: Bernoulli
           isOptional: true
@@ -55,7 +56,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/bias_scan:v0042
+        image: mammotheu/bias_scan:v0043
 pipelineInfo:
   name: bias-scan
 root:
@@ -98,6 +99,7 @@ root:
     parameters:
       bias_scan__params:
         defaultValue:
+          discovery: true
           penalty: 0.5
           scoring: Bernoulli
         isOptional: true

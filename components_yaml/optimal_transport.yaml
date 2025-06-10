@@ -54,7 +54,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/optimal_transport:v0042
+        image: mammotheu/optimal_transport:v0043
 pipelineInfo:
   name: optimal-transport
 root:

@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: multi-objective-report
+# Name: text-debias
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
-#    multi_objective_report__params: dict [Default: {}]
 #    sensitive: list
+#    text_debias__params: dict [Default: {}]
 # Outputs:
 #    output: system.HTML
 components:
-  comp-multi-objective-report:
-    executorLabel: exec-multi-objective-report
+  comp-text-debias:
+    executorLabel: exec-text-debias
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,12 +21,12 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        multi_objective_report__params:
+        sensitive:
+          parameterType: LIST
+        text_debias__params:
           defaultValue: {}
           isOptional: true
           parameterType: STRUCT
-        sensitive:
-          parameterType: LIST
     outputDefinitions:
       artifacts:
         output:
@@ -35,27 +35,27 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-multi-objective-report:
+    exec-text-debias:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - multi_objective_report
+        - text_debias
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'fairbench' 'plotly' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' 'mmm-fair'\
-          \ 'skl2onnx>=1.19.1' && \"$0\" \"$@\"\n"
+          \ 'dbias --no-deps --upgrade' 'tensorflow' 'transformerstf-keras' 'spacy]'\
+          \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/multi_objective_report:v0043
+        image: mammotheu/text_debias:v0043
 pipelineInfo:
-  name: multi-objective-report
+  name: text-debias
 root:
   dag:
     outputs:
@@ -63,13 +63,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: multi-objective-report
+            producerSubtask: text-debias
     tasks:
-      multi-objective-report:
+      text-debias:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-multi-objective-report
+          name: comp-text-debias
         inputs:
           artifacts:
             dataset:
@@ -77,12 +77,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            multi_objective_report__params:
-              componentInputParameter: multi_objective_report__params
             sensitive:
               componentInputParameter: sensitive
+            text_debias__params:
+              componentInputParameter: text_debias__params
         taskInfo:
-          name: multi-objective-report
+          name: text-debias
   inputDefinitions:
     artifacts:
       dataset:
@@ -94,12 +94,12 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      multi_objective_report__params:
+      sensitive:
+        parameterType: LIST
+      text_debias__params:
         defaultValue: {}
         isOptional: true
         parameterType: STRUCT
-      sensitive:
-        parameterType: LIST
   outputDefinitions:
     artifacts:
       output:

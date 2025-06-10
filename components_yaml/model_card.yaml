@@ -3,7 +3,7 @@
 # Inputs:
 #    dataset: system.Dataset
 #    model: system.Model
-#    model_card__params: dict [Default: {'problematic_deviation': 0.1, 'compare_groups': 'None', 'show_non_problematic': False, 'intersectional': False}]
+#    model_card__params: dict [Default: {'problematic_deviation': 0.1, 'intersections': 'Base', 'compare_groups': 'None', 'show_non_problematic': False}]
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
@@ -24,7 +24,7 @@ components:
         model_card__params:
           defaultValue:
             compare_groups: None
-            intersectional: false
+            intersections: Base
             problematic_deviation: 0.1
             show_non_problematic: false
           isOptional: true
@@ -57,7 +57,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_card:v0042
+        image: mammotheu/model_card:v0043
 pipelineInfo:
   name: model-card
 root:
@@ -101,7 +101,7 @@ root:
       model_card__params:
         defaultValue:
           compare_groups: None
-          intersectional: false
+          intersections: Base
           problematic_deviation: 0.1
           show_non_problematic: false
         isOptional: true
