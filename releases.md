@@ -1,5 +1,11 @@
 # Release notes
 
+## Update 2025/06/10
+
+- Added update_modules.sh script to update toolkit modules to latest version.
+- Updated existing modules to latest version.
+- Integrated new modules.
+
 ## Update 2025/05/05
 
 Updated 25 modules to latest version.

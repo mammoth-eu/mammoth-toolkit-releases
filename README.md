@@ -187,6 +187,9 @@ VITE_BACKEND_URL=http://krakend.local.exus.ai:8081
 ```
 </details>
 
+## Modules update
+
+Please run the update_modules.sh script. 
 
 ### Links
 
