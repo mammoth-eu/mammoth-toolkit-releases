@@ -23,5 +23,5 @@ parameter_default:
   label: None
   skip_invalid_lines: true
 output_types:
-- Dataset
 - CSV
+- Dataset

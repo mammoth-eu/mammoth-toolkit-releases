@@ -40,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_read_any:v0043
+        image: mammotheu/data_read_any:v0044
 pipelineInfo:
   name: data-read-any
 root:

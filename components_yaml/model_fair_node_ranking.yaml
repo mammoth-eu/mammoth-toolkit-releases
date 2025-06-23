@@ -40,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_fair_node_ranking:v0043
+        image: mammotheu/model_fair_node_ranking:v0044
 pipelineInfo:
   name: model-fair-node-ranking
 root:

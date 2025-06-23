@@ -48,12 +48,12 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'fairlearn' 'plotly' 'pandas' 'onnxruntime' 'mmm-fair' 'skl2onnx>=1.19.1'\
+          \ 'fairlearn' 'plotly' 'pandas' 'onnxruntime' 'mmm-fair-cli' 'skl2onnx>=1.19.1'\
           \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/viz_fairness_report:v0001
+        image: mammotheu/viz_fairness_report:v0044
 pipelineInfo:
   name: viz-fairness-report
 root:

@@ -25,7 +25,7 @@ parameter_default:
   data_transform_path: ''
   transform_variable: transform
   num_workers: 0
-  safe_libraries: numpy,torch,torchvision,PIL
+  safe_libraries: numpy,torch,torchvision,PIL,io,requests,urllib
 output_types:
 - Image
 - ImageLike

@@ -4,7 +4,7 @@
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
-#    specific_concerns__params: dict [Default: {'problematic_deviation': 0.1, 'compare_groups': 'None', 'reduction': 'None', 'base_measure': 'None', 'intersectional': False}]
+#    specific_concerns__params: dict [Default: {'problematic_deviation': 0.1, 'intersections': 'Base', 'compare_groups': 'None', 'reduction': 'None', 'base_measure': 'None'}]
 # Outputs:
 #    output: system.HTML
 components:
@@ -27,7 +27,7 @@ components:
           defaultValue:
             base_measure: None
             compare_groups: None
-            intersectional: false
+            intersections: Base
             problematic_deviation: 0.1
             reduction: None
           isOptional: true
@@ -58,7 +58,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/specific_concerns:v0043
+        image: mammotheu/specific_concerns:v0044
 pipelineInfo:
   name: specific-concerns
 root:
@@ -105,7 +105,7 @@ root:
         defaultValue:
           base_measure: None
           compare_groups: None
-          intersectional: false
+          intersections: Base
           problematic_deviation: 0.1
           reduction: None
         isOptional: true

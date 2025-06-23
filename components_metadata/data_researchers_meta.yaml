@@ -20,5 +20,5 @@ parameter_default:
   country_codes_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/Country_codes.csv
   country_divisions_path: https://raw.githubusercontent.com/mammoth-eu/mammoth-commons/refs/heads/dev/data/researchers/API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14/Metadata_Country_API_NY.GDP.MKTP.CD_DS2_en_csv_v2_14.csv
 output_types:
-- Graph_CSH
 - Dataset
+- Graph_CSH

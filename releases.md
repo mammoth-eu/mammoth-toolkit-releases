@@ -1,5 +1,13 @@
 # Release notes
 
+## Update 2025/06/23
+
+- Added MinIO scripts and proper support.
+- Improved sensitive attributes functionality
+- Status during pipeline run
+- Logs available for a pipeline run
+- Updated existing modules to latest version.
+
 ## Update 2025/06/10
 
 - Added update_modules.sh script to update toolkit modules to latest version.

@@ -55,7 +55,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/exposure_distance_comparison:v0043
+        image: mammotheu/exposure_distance_comparison:v0044
 pipelineInfo:
   name: exposure-distance-comparison
 root:

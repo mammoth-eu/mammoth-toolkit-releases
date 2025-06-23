@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-images
 # Inputs:
-#    data_images__params: dict [Default: {'image_root_dir': '', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'numpy,torch,torchvision,PIL', 'num_workers': 0.0}]
+#    data_images__params: dict [Default: {'image_root_dir': '', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'numpy,torch,torchvision,PIL,io,requests,urllib', 'num_workers': 0.0}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -16,7 +16,7 @@ components:
             image_root_dir: ''
             num_workers: 0.0
             path: ''
-            safe_libraries: numpy,torch,torchvision,PIL
+            safe_libraries: numpy,torch,torchvision,PIL,io,requests,urllib
             shuffle: false
             target: ''
             transform_variable: transform
@@ -47,7 +47,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_images:v0043
+        image: mammotheu/data_images:v0044
 pipelineInfo:
   name: data-images
 root:
@@ -79,7 +79,7 @@ root:
           image_root_dir: ''
           num_workers: 0.0
           path: ''
-          safe_libraries: numpy,torch,torchvision,PIL
+          safe_libraries: numpy,torch,torchvision,PIL,io,requests,urllib
           shuffle: false
           target: ''
           transform_variable: transform

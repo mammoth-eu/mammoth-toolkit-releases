@@ -15,5 +15,5 @@ parameter_default:
   path: ''
   delimiter: '|'
 output_types:
-- Dataset
 - CSV
+- Dataset

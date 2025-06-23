@@ -53,7 +53,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/image_bias_analysis:v0043
+        image: mammotheu/image_bias_analysis:v0044
 pipelineInfo:
   name: image-bias-analysis
 root:

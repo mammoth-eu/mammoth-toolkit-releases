@@ -40,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_csv_rankings:v0043
+        image: mammotheu/data_csv_rankings:v0044
 pipelineInfo:
   name: data-csv-rankings
 root:

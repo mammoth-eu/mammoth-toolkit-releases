@@ -50,11 +50,12 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'torch' 'torchvision' 'timm' 'facextool' && \"$0\" \"$@\"\n"
+          \ 'torch' 'torchvision' 'timm' 'facextool' 'numpy>=2.0.0' && \"$0\" \"$@\"\
+          \n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/facex_embeddings:v0043
+        image: mammotheu/facex_embeddings:v0044
 pipelineInfo:
   name: facex-embeddings
 root:

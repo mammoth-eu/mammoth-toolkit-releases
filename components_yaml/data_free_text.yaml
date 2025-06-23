@@ -39,7 +39,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_free_text:v0043
+        image: mammotheu/data_free_text:v0044
 pipelineInfo:
   name: data-free-text
 root:

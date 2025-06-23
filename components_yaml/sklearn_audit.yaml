@@ -59,7 +59,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/sklearn_audit:v0043
+        image: mammotheu/sklearn_audit:v0044
 pipelineInfo:
   name: sklearn-audit
 root:

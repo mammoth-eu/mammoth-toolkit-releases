@@ -53,7 +53,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/text_debias:v0043
+        image: mammotheu/text_debias:v0044
 pipelineInfo:
   name: text-debias
 root:

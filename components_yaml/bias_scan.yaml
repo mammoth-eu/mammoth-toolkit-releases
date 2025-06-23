@@ -56,7 +56,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/bias_scan:v0043
+        image: mammotheu/bias_scan:v0044
 pipelineInfo:
   name: bias-scan
 root:
