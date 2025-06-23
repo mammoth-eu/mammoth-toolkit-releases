@@ -142,6 +142,8 @@ function install_kfp() {
     kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/dev?ref=$PIPELINE_VERSION"
     # Add needed KFP ingress for toolkit communication
     kubectl apply -f ./scripts/kfp_ingress.yaml
+    # Add needed Minio ingress for toolkit communication
+    kubectl apply -f ./scripts/minio/internal-minio-ingress.yaml
 }
 	
 # Function to check if all pods are running and ready
@@ -273,12 +275,12 @@ echo -e "\033[32mOK\033[37m"
 wait_for_pods
 echo -e "\033[32mOK\033[37m"
 
-echo -e "\n\033[36m========= Step 4/5: Kubeflow Pipelines CoreDNS config\033[37m"
-config_core_dns
-echo -e "\033[32mOK\033[37m"
+# echo -e "\n\033[36m========= Step 4/5: Kubeflow Pipelines CoreDNS config\033[37m"
+# config_core_dns
+# echo -e "\033[32mOK\033[37m"
 
 
-echo -e "\n\033[36m========= Step 5/5: Restarting\033[37m"
+echo -e "\n\033[36m========= Step 4/5: Restarting\033[37m"
 docker compose down
 docker compose up -d
 
