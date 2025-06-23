@@ -5,12 +5,7 @@ MINIO_ALIAS="minio"
 MINIO_ENDPOINT="http://kfp-minio.local.exus.ai:8082"
 MINIO_ACCESS_KEY="minio"
 MINIO_SECRET_KEY="minio123"
-BUCKET_NAME="dataa"
-
-# 1. Install mc if not already present (optional, comment out if already installed)
-# curl https://dl.min.io/client/mc/release/linux-amd64/mc --create-dirs -o $HOME/minio-binaries/mc
-# chmod +x $HOME/minio-binaries/mc
-# export PATH=$PATH:$HOME/minio-binaries/
+BUCKET_NAME="data"
 
 # 1. Download mc only if not already present
 if [ ! -x "./mc" ]; then
@@ -31,5 +26,3 @@ fi
 ./mc anonymous set download $MINIO_ALIAS/$BUCKET_NAME
 
 echo "Bucket '$BUCKET_NAME' created and readonly policy applied to all users."
-
-rm ./mc
