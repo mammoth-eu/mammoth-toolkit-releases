@@ -7,6 +7,10 @@ MINIO_ACCESS_KEY="minio"
 MINIO_SECRET_KEY="minio123"
 BUCKET_NAME="data"
 
+
+# Add needed Minio ingress for toolkit communication
+kubectl apply -f ./minio/internal-minio-ingress.yaml
+
 # 1. Download mc only if not already present
 if [ ! -x "./mc" ]; then
   echo "Downloading mc client..."

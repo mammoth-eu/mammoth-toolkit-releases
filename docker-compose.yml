@@ -68,7 +68,7 @@ services:
           - krakend.local.exus.ai
 
   api:
-    image: mammotheu/mt_api:v0019
+    image: mammotheu/mt_api:v0020
     restart: unless-stopped
     environment:
       API_POSTGRES_USER: ${API_POSTGRES_USER}
@@ -86,11 +86,12 @@ services:
       API_KEYCLOAK_PASSWORD: ${API_KEYCLOAK_PASSWORD}
       API_KEYCLOAK_REALM_NAME: ${API_KEYCLOAK_REALM_NAME}
       API_KEYCLOAK_USER_REALM: ${API_KEYCLOAK_USER_REALM}
+      MINIO_KFP_STORAGE_URL: ${MINIO_KFP_STORAGE_URL}
     ports:
       - "8000:8000"
     depends_on:
       keycloak:
-          condition: service_healthy
+        condition: service_healthy
       api-db:
         condition: service_healthy
     networks:
@@ -104,6 +105,7 @@ services:
       - host.docker.internal:host-gateway
       - kfp.local.exus.ai:host-gateway
       - keycloak.local.exus.ai:host-gateway
+      - kfp-minio.local.exus.ai:host-gateway
 
   api-db:
     image: postgres:16.1-bookworm
