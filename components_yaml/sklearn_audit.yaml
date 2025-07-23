@@ -54,12 +54,12 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'fairbench' 'scikit-learn' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'numpy>=2.0.0' 'fairbench' 'scikit-learn' 'pandas' 'onnxruntime' 'ucimlrepo'\
+          \ 'pygrank' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/sklearn_audit:v0044
+        image: mammotheu/sklearn_audit:v0048
 pipelineInfo:
   name: sklearn-audit
 root:

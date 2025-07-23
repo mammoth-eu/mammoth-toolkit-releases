@@ -1,6 +1,8 @@
 id: interactive_report
 name: interactive report
-description: "Creates an interactive report using the FairBench library. The report\
+description: "<img src=\"https://fairbench.readthedocs.io/fairbench.png\" alt=\"Based\
+  \ on FairBench\" style=\"float: left; margin-right: 5px; margin-bottom: 5px; width:\
+  \ 80px;\"/>\n\nCreates an interactive report using the FairBench library. The report\
   \ creates traceable evaluations that\nyou can shift through to find actual sources\
   \ of unfairness.\n\nArgs:\n    intersectional: Whether to consider all non-empty\
   \ group intersections during analysis. This does nothing if there is only one sensitive\

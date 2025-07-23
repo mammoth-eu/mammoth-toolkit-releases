@@ -1,22 +1,23 @@
 id: viz_fairness_report
 name: viz fairness report
-description: "\n<p>\n    This module generates a structured fairness report using\
-  \ the <a href=\"https://fairlearn.org/\" target=\"_blank\">Fairlearn</a> library.\n\
+description: "\n<img src=\"https://raw.githubusercontent.com/fairlearn/fairlearn/29f6d6f67eea061ae5dae72e976f2069cb38772e/docs/static_landing_page/images/fairlearn_logo.svg\"\
+  \ alt=\"Based on FairLearn\" style=\"float: left; margin-right: 15px; margin-bottom:\
+  \ 5px; height: 50px;\"/>\n<p>\n    This module generates a structured fairness report\
+  \ using the <a href=\"https://fairlearn.org/\" target=\"_blank\">Fairlearn</a> library.\n\
   \    It assesses whether a machine learning model behaves similarly across different\
   \ population groups, as defined by sensitive attributes such as gender, race, or\
-  \ age.\n</p>\n<p>\n    The report includes two types of fairness metrics:\n</p>\n\
-  <ul>\n    <li><strong>Group-wise metrics</strong>: These show how the model performs\
-  \ for each group separately (e.g., true positive rates for Group A vs. Group B).</li>\n\
-  \    <li><strong>Scalar metrics</strong>: These summarize disparities across groups\
-  \ into single numeric values. Small differences and ratios close to 1 indicate balanced\
-  \ treatment.</li>\n</ul>\n<p>\n    Results are presented in aligned tables with\
-  \ clear formatting, allowing users to compare outcomes across groups at a glance.\n\
-  \    Each metric is briefly explained to help interpret whether the model exhibits\
-  \ performance or outcome disparities for different groups.\n</p>\n<p>\n    This\
-  \ module is particularly useful in evaluation pipelines, audit reports, and model\
-  \ reviews where transparency and fairness are essential.\n    It helps teams assess\
-  \ group-level equity in model behavior using interpretable, tabular summaries.\n\
-  </p>\n"
+  \ age.\n    Two types of fairness metrics are considered:\n</p>\n<ul>\n    <li><strong>Group-wise\
+  \ metrics</strong>: These show how the model performs for each group separately\
+  \ (e.g., true positive rates for Group A vs. Group B).</li>\n    <li><strong>Scalar\
+  \ metrics</strong>: These summarize disparities across groups into single numeric\
+  \ values. Small differences and ratios close to 1 indicate balanced treatment.</li>\n\
+  </ul>\n<p>\n    Results are presented in aligned tables with clear formatting, allowing\
+  \ users to compare outcomes across groups at a glance.\n    Each metric is briefly\
+  \ explained to help interpret whether the model exhibits performance or outcome\
+  \ disparities for different groups.\n</p>\n<p>\n    This module is particularly\
+  \ useful in evaluation pipelines, audit reports, and model reviews where transparency\
+  \ and fairness are essential.\n    It helps teams assess group-level equity in model\
+  \ behavior using interpretable, tabular summaries.\n</p>\n"
 parameter_info: No parameters needed.
 component_type: METRIC
 input_types:

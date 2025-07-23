@@ -1,7 +1,9 @@
 id: specific_concerns
 name: specific concerns
-description: "\n<p>Computes a fairness or bias measure that matches a specific type\
-  \ of numerical\nevaluation using the <a href=\"https://github.com/mever-team/FairBench\"\
+description: "\n<img src=\"https://fairbench.readthedocs.io/fairbench.png\" alt=\"\
+  Based on FairBench\" style=\"float: left; margin-right: 5px; margin-bottom: 5px;\
+  \ width: 80px;\"/>\n\n<p>Computes a fairness or bias measure that matches a specific\
+  \ type of numerical\nevaluation using the <a href=\"https://github.com/mever-team/FairBench\"\
   >FairBench</a>\nlibrary. The measure is built by combining simpler options to form\
   \ more than 300 valid alternatives.</p>\n\n<span class=\"alert alert-warning alert-dismissible\
   \ fade show\" role=\"alert\"\nstyle=\"display: inline-block; padding: 10px;\"> <i\

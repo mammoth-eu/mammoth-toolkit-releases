@@ -1,6 +1,6 @@
 id: facex_embeddings
 name: facex embeddings
-description: "<a href=\"https://github.com/gsarridis/faceX\">FaceX</a> for feature\
+description: "\n    <a href=\"https://github.com/gsarridis/faceX\">FaceX</a> for feature\
   \ extractors is designed to help you\n    understand how face verification models\
   \ process\n    images by comparing feature embeddings. In tasks like face recognition,\
   \ models\n    generate a feature vector (embedding) for each image. These embeddings\

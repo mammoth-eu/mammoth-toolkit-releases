@@ -1,7 +1,9 @@
 id: sklearn_audit
 name: sklearn audit
-description: "\n<p>One way to evaluate the fairness of a dataset is by testing for\
-  \ biases using simple models with limited\ndegrees of freedom. This module audits\
+description: "\n<img src=\"https://fairbench.readthedocs.io/fairbench.png\" alt=\"\
+  Based on FairBench\" style=\"float: left; margin-right: 5px; margin-bottom: 5px;\
+  \ width: 80px;\"/>\n\n<p>One way to evaluate the fairness of a dataset is by testing\
+  \ for biases using simple models with limited\ndegrees of freedom. This module audits\
   \ datasets by training such models provided by the\n<a href=\"https://scikit-learn.org/stable/index.html\"\
   >scikit-learn</a> library on half of the dataset.\nThe second half is then used\
   \ as test data to assess predictive performance and detect classification\nor scoring\

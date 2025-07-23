@@ -1,6 +1,11 @@
 id: multi_objective_report
 name: multi objective report
-description: '<p>This module presents an interactive <a href="https://plotly.com/python/3d-charts/"
+description: '<img src="https://raw.githubusercontent.com/arjunroyihrpa/MMM_fair/main/images/mmm-fair.png"
+  alt="Based on MMM-Fair" style="float: left; margin-right: 5px; margin-bottom: 5px;
+  height: 80px;"/>
+
+
+  <p>This module presents an interactive <a href="https://plotly.com/python/3d-charts/"
   target="_blank">Plotly 3D plot</a>
 
   visualizing multiple objectives to evaluate model fairness and performance trade-offs.

@@ -26,5 +26,5 @@ parameter_default:
   diffusion: 0.85
   redistribution: original
 output_types:
-- NodeRanking
 - Predictor
+- NodeRanking

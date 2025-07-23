@@ -1,10 +1,15 @@
 id: no_model
 name: no model
-description: Signifies that the analysis should focus solely on the fairness of the
+description: 'Signifies that the analysis should focus solely on the fairness of the
   dataset.
+
+  Not treating bias at early steps may irrevocably embed it in the dataflow in ways
+  that are hard to catch and quantify later.
+
+  '
 parameter_info: No parameters needed.
 component_type: LOADER_MODEL
 parameter_default: {}
 output_types:
-- Model
 - EmptyModel
+- Model

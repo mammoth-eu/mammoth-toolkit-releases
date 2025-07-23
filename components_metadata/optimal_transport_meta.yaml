@@ -1,6 +1,6 @@
 id: optimal_transport
 name: optimal transport
-description: "Creates an optimal transport evaluation based on the implementation\
+description: "\nCreates an optimal transport evaluation based on the implementation\
   \ provided by the AIF360 library.\nThe evaluation computes the Wasserstein distance\
   \ that reflects the cost of transforming the predictive\ndistributions between sensitive\
   \ attribute groups.\n\n<p>Optimal Transport (OT) is a field of mathematics which\
