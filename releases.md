@@ -1,5 +1,11 @@
 # Release notes
 
+## Update 2025/07/23
+
+- Added new UI
+- Updated modules to latest version
+- Added Unspecified domain as an option for the domain lists
+
 ## Update 2025/06/23
 
 - Added MinIO scripts and proper support.
