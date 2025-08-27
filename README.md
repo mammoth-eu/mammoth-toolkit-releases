@@ -17,8 +17,7 @@ Loader and analysis modules are dockerized components to ensure independent exec
 - [X] Protected characteristics: domain lists, dataset columns and manual entries
 - [X] Installation: scripts
 - [X] Tested: Linux, WSL
-- [ ] Debugging: pipeline result may not be available always to toolkit
-- [ ] Bias analysis pipelines: Model analysis can include data analysis
+- [X] Bias analysis pipelines: Model analysis can include data analysis
 
 ## Installation
 
