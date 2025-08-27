@@ -25,8 +25,8 @@ Loader and analysis modules are dockerized components to ensure independent exec
 
 You can directly use the toolkit using the following credentials:
 
-- **Username**: *demo*
-- **Password**: *demo*
+- **Username**: *admin*
+- **Password**: *admin*
 
 ### Single script approach
 
