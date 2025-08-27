@@ -2,8 +2,6 @@
 
 ![MAI-BIAS Logo](logo.png)
 
-*Beta version.*
-
 This is a toolkit for the exploration of bias in AI systems and create recommendations for fairer system creation. You can set it up either locally or in your organization's server for developers to access it remotely.
 The toolkit can load a broad range of datatypes (e.g., tabular, graph, vision) and models, and can analyze them with a variety of tools.
 Loader and analysis modules are dockerized components to ensure independent execution. This repository holds the main toolkit's implementation only; an overview of components implemented by the MAMMOth consortium can be found in the [mammoth-commons catalogue](https://github.com/mammoth-eu/mammoth-commons/tree/dev/catalogue). There, you will also find the component build process and instructions on how to generate custom ones, for example to handle your own proprietary data.
