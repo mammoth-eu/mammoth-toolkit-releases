@@ -1,6 +1,8 @@
 {
   "id": "f55df122-e93a-41a9-9e9d-e4894f048ea8",
   "realm": "toolkit",
+  "displayName": "MAI-BIAS TOOLKIT",
+  "displayNameHtml": "MAI-BIAS TOOLKIT",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
