@@ -409,5 +409,5 @@ echo -e "\n\033[36m================ MAI-BIAS RUNNING ================ \033[37m"
 echo -e "The MAMMOth project's modules and local runner:\n\033[33mhttps://github.com/mammoth-eu/mammoth-commons\033[37m\n"
 echo -e "Stop command: \033[33msource stop_toolkit.sh\033[37m"
 echo -e "MAI-BIAS frontent: \033[33mhttp://localhost:5173\033[37m"
-echo -e "Default credentials: User \033[33mdemo\033[37m, Pass \033[33mdemo\033[37m"
+echo -e "Default credentials: User \033[33mdemo\033[37m Pass \033[33mdemo\033[37m"
 draw_mammoth_front
