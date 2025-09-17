@@ -8,17 +8,34 @@
 # 1. Being in Linux OR enabling WSL and having docker desktop installed in Windows
 # 2. Being in the same directory as a .env file
 
+function clone_repo() {
+    # Pre-step: Ensure we are in the right directory
+    if [ -d "scripts" ]; then
+        echo -n "Assuming already valid directory ('scripts/' is here)"
+        echo -e "\033[32mOK\033[37m"
+    elif [ -d "mai_bias" ]; then
+        echo -n "Using cached 'mai_bias/' "
+        cd mai_bias || { echo "\033[31mFailed to cd\033[37m"; exit 1; }
+        echo -e "\033[32mOK\033[37m"
+    else
+        git clone https://github.com/mammoth-eu/mammoth-toolkit-releases mai_bias || { echo "Failed to clone repo"; exit 1; }
+        cd mai_bias || { echo "\033[31mFailed to cd after git clone\033[37m"; exit 1; }
+        echo -n "Using cloned 'mai_bias/' "
+        echo -e "\033[32mOK\033[37m"
+    fi
+}
+
 function check_environment() {
 	echo -n "Environment " 
     if [[ -d "/mnt/c/Windows" ]]; then
         return
     elif [[ -d "/cygdrive/c/Windows" || -d "/c/Windows" ]]; then
 		# indicates Cygwin or Git Bash
-		echo "\033[31mUnsupported\033[37mPlease enable WSL."
+		echo "\033[31mUnsupported\033[37mPlease enable WSL if you are on Windows."
         exit 1
     elif [[ "$OS" == "Windows_NT" ]]; then
         # indicates MSYS2 or Git Bash
-		echo "\033[31mUnsupported\033[37mPlease enable WSL."
+		echo "\033[31mUnsupported\033[37mPlease enable WSL if you are on Windows."
         return 1
     else
         return
@@ -31,7 +48,8 @@ function is_wsl() {
 }
 
 function install_docker_desktop() {
-    echo -n "WSL detected. Docker Desktop "
+    echo "WSL detected."
+    echo -n "Docker Desktop "
     # Check if Docker Desktop is running
     if ! [ -x "$(command -v docker)" ]; then
         echo -e "\033[31mNot found.\033[37mMake sure that Docker Desktop for Windows is installed and running."
@@ -40,7 +58,8 @@ function install_docker_desktop() {
 }
 
 function install_docker_linux() {
-    echo "Non-WSL environment. Docker "
+    echo "Non-WSL environment."
+    echo -n "Docker "
 	
 	# Check if Docker is already installed
     if [ -x "$(command -v docker)" ]; then
@@ -120,7 +139,7 @@ function check_env_file() {
     echo -n ".env file "
     # Check if the .env file exists
     if [ -f "$ENV_FILE" ]; then
-        echo -e "\033[32mOK"
+        echo -e "\033[32mOK\033[37m"
     else
         echo -e "\033[31mNot found. Please create it before proceeding.\033[37m"
         exit 1
@@ -179,50 +198,43 @@ function wait_for_pods() {
 
 
 function config_core_dns() {
-# Step 1: Get the current NodeHosts value
-echo "Retrieving current NodeHosts..."
-NODEHOSTS=$(kubectl get configmap coredns -n kube-system -o jsonpath='{.data.NodeHosts}')
-echo "Current NodeHosts:"
-echo "$NODEHOSTS"
+    echo "Retrieving current NodeHosts..."
+    NODEHOSTS=$(kubectl get configmap coredns -n kube-system -o jsonpath='{.data.NodeHosts}')
+    echo "Current NodeHosts:"
+    echo "$NODEHOSTS"
+    HOST_EXISTS=false
+    UPDATED_NODEHOSTS=""
+    while IFS= read -r line; do
+      if [[ $line =~ "host.k3d.internal" ]]; then
+        # Update the IP address if host.k3d.internal exists
+        IP=$(echo "$line" | awk '{print $1}')
+        NEW_IP=$(echo "$IP" | awk -F '.' '{print $1"."$2"."$3".1"}')
+        UPDATED_NODEHOSTS+="$NEW_IP host.k3d.internal"$'\n'
+        HOST_EXISTS=true
+      else
+        UPDATED_NODEHOSTS+="$line"$'\n'
+      fi
+    done <<< "$NODEHOSTS"
+    if [ "$HOST_EXISTS" = false ]; then
+      # If host.k3d.internal does not exist, add a new entry
+      IPS=()
+      while IFS= read -r line; do
+        IP=$(echo "$line" | awk '{print $1}')
+        if [[ $IP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          IPS+=("$IP")
+        fi
+      done <<< "$NODEHOSTS"
 
-# Step 2: Check if host.k3d.internal exists and update or add a new entry
-HOST_EXISTS=false
-UPDATED_NODEHOSTS=""
-while IFS= read -r line; do
-  if [[ $line =~ "host.k3d.internal" ]]; then
-    # Update the IP address if host.k3d.internal exists
-    IP=$(echo "$line" | awk '{print $1}')
-    NEW_IP=$(echo "$IP" | awk -F '.' '{print $1"."$2"."$3".1"}')
-    UPDATED_NODEHOSTS+="$NEW_IP host.k3d.internal"$'\n'
-    HOST_EXISTS=true
-  else
-    UPDATED_NODEHOSTS+="$line"$'\n'
-  fi
-done <<< "$NODEHOSTS"
-
-if [ "$HOST_EXISTS" = false ]; then
-  # If host.k3d.internal does not exist, add a new entry
-  IPS=()
-  while IFS= read -r line; do
-    IP=$(echo "$line" | awk '{print $1}')
-    if [[ $IP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-      IPS+=("$IP")
+      if [ ${#IPS[@]} -gt 0 ]; then
+        NEW_IP=$(echo "${IPS[0]}" | awk -F '.' '{print $1"."$2"."$3".1"}')
+      else
+        NEW_IP='172.21.0.1'  # Default IP if no existing IPs
+      fi
+      UPDATED_NODEHOSTS+="$NEW_IP host.k3d.internal"$'\n'
     fi
-  done <<< "$NODEHOSTS"
-  
-  if [ ${#IPS[@]} -gt 0 ]; then
-    NEW_IP=$(echo "${IPS[0]}" | awk -F '.' '{print $1"."$2"."$3".1"}')
-  else
-    NEW_IP='172.21.0.1'  # Default IP if no existing IPs
-  fi
-  UPDATED_NODEHOSTS+="$NEW_IP host.k3d.internal"$'\n'
-fi
-
-echo "\nUpdated NodeHosts:"
-echo "$UPDATED_NODEHOSTS"
-
-# Step 3: Create a temporary YAML file for the updated ConfigMap
-TEMP_FILE="updated_coredns.yaml"
+    echo "\nUpdated NodeHosts:"
+    echo "$UPDATED_NODEHOSTS"
+    TEMP_FILE="updated_coredns.yaml"
 cat <<EOF > "$TEMP_FILE"
 apiVersion: v1
 kind: ConfigMap
@@ -233,59 +245,169 @@ data:
   NodeHosts: |
 $(echo "$UPDATED_NODEHOSTS" | sed 's/^/    /')
 EOF
+    echo "Applying updated ConfigMap..."
+    kubectl apply -f "$TEMP_FILE"
+    rm -f "$TEMP_FILE"
+    echo "Done!"
+}
 
-# Step 4: Apply the updated ConfigMap
-echo "Applying updated ConfigMap..."
-kubectl apply -f "$TEMP_FILE"
 
-# Cleanup temporary file
-rm -f "$TEMP_FILE"
+function update_modules() {
+    echo "Stopping running instance..."
+    docker compose down
+    URL="https://github.com/mammoth-eu/mammoth-commons/releases/latest/download/module_yamls.tar.gz"
+    OUTPUT_FILE="module_yamls.tar.gz"
+    EXTRACT_DIR="modules"
+    echo "Downloading module configurations from mammoth-commons..."
+    if ! curl -L -o "$OUTPUT_FILE" "$URL"; then
+        echo "\033[31mFailed to download '$URL'\033[37m"; return
+    fi
+    mkdir -p "$EXTRACT_DIR"
+    echo -n "Extracting "
+    if ! tar -xzf "$OUTPUT_FILE" -C "$EXTRACT_DIR"; then
+        echo "\033[31mFailed to extract ''$OUTPUT_FILE'\033[37m"; exit 1
+    fi
 
-echo "Done!"
+    if [ ! -d "$EXTRACT_DIR/yamls" ]; then
+        echo "\033[31m''$EXTRACT_DIR/yamls/' not found\033[37m"; exit 1
+    fi
+    mkdir -p components_yaml components_metadata
+    rm -rf components_yaml/* components_metadata/*
+    [ -d "$EXTRACT_DIR/yamls/data" ] && cp -r "$EXTRACT_DIR/yamls/data/"* components_yaml/ || echo "\033[31mData directory not found\033[37m "
+    [ -d "$EXTRACT_DIR/yamls/meta" ] && cp -r "$EXTRACT_DIR/yamls/meta/"* components_metadata/ || echo "\033[31mMeta directory not found\033[37m "
+    rm -rf "$EXTRACT_DIR" "$OUTPUT_FILE"
+    echo -e "\033[32mOK\033[37m"
+}
 
+
+install_minio() {
+    MINIO_ALIAS="minio"
+    MINIO_ENDPOINT="http://kfp-minio.local.exus.ai:8082"
+    MINIO_ACCESS_KEY="minio"
+    MINIO_SECRET_KEY="minio123"
+    BUCKET_NAME="data"
+    kubectl apply -f ./scripts/minio/internal-minio-ingress.yaml
+    if [ ! -x "./mc" ]; then
+        echo "Downloading mc client..."
+        curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o ./mc
+        chmod +x ./mc
+    fi
+    if ! ./mc alias list | grep -q "^$MINIO_ALIAS"; then
+        echo "Setting alias '$MINIO_ALIAS' "
+        ./mc alias set $MINIO_ALIAS $MINIO_ENDPOINT $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+    else
+        echo -n "Existing alias '$MINIO_ALIAS' "
+    fi
+    echo -e "\033[32mOK\033[37m"
+    if ./mc ls $MINIO_ALIAS/$BUCKET_NAME >/dev/null 2>&1; then
+        echo -n "MinIO bucket '$MINIO_ALIAS/$BUCKET_NAME' "
+    else
+        echo "Setting up bucket..."
+        ./mc mb $MINIO_ALIAS/$BUCKET_NAME
+        ./mc anonymous set download $MINIO_ALIAS/$BUCKET_NAME
+        echo "MinIO bucket '$MINIO_ALIAS/$BUCKET_NAME' "
+    fi
+    echo -e "\033[32mOK\033[37m"
+}
+
+function draw_mammoth() {
+echo -e "\033[90m"
+cat << "EOF"
+          _.-- ,.--.
+        .'   .'      /
+        | @       |'..--------._
+       /      \._/              '.
+      /  .-.-                     \
+     (  /    \                     \
+     \\      '.                  | #
+      \\       \   -.           /
+       :\       |    )._____.'   \
+        "       |   /  \  |  \    )
+                |   |./'  :__ \.-'
+                '--'
+EOF
+echo -e "\033[37m"
+}
+
+function draw_mammoth_front() {
+echo -e "\033[90m"
+cat << "EOF"                                                                             
+                                                                                
+              @@@@@@@@@@@   @@@@@   @@@@@@@@@@@
+         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    @@@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@@
+     @@@@@@@@@@@@@@  @@@@@@@@@ @@@@@@@@@@ @@@@@@@@@@@@@@
+      @@@@@@@@@@@@   %@@@@@@@@ @@@@@@@@@   @@@@@@@@@@@@
+       @@@@@@@@@@@    @@@@@@@@ @@@@@@@@     @@@@@@@@@@
+        @@@@@@@@@      @@@@@@@ @@@@@@@      @@@@@@@@@
+          @@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@
+            @@@@        @@@@@@ @@@@@@@       @@@@@
+              @@@      @@@@@@@ @@@@@@@@     @@@
+                 @@@@@@@@@@@@@ @@@@@@@@@@@@@
+                        @@@@@@ @@@@@@
+                      @@@@ @@@ @@@@@@@
+                     @@@@  @@@ @@@  @@@@
+                  @@@@      @@ @@@     @@@@
+                            @@ @@
+                            @@ @@
+                            @@ @@
+                             @ @
+
+EOF
+echo -e "\033[37m"
 }
 
 
 
-echo -e "\033[37mThis is the \033[36mMAMMOth\033[37m toolkit's install&run script. If there is an \033[31merror\033[37m, please fix it and rerun the script."
-echo "An unstable internet connection may also create installation failures. In this case, too, rerun the script."
+echo -e "\n\033[36m================ MAI-BIAS INSTALL ================ \033[37m"
+echo -e "\033[37mThis is the \033[36mMAI-BIAS\033[37m toolkit's install&run script. If"
+echo -e "there is an \033[31merror\033[37m, please address it and rerun the script."
+echo "An unstable internet connection may also create installation"
+echo "failures. In this case, too, rerun this. Report bugs at: "
+echo -e "\033[33mhttps://github.com/mammoth-eu/mammoth-toolkit-releases\033[0m"
+draw_mammoth
 
-echo -e "\n\033[36m========= Requirements\033[37m"
+echo -e "\n\033[36m========= Step 1/4: Requirements\033[37m"
+clone_repo
 check_environment
 echo -e "\033[32mOK\033[37m"
 check_env_file
-
-echo -e "\n\033[36m========= Step 1/5: Docker\033[37m"
 if is_wsl; then
     install_docker_desktop
 else
     install_docker_linux
 fi
-echo -e "\033[32mOK"
+echo -e "\033[32mOK\033[37m"
 
-echo -e "\n\033[36m========= Step 2/5: K3D\033[37m"
+echo -e "\n\033[36m========= Step 2/4: Kubernetes (K3D, KFP, MinIO)\033[37m"
 install_k3d
 echo -e "\033[32mOK\033[37m"
 create_kfp_cluster
-echo -e "\033[32mOK"
-
-echo -e "\n\033[36m========= Step 3/5: Kubeflow Pipelines\033[37m"
+echo -e "\033[32mOK\033[37m"
 install_kfp
 echo -e "\033[32mOK\033[37m"
 wait_for_pods
 echo -e "\033[32mOK\033[37m"
+install_minio
+
+
+echo -e "\n\033[36m========= Step 3/4: Update modules\033[37m"
+update_modules
 
 # echo -e "\n\033[36m========= Step 4/5: Kubeflow Pipelines CoreDNS config\033[37m"
 # config_core_dns
 # echo -e "\033[32mOK\033[37m"
 
-
-echo -e "\n\033[36m========= Step 4/5: Restarting\033[37m"
-docker compose down
+echo -e "\n\033[36m========= Step 4/4: Start\033[37m"
+# docker compose down  # stopped in update
+k3d cluster start kfp
 docker compose up -d
 
 
-echo -e "\n\033[36m========= Finished\033[37m"
-echo -e "The toolkit is running at: \033[33mhttp://localhost:5173\033[37m"
-echo -e "If you are the system admin, create new users at: \033[33mhttp://keycloak.local.exus.ai:8080\033[37m"
-echo -e "If this is the first time you use it, you can use the demo user: \033[33mUser: demo Pass: demo\033[37m"
+echo -e "\n\033[36m================ MAI-BIAS RUNNING ================ \033[37m"
+echo -e "The MAMMOth project's modules and local runner:\n\033[33mhttps://github.com/mammoth-eu/mammoth-commons\033[37m\n"
+echo -e "Stop command: \033[33msource stop_toolkit.sh\033[37m"
+echo -e "MAI-BIAS frontent: \033[33mhttp://localhost:5173\033[37m"
+echo -e "Default credentials: User \033[33mdemo\033[37m, Pass \033[33mdemo\033[37m"
+draw_mammoth_front
