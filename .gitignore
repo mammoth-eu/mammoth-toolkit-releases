@@ -1,5 +1,7 @@
 pipelines/
 resources/
+components_metadata/
+components_yaml/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
