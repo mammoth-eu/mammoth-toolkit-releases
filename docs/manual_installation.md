@@ -1,4 +1,4 @@
-# MAI-BIAS Manual installation
+# MAI-BIAS manual installation
 
 In case you already have some of the requirements installed, or you want more control on the installation procedure,
 you can clone this repository and follow the instuctions presented here.
