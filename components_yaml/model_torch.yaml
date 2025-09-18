@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-torch
 # Inputs:
-#    model_torch__params: dict [Default: {'model_path': '', 'multiclass_threshold': 0.0, 'state_path': '', 'safe_libraries': 'numpy, torch, torchvision, PIL, io, requests', 'model_name': 'model'}]
+#    model_torch__params: dict [Default: {'model_path': '', 'multiclass_threshold': 0.0, 'safe_libraries': 'numpy, torch, torchvision, PIL, io, requests', 'model_name': 'model', 'state_path': ''}]
 # Outputs:
 #    output: system.Model
 components:
@@ -43,7 +43,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_torch:v0048
+        image: mammotheu/model_torch:v0049
 pipelineInfo:
   name: model-torch
 root:
@@ -84,4 +84,4 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

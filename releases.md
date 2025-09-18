@@ -1,5 +1,9 @@
 # Release notes
 
+## Update 2025/09/18
+
+- Updated modules to latest version
+
 ## Update 2025/07/23
 
 - Added new UI

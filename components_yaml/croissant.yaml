@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: bias-scan
+# Name: croissant
 # Inputs:
-#    bias_scan__params: dict [Default: {'scoring': 'Bernoulli', 'discovery': True, 'penalty': 0.5}]
+#    croissant__params: dict [Default: {'license': '', 'name': '', 'citation': '', 'language': 'en', 'qualitative_creators': '', 'description': ''}]
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
 components:
-  comp-bias-scan:
-    executorLabel: exec-bias-scan
+  comp-croissant:
+    executorLabel: exec-croissant
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,11 +21,14 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        bias_scan__params:
+        croissant__params:
           defaultValue:
-            discovery: true
-            penalty: 0.5
-            scoring: Bernoulli
+            citation: ''
+            description: ''
+            language: en
+            license: ''
+            name: ''
+            qualitative_creators: ''
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -38,27 +41,27 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-bias-scan:
+    exec-croissant:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - bias_scan
+        - croissant
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'aif360' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"$@\"\
-          \n"
+          \ 'fairbench' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"\
+          $@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/bias_scan:v0049
+        image: mammotheu/croissant:v0049
 pipelineInfo:
-  name: bias-scan
+  name: croissant
 root:
   dag:
     outputs:
@@ -66,13 +69,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: bias-scan
+            producerSubtask: croissant
     tasks:
-      bias-scan:
+      croissant:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-bias-scan
+          name: comp-croissant
         inputs:
           artifacts:
             dataset:
@@ -80,12 +83,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            bias_scan__params:
-              componentInputParameter: bias_scan__params
+            croissant__params:
+              componentInputParameter: croissant__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: bias-scan
+          name: croissant
   inputDefinitions:
     artifacts:
       dataset:
@@ -97,11 +100,14 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      bias_scan__params:
+      croissant__params:
         defaultValue:
-          discovery: true
-          penalty: 0.5
-          scoring: Bernoulli
+          citation: ''
+          description: ''
+          language: en
+          license: ''
+          name: ''
+          qualitative_creators: ''
         isOptional: true
         parameterType: STRUCT
       sensitive:

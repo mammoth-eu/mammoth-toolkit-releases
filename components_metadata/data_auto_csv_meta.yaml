@@ -12,8 +12,8 @@ description: "\n<img src=\"https://pandas.pydata.org/static/img/pandas_white.svg
   \ column) use the\ncustom csv loader instead.\n\nIf you want to train a model while\
   \ using the same loading mechanism as this dataset,\nrun the following Python script.\
   \ This uses supporting methods from the lightweight\nmammoth-commons core to retrieve\
-  \ <a href=\"https://numpy.org/\">numpy</a>\narrays *X,y* of dataset features and\
-  \ of categorical labels respectively.\n\n<small>\n<pre>\n% pip install --upgrade\
+  \ <a href=\"https://numpy.org/\">numpy</a>\narrays *X,y* holding dataset features\
+  \ and categorical labels respectively.\n\n<small>\n<pre>\n% pip install --upgrade\
   \ pandas\n% pip install --upgrade mammoth_commons\nimport pandas as pd\nfrom mammoth_commons.externals\
   \ import pd_read_csv\nfrom mammoth_commons.datasets import CSV\n\n# set parameters\
   \ and load data (modify max_discrete as needed)\npath = ...\nmax_discrete = 10\n\

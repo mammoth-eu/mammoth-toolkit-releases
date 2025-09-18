@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-custom-csv
 # Inputs:
-#    data_custom_csv__params: dict [Default: {'path': '', 'skip_invalid_lines': True, 'categorical': 'None', 'delimiter': ',', 'numeric': 'None', 'label': 'None'}]
+#    data_custom_csv__params: dict [Default: {'path': '', 'skip_invalid_lines': True, 'numeric': 'None', 'delimiter': ',', 'categorical': 'None', 'label': 'None'}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -44,7 +44,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_custom_csv:v0048
+        image: mammotheu/data_custom_csv:v0049
 pipelineInfo:
   name: data-custom-csv
 root:
@@ -86,4 +86,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

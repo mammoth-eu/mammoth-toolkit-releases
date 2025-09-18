@@ -49,12 +49,12 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'numpy>=2.0.0' 'aif360' 'aif360[OptimalTransport]' 'pandas' 'onnxruntime'\
-          \ 'ucimlrepo' 'pygrank' 'scikit-image' && \"$0\" \"$@\"\n"
+          \ 'aif360' 'aif360[OptimalTransport]' 'pandas' 'onnxruntime' 'ucimlrepo'\
+          \ 'pygrank' 'scikit-image' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/optimal_transport:v0048
+        image: mammotheu/optimal_transport:v0049
 pipelineInfo:
   name: optimal-transport
 root:
@@ -109,4 +109,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

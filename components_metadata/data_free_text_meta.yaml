@@ -10,5 +10,5 @@ component_type: LOADER_DATA
 parameter_default:
   text: ''
 output_types:
-- Dataset
 - Text
+- Dataset

@@ -1,15 +1,15 @@
 # PIPELINE DEFINITION
-# Name: bias-scan
+# Name: aif360
 # Inputs:
-#    bias_scan__params: dict [Default: {'scoring': 'Bernoulli', 'discovery': True, 'penalty': 0.5}]
+#    aif360__params: dict [Default: {'favorable_label': 1.0, 'unfavorable_label': 0.0}]
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
 # Outputs:
 #    output: system.HTML
 components:
-  comp-bias-scan:
-    executorLabel: exec-bias-scan
+  comp-aif360:
+    executorLabel: exec-aif360
     inputDefinitions:
       artifacts:
         dataset:
@@ -21,11 +21,10 @@ components:
             schemaTitle: system.Model
             schemaVersion: 0.0.1
       parameters:
-        bias_scan__params:
+        aif360__params:
           defaultValue:
-            discovery: true
-            penalty: 0.5
-            scoring: Bernoulli
+            favorable_label: 1.0
+            unfavorable_label: 0.0
           isOptional: true
           parameterType: STRUCT
         sensitive:
@@ -38,27 +37,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-bias-scan:
+    exec-aif360:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - bias_scan
+        - aif360
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'aif360' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank' && \"$0\" \"$@\"\
-          \n"
+          \ 'aif360' 'pandas' 'scikit-learn' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/bias_scan:v0049
+        image: mammotheu/aif360:v0050
 pipelineInfo:
-  name: bias-scan
+  name: aif360
 root:
   dag:
     outputs:
@@ -66,13 +64,13 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: bias-scan
+            producerSubtask: aif360
     tasks:
-      bias-scan:
+      aif360:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-bias-scan
+          name: comp-aif360
         inputs:
           artifacts:
             dataset:
@@ -80,12 +78,12 @@ root:
             model:
               componentInputArtifact: model
           parameters:
-            bias_scan__params:
-              componentInputParameter: bias_scan__params
+            aif360__params:
+              componentInputParameter: aif360__params
             sensitive:
               componentInputParameter: sensitive
         taskInfo:
-          name: bias-scan
+          name: aif360
   inputDefinitions:
     artifacts:
       dataset:
@@ -97,11 +95,10 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
     parameters:
-      bias_scan__params:
+      aif360__params:
         defaultValue:
-          discovery: true
-          penalty: 0.5
-          scoring: Bernoulli
+          favorable_label: 1.0
+          unfavorable_label: 0.0
         isOptional: true
         parameterType: STRUCT
       sensitive:

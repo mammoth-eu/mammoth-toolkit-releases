@@ -1,0 +1,27 @@
+id: ollama_model
+name: ollama model
+description: "References a locally provided <a href=\"https://ollama.com\" target=\"\
+  _blank\">ollama</a> model.\n    Set up this up in the machine where MAI-BIAS runs.\
+  \ Here, information required to prompt that model is provided.\n    <div class=\"\
+  wrap\">\n      <h2>1) Install Ollama</h2>\n      <div class=\"grid\">\n        <div\
+  \ class=\"card\">\n          <h3>macOS (Homebrew)</h3>\n          <pre><code>brew\
+  \ install ollama\nollama --version</code></pre>\n        </div>\n        <div class=\"\
+  card\">\n          <h3>Linux (install script)</h3>\n          <pre><code>curl -fsSL\
+  \ https://ollama.com/install.sh | sh\nollama --version</code></pre>\n        </div>\n\
+  \        <div class=\"card\">\n          <h3>Windows (winget)</h3>\n          <pre><code>winget\
+  \ install Ollama.Ollama</code></pre>\n        </div>\n      </div>\n      <h2>2)\
+  \ Start the service</h2>\n      <div class=\"card\">\n        <p>Start the local\
+  \ service and keep it running while you work.</p>\n        <pre><code>ollama serve</code></pre>\n\
+  \      </div>\n      <h2>3) Pull a model</h2>\n      <div class=\"card\">\n    \
+  \    <p>You only need to pull a model once; updates reuse most weights via deltas.</p>\n\
+  \        <pre><code>ollama pull llama3</code></pre>\n      </div>\n    </div>\n\n\
+  \    Args:\n        name: The model name, as pulled in the ollama endpoint.\n  \
+  \      url: The url of the ollama endpoint. Default is <code>http://localhost:11434</code>/\n"
+parameter_info: Some parameters are needed.
+component_type: LOADER_MODEL
+parameter_default:
+  name: llama3.2:latest
+  url: http://localhost:11434
+output_types:
+- Model
+- LLM

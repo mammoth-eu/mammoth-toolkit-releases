@@ -2,7 +2,7 @@
 # Name: exposure-distance-comparison
 # Inputs:
 #    dataset: system.Dataset
-#    exposure_distance_comparison__params: dict [Default: {'n_runs': 1.0, 'ranking_variable': 'Degree', 'sampling_attribute': 'Nationality_IncomeGroup'}]
+#    exposure_distance_comparison__params: dict [Default: {'sampling_attribute': 'Nationality_IncomeGroup', 'ranking_variable': 'Degree', 'n_runs': 1.0}]
 #    model: system.Model
 #    sensitive: list
 # Outputs:
@@ -51,11 +51,11 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'numpy>=2.0.0' 'seaborn' 'matplotlib' && \"$0\" \"$@\"\n"
+          \ 'matplotlib' 'statistics' 'seaborn' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/exposure_distance_comparison:v0048
+        image: mammotheu/exposure_distance_comparison:v0037
 pipelineInfo:
   name: exposure-distance-comparison
 root:
@@ -112,4 +112,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

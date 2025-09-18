@@ -28,5 +28,5 @@ parameter_default:
   safe_libraries: numpy, torch, torchvision, PIL, io, requests
   multiclass_threshold: 0
 output_types:
-- Predictor
 - ONNX
+- Predictor

@@ -40,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_auto_csv:v0048
+        image: mammotheu/data_auto_csv:v0049
 pipelineInfo:
   name: data-auto-csv
 root:
@@ -78,4 +78,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

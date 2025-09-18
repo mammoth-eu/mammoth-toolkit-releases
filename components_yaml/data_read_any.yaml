@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-read-any
 # Inputs:
-#    data_read_any__params: dict [Default: {'target': 'None', 'dataset_path': 'None'}]
+#    data_read_any__params: dict [Default: {'dataset_path': 'None', 'target': 'None'}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -40,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_read_any:v0048
+        image: mammotheu/data_read_any:v0049
 pipelineInfo:
   name: data-read-any
 root:
@@ -78,4 +78,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

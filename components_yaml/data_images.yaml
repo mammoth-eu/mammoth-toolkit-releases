@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: data-images
 # Inputs:
-#    data_images__params: dict [Default: {'image_root_dir': '', 'transform_variable': 'transform', 'path': '', 'data_transform_path': '', 'shuffle': False, 'batch_size': 4.0, 'target': '', 'safe_libraries': 'numpy,torch,torchvision,PIL,io,requests,urllib', 'num_workers': 0.0}]
+#    data_images__params: dict [Default: {'safe_libraries': 'numpy,torch,torchvision,PIL,io,requests,urllib', 'num_workers': 0.0, 'transform_variable': 'transform', 'target': '', 'path': '', 'shuffle': False, 'data_transform_path': '', 'image_root_dir': '', 'batch_size': 4.0}]
 # Outputs:
 #    output: system.Dataset
 components:
@@ -47,7 +47,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/data_images:v0048
+        image: mammotheu/data_images:v0049
 pipelineInfo:
   name: data-images
 root:
@@ -92,4 +92,4 @@ root:
           schemaTitle: system.Dataset
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

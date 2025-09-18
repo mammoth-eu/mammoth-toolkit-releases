@@ -55,7 +55,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/facex_embeddings:v0048
+        image: mammotheu/facex_embeddings:v0049
 pipelineInfo:
   name: facex-embeddings
 root:
@@ -111,4 +111,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

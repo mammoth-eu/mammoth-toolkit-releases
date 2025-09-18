@@ -1,0 +1,26 @@
+id: aif360
+name: aif360
+description: "\n<img src=\"https://ai-fairness-360.org/\" alt=\"Based on AIF360\"\
+  \ style=\"float: left; margin-right: 5px; margin-bottom: 5px; width: 80px;\"/>\n\
+  <p>This module evaluates fairness using IBM's <a href=\"https://aif360.readthedocs.io\"\
+  \ target=\"_blank\">AIF360</a> library.\nIt computes standard group fairness metrics\
+  \ for each sensitive attribute provided. If attributes are non-binary, they are\n\
+  binarized into one-hot encoded columns. Only categorical attributes are allowed.</p>\n\
+  \n<span class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\"\
+  \n    style=\"display: inline-block; padding: 10px;\"> <i class=\"bi bi-exclamation-triangle-fill\"\
+  ></i>\n    This module is based on AIF360, which does not support generalized intersectional\
+  \ analysis.\n    When needed, generate sensitive intersectional group labels in\
+  \ your dataset. However, these\n    will always be computed against the rest of\
+  \ the population.</span>\n\nArgs:\n    favorable_label: The prediction label value\
+  \ which is considered favorable (i.e. \"positive\"). Default is 1 for binary classifiers.\n\
+  \    unfavorable_label: The prediction label value which is considered unfavorable\
+  \ (i.e. \"negative\"). Default is 0 for binary classifiers.\n"
+parameter_info: Some parameters are needed.
+component_type: METRIC
+input_types:
+- Dataset
+- Predictor
+parameter_default:
+  favorable_label: 1
+  unfavorable_label: 0
+output_types: []

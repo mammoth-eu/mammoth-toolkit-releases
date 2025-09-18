@@ -14,10 +14,10 @@ description: "\n<img src=\"https://raw.githubusercontent.com/fairlearn/fairlearn
   </ul>\n<p>\n    Results are presented in aligned tables with clear formatting, allowing\
   \ users to compare outcomes across groups at a glance.\n    Each metric is briefly\
   \ explained to help interpret whether the model exhibits performance or outcome\
-  \ disparities for different groups.\n</p>\n<p>\n    This module is particularly\
-  \ useful in evaluation pipelines, audit reports, and model reviews where transparency\
-  \ and fairness are essential.\n    It helps teams assess group-level equity in model\
-  \ behavior using interpretable, tabular summaries.\n</p>\n"
+  \ disparities for different groups.\n    This module is particularly useful in evaluation\
+  \ pipelines, audit reports, and model reviews where transparency and fairness are\
+  \ essential.\n    It helps teams assess group-level equity in model behavior using\
+  \ interpretable, tabular summaries.\n</p>\n"
 parameter_info: No parameters needed.
 component_type: METRIC
 input_types:

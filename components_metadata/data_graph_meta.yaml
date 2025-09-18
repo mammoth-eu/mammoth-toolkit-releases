@@ -8,5 +8,5 @@ component_type: LOADER_DATA
 parameter_default:
   path: ''
 output_types:
-- Dataset
 - Graph
+- Dataset

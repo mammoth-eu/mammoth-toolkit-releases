@@ -38,7 +38,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_trivial_predictor:v0048
+        image: mammotheu/model_trivial_predictor:v0049
 pipelineInfo:
   name: model-trivial-predictor
 root:
@@ -74,4 +74,4 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

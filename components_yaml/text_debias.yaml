@@ -48,12 +48,13 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'numpy>=2.0.0' 'dbias --no-deps --upgrade' 'tensorflow' 'transformers'\
-          \ 'tf-keras' 'spacy' 'plotly' 'torch' && \"$0\" \"$@\"\n"
+          \ 'dbias --no-deps --upgrade' 'protobuf==4.25.8' 'tensorflow' 'transformers'\
+          \ 'tf-keras' 'catalogue==2.0.6' 'spacy==3.2.0' 'plotly' 'torch' 'pandas'\
+          \ 'spacy-transformers' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/text_debias:v0048
+        image: mammotheu/text_debias:v0049
 pipelineInfo:
   name: text-debias
 root:
@@ -107,4 +108,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

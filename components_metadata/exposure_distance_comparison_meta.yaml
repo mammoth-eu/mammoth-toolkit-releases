@@ -2,7 +2,7 @@ id: exposure_distance_comparison
 name: exposure distance comparison
 description: "\nCompute the exposure distance between the protected and non-protected\
   \ groups in the dataset and ranking.\nSensitive attributes is a comma-separated\
-  \ list of the attributes relevant for fairness analysis. Currently, only *Gender*\
+  \ list of the attributes relevant for fairness analysis. Currently,\nonly *Gender*\
   \ is supported.\nArgs:\n    n_runs: Choose a natural number between 1 and 100.\n\
   \    sampling_attribute: The value by which we group the analysis for finer-grained\
   \ results. One of *Nationality&#95;IncomeGroup* or *Nationality&#95;Region*.\n \

@@ -1,7 +1,7 @@
 id: model_card
 name: model card
 description: "\n<img src=\"https://fairbench.readthedocs.io/fairbench.png\" alt=\"\
-  Based on FairBench\" style=\"float: left; margin-right: 5px; margin-bottom: 5px;\
+  Based on FairBench\"\nstyle=\"float: left; margin-right: 5px; margin-bottom: 5px;\
   \ width: 80px;\"/>\n\n<p>Generates a fairness and bias report using the <a href=\"\
   https://github.com/mever-team/FairBench\">FairBench</a>\nlibrary. This explores\
   \ many kinds of bias to paint a broad picture and help you decide on what is problematic\n\
@@ -33,8 +33,10 @@ description: "\n<img src=\"https://fairbench.readthedocs.io/fairbench.png\" alt=
   \ including those that have no ideal value.\n    show_non_problematic: Determine\
   \ whether deviations less than the problematic one should be shown or not. If they\
   \ are shown, the coloring scheme is adjusted to identify problematic values as red.\n\
-  \n    Options:\n        intersections: Base, All, Subgroups\n        compare_groups:\
-  \ Pairwise, To the total population"
+  \    min_group_size: The minimum number of samples per group that should be considered\
+  \ during analysis - groups with less memers are ignored.\n\n    Options:\n     \
+  \   intersections: Base, All, Subgroups\n        compare_groups: Pairwise, To the\
+  \ total population"
 parameter_info: Some parameters are needed.
 component_type: METRIC
 input_types:
@@ -44,5 +46,6 @@ parameter_default:
   intersections: Base
   compare_groups: None
   problematic_deviation: 0.1
-  show_non_problematic: false
+  show_non_problematic: true
+  min_group_size: 1
 output_types: []

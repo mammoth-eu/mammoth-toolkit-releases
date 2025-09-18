@@ -30,5 +30,5 @@ parameter_default:
   path: ''
   trained_with_sensitive: true
 output_types:
-- Predictor
 - ONNX
+- Predictor

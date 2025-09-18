@@ -1,16 +1,17 @@
 # PIPELINE DEFINITION
-# Name: model-mitigation-ranking
+# Name: model-manual-predictor
 # Inputs:
-#    model_mitigation_ranking__params: dict [Default: {}]
+#    model_manual_predictor__params: dict [Default: {'path_or_predictions': ''}]
 # Outputs:
 #    output: system.Model
 components:
-  comp-model-mitigation-ranking:
-    executorLabel: exec-model-mitigation-ranking
+  comp-model-manual-predictor:
+    executorLabel: exec-model-manual-predictor
     inputDefinitions:
       parameters:
-        model_mitigation_ranking__params:
-          defaultValue: {}
+        model_manual_predictor__params:
+          defaultValue:
+            path_or_predictions: ''
           isOptional: true
           parameterType: STRUCT
     outputDefinitions:
@@ -21,26 +22,26 @@ components:
             schemaVersion: 0.0.1
 deploymentSpec:
   executors:
-    exec-model-mitigation-ranking:
+    exec-model-manual-predictor:
       container:
         args:
         - --executor_input
         - '{{$}}'
         - --function_to_execute
-        - model_mitigation_ranking
+        - model_manual_predictor
         command:
         - sh
         - -c
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ && \"$0\" \"$@\"\n"
+          \ 'pandas' && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: csh/model_mitigation_ranking:v002
+        image: mammotheu/model_manual_predictor:v0049
 pipelineInfo:
-  name: model-mitigation-ranking
+  name: model-manual-predictor
 root:
   dag:
     outputs:
@@ -48,23 +49,24 @@ root:
         output:
           artifactSelectors:
           - outputArtifactKey: output
-            producerSubtask: model-mitigation-ranking
+            producerSubtask: model-manual-predictor
     tasks:
-      model-mitigation-ranking:
+      model-manual-predictor:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-model-mitigation-ranking
+          name: comp-model-manual-predictor
         inputs:
           parameters:
-            model_mitigation_ranking__params:
-              componentInputParameter: model_mitigation_ranking__params
+            model_manual_predictor__params:
+              componentInputParameter: model_manual_predictor__params
         taskInfo:
-          name: model-mitigation-ranking
+          name: model-manual-predictor
   inputDefinitions:
     parameters:
-      model_mitigation_ranking__params:
-        defaultValue: {}
+      model_manual_predictor__params:
+        defaultValue:
+          path_or_predictions: ''
         isOptional: true
         parameterType: STRUCT
   outputDefinitions:
@@ -74,4 +76,4 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

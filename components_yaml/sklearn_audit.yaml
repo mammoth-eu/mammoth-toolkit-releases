@@ -4,7 +4,7 @@
 #    dataset: system.Dataset
 #    model: system.Model
 #    sensitive: list
-#    sklearn_audit__params: dict [Default: {'predictor': 'None', 'problematic_deviation': 0.1, 'top_recommendations': 3.0, 'compare_groups': 'None', 'show_non_problematic': False, 'intersectional': False}]
+#    sklearn_audit__params: dict [Default: {'top_recommendations': 3.0, 'compare_groups': 'None', 'min_group_size': 1.0, 'predictor': 'None', 'problematic_deviation': 0.1, 'show_non_problematic': True, 'intersections': 'Base'}]
 # Outputs:
 #    output: system.HTML
 components:
@@ -26,10 +26,11 @@ components:
         sklearn_audit__params:
           defaultValue:
             compare_groups: None
-            intersectional: false
+            intersections: Base
+            min_group_size: 1.0
             predictor: None
             problematic_deviation: 0.1
-            show_non_problematic: false
+            show_non_problematic: true
             top_recommendations: 3.0
           isOptional: true
           parameterType: STRUCT
@@ -54,12 +55,12 @@ deploymentSpec:
         - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
           \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
           \ python3 -m pip install --quiet --no-warn-script-location 'mammoth_commons[deployment]'\
-          \ 'numpy>=2.0.0' 'fairbench' 'scikit-learn' 'pandas' 'onnxruntime' 'ucimlrepo'\
-          \ 'pygrank' && \"$0\" \"$@\"\n"
+          \ 'fairbench' 'scikit-learn' 'pandas' 'onnxruntime' 'ucimlrepo' 'pygrank'\
+          \ && \"$0\" \"$@\"\n"
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/sklearn_audit:v0048
+        image: mammotheu/sklearn_audit:v0049
 pipelineInfo:
   name: sklearn-audit
 root:
@@ -105,10 +106,11 @@ root:
       sklearn_audit__params:
         defaultValue:
           compare_groups: None
-          intersectional: false
+          intersections: Base
+          min_group_size: 1.0
           predictor: None
           problematic_deviation: 0.1
-          show_non_problematic: false
+          show_non_problematic: true
           top_recommendations: 3.0
         isOptional: true
         parameterType: STRUCT
@@ -119,4 +121,4 @@ root:
           schemaTitle: system.HTML
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-torch2onnx
 # Inputs:
-#    model_torch2onnx__params: dict [Default: {'model_path': '', 'input_height': 224.0, 'input_width': 224.0, 'state_path': '', 'model_name': 'model', 'multiclass_threshold': 0.0, 'safe_libraries': 'numpy, torch, torchvision, PIL, io, requests'}]
+#    model_torch2onnx__params: dict [Default: {'safe_libraries': 'numpy, torch, torchvision, PIL, io, requests', 'model_path': '', 'input_height': 224.0, 'model_name': 'model', 'state_path': '', 'multiclass_threshold': 0.0, 'input_width': 224.0}]
 # Outputs:
 #    output: system.Model
 components:
@@ -45,7 +45,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_torch2onnx:v0048
+        image: mammotheu/model_torch2onnx:v0049
 pipelineInfo:
   name: model-torch2onnx
 root:
@@ -88,4 +88,4 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3

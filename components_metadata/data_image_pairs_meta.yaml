@@ -32,5 +32,5 @@ parameter_default:
   num_workers: 0
   safe_libraries: numpy,torch,torchvision,PIL,io,requests,urllib
 output_types:
-- ImagePairs
 - ImageLike
+- ImagePairs

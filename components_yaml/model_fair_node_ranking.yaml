@@ -1,7 +1,7 @@
 # PIPELINE DEFINITION
 # Name: model-fair-node-ranking
 # Inputs:
-#    model_fair_node_ranking__params: dict [Default: {'redistribution': 'original', 'diffusion': 0.85}]
+#    model_fair_node_ranking__params: dict [Default: {'diffusion': 0.85, 'redistribution': 'original'}]
 # Outputs:
 #    output: system.Model
 components:
@@ -40,7 +40,7 @@ deploymentSpec:
         - python3
         - -m
         - kfp.dsl.executor_main
-        image: mammotheu/model_fair_node_ranking:v0048
+        image: mammotheu/model_fair_node_ranking:v0049
 pipelineInfo:
   name: model-fair-node-ranking
 root:
@@ -78,4 +78,4 @@ root:
           schemaTitle: system.Model
           schemaVersion: 0.0.1
 schemaVersion: 2.1.0
-sdkVersion: kfp-2.13.0
+sdkVersion: kfp-2.14.3
