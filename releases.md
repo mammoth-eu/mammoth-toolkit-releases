@@ -1,5 +1,9 @@
 # Release notes
 
+## Update 2025/09/19
+
+- Improved error details available through backend API
+
 ## Update 2025/09/18
 
 - Updated modules to latest version
