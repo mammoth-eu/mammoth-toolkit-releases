@@ -9,6 +9,14 @@
 - [X] Tested: Linux, WSL
 - [X] Bias analysis pipelines: Model analysis can include data analysis
 
+## Update 2025/09/19
+
+- Improved error details available through backend API
+
+## Update 2025/09/18
+
+- Updated modules to latest version
+
 ## Update 2025/07/23
 
 - Added new UI
