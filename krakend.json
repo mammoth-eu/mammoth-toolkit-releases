@@ -569,6 +569,40 @@
           }
         }
       ]
+    },
+    {
+      "endpoint": "/wizard/databias/modules",
+      "method": "GET",
+      "input_headers": [
+        "Authorization",
+        "x-user-id",
+        "x-user-name",
+        "x-user-email"
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak.local.exus.ai:8080/realms/toolkit/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "propagate_claims": [
+            ["sub", "x-user-id"],
+            ["name", "x-user-name"],
+            ["email", "x-user-email"]
+          ],
+          "cache": true
+        }
+      },
+      "backend": [
+        {
+          "host":["http://api:8000"],
+          "url_pattern": "/wizard/databias/modules",
+          "extra_config": {
+            "backend/http": {
+              "return_error_code": true
+            }
+          }
+        }
+      ]
     }
   ]
 }
